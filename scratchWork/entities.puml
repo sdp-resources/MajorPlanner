@@ -1,0 +1,28 @@
+@startuml
+
+skinparam linetype ortho
+
+class Schedule
+class Major
+abstract class Requirement
+class TagRequirement extends Requirement
+class ElectiveRequirement extends Requirement
+class OptionsRequirement extends Requirement
+class CourseRequirement extends Requirement
+class Course {
+   - name
+   - description
+   - termRestriction
+   - canRepeat
+   - tags
+   - status
+}
+class Prerequisite
+
+Schedule o- Major
+Major o- Requirement
+OptionsRequirement o-- Course
+CourseRequirement --> Course
+Course o-- Prerequisite
+
+@enduml
