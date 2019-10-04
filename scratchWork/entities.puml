@@ -9,6 +9,7 @@ class TagRequirement extends Requirement
 class ElectiveRequirement extends Requirement
 class OptionsRequirement extends Requirement
 class CourseRequirement extends Requirement
+class ExclusionRequirement extends Requirement
 class Course {
    - name
    - description
