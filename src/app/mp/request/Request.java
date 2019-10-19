@@ -1,4 +1,4 @@
-package request;
+package mp.request;
 
 public interface Request {
 }

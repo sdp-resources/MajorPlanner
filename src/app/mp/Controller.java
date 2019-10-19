@@ -1,12 +1,14 @@
-import authorizer.Authorizer;
-import interactor.Interactor;
-import request.Request;
-import response.*;
+package mp;
+
+import mp.authorizer.Authorizer;
+import mp.interactor.Interactor;
+import mp.request.Request;
+import mp.response.*;
 
 public class Controller {
-    public Response createBlankSchedule()
+    public Response createSchedule()
     {
-        return new response.ErrorResponse("Story not implemented!");
+        return new ErrorResponse("Story not implemented!");
     }
 
     private Response executeRequest(Request request, Authorizer authorizer, Interactor interactor)
