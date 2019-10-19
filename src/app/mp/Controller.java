@@ -1,12 +1,20 @@
 package mp;
 
 import mp.authorizer.Authorizer;
+import mp.gateway.Gateway;
 import mp.interactor.Interactor;
 import mp.request.Request;
 import mp.response.*;
+import mp.session.Session;
 
 public class Controller {
-    public Response createSchedule()
+    private Gateway gateway;
+
+    public Controller(Gateway gateway) {
+        this.gateway = gateway;
+    }
+
+    public Response createSchedule(Session session, String username, String scheduleName)
     {
         return new ErrorResponse("Story not implemented!");
     }
