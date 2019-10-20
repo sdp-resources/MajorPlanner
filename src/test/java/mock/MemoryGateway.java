@@ -1,9 +1,8 @@
 package mock;
 
-import javafx.scene.Scene;
-import mp.entity.Schedule;
-import mp.gateway.Gateway;
-import mp.session.Session;
+import majorPlanner.entity.Schedule;
+import majorPlanner.gateway.Gateway;
+import majorPlanner.session.Session;
 
 import java.util.ArrayList;
 import java.util.HashMap;

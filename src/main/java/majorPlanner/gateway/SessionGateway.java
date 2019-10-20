@@ -1,6 +1,6 @@
-package mp.gateway;
+package majorPlanner.gateway;
 
-import mp.session.Session;
+import majorPlanner.session.Session;
 
 public interface SessionGateway {
     void addSession(Session session);

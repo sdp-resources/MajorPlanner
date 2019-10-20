@@ -1,4 +1,4 @@
-package mp.request;
+package majorPlanner.request;
 
 public interface Request {
 }

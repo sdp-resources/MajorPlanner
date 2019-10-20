@@ -1,4 +1,4 @@
-package mp.session;
+package majorPlanner.session;
 
 public class Session {
     public Session(String token, String username, String role)

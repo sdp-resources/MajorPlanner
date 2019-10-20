@@ -1,6 +1,6 @@
-package mp.gateway;
+package majorPlanner.gateway;
 
-import mp.entity.Schedule;
+import majorPlanner.entity.Schedule;
 
 import java.util.List;
 

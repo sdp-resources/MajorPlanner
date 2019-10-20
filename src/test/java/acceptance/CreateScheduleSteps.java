@@ -4,12 +4,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import mock.MemoryGateway;
-import mp.Controller;
-import mp.entity.Schedule;
-import mp.gateway.Gateway;
-import mp.response.ErrorResponse;
-import mp.response.Response;
-import mp.session.Session;
+import majorPlanner.Controller;
+import majorPlanner.entity.Schedule;
+import majorPlanner.gateway.Gateway;
+import majorPlanner.response.Response;
+import majorPlanner.session.Session;
 import org.junit.Assert;
 
 import java.util.List;

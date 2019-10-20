@@ -1,4 +1,4 @@
-package mp.response;
+package majorPlanner.response;
 
 public class ErrorResponse implements Response {
     private final String error;

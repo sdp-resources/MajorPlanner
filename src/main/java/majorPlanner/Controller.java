@@ -1,11 +1,11 @@
-package mp;
+package majorPlanner;
 
-import mp.authorizer.Authorizer;
-import mp.gateway.Gateway;
-import mp.interactor.Interactor;
-import mp.request.Request;
-import mp.response.*;
-import mp.session.Session;
+import majorPlanner.authorizer.Authorizer;
+import majorPlanner.gateway.Gateway;
+import majorPlanner.interactor.Interactor;
+import majorPlanner.request.Request;
+import majorPlanner.response.*;
+import majorPlanner.session.Session;
 
 public class Controller {
     private Gateway gateway;

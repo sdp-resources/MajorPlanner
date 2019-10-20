@@ -1,4 +1,4 @@
-package mp.entity;
+package majorPlanner.entity;
 
 public abstract class Schedule {
     public abstract int getId();

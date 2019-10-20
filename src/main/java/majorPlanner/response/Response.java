@@ -1,4 +1,4 @@
-package mp.response;
+package majorPlanner.response;
 
 public interface Response {
     boolean containsError();
