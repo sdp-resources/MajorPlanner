@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Integration" type="JUnit" factoryName="JUnit">
-    <module name="majorPlanner" />
+    <module name="MajorPlanner" />
     <option name="PACKAGE_NAME" value="acceptance" />
     <option name="MAIN_CLASS_NAME" value="acceptance.CucumberTestRunner" />
     <option name="METHOD_NAME" value="" />

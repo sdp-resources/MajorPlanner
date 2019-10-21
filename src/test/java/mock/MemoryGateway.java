@@ -11,23 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 public class MemoryGateway implements Gateway {
-    private Map<String, Session> sessionMap;
     private Map<Integer, Schedule> scheduleMap;
 
     public MemoryGateway()
     {
-        sessionMap = new HashMap<String, Session>();
         scheduleMap = new HashMap<Integer, Schedule>();
-    }
-
-    @Override
-    public void addSession(Session session) {
-        sessionMap.put(session.token, session);
-    }
-
-    @Override
-    public Session getSession(String token) {
-        return sessionMap.get(token);
     }
 
     @Override

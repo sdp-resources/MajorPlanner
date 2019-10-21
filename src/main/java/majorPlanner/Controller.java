@@ -14,7 +14,7 @@ public class Controller {
         this.gateway = gateway;
     }
 
-    public Response createSchedule(Session session, String username, String scheduleName)
+    public Response createSchedule(Session session, String username, String scheduleName, String description)
     {
         return new ErrorResponse("Story not implemented!");
     }

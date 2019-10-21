@@ -3,54 +3,58 @@ package acceptance;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
-import mock.MemoryGateway;
-import majorPlanner.Controller;
+import io.cucumber.java.Before;
 import majorPlanner.entity.Schedule;
-import majorPlanner.gateway.Gateway;
 import majorPlanner.response.Response;
 import majorPlanner.session.Session;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.List;
 
 public class CreateScheduleSteps {
-    private Controller controller;
-    private Session session;
-    private Gateway gateway;
-    private Response response;
+    @Before
+    public void before()
+    {
+        TestController.resetInstance();
+    }
 
     @Given("{word} is a {word} and logged in")
-    public void HasRoleAndLoggedIn(String username, String role) {
-        gateway = new MemoryGateway();
-        controller = new Controller(gateway);
-        session = new Session("y3w4d", username, role);
+    public void HasRoleAndLoggedIn(String userId, String role) {
+        TestController.getInstance().defineUser(userId, role);
     }
 
-    @When("{word} creates a schedule called {string}")
-    public void CreateSchedule(String username, String scheduleName) {
-        response = controller.createSchedule(session, username, scheduleName);
+    @When("{word} creates a schedule called {string} with description {string}")
+    public void CreateSchedule(String username, String scheduleName, String description) {
+        TestController.getInstance().createSchedule(username, username, scheduleName, description);
     }
 
-    @When("they create a schedule called {string} in the name of {word}")
-    public void CreatesAScheduleInTheNameOf(String sessionUser, String scheduleName, String username) {
-        response = controller.createSchedule(session, username, scheduleName);
+    @When("{word} creates a schedule called {string} with description {string} in the name of {word}")
+    public void CreatesAScheduleInTheNameOf(String sessionUser, String scheduleName, String description, String ownerUser) {
+         TestController.getInstance().createSchedule(sessionUser, ownerUser, scheduleName, description);
     }
 
-    @Then("the response has no error")
+    @Then("the latest response has no error")
     public void theResponseHasNoError() {
-        Assert.assertFalse(response.containsError());
+        Assert.assertFalse(getLatestResponse().containsError());
     }
 
-    @Then("the response has an error")
+    @Then("the latest response has an error")
     public void theResponseHasAnError() {
-        Assert.assertTrue(response.containsError());
+        Assert.assertTrue(getLatestResponse().containsError());
     }
 
-    @Then("there exists a schedule called {string} owned by {word}")
-    public void ScheduleExists(String scheduleName, String username) {
-        List<Schedule> schedulesFromUsername = gateway.getSchedules(username);
-        Assert.assertTrue(hasOneSchedule(schedulesFromUsername));
-        Assert.assertTrue(firstScheduleHasName(schedulesFromUsername, scheduleName));
+    private Response getLatestResponse()
+    {
+        return TestController.getInstance().responses.get(TestController.getInstance().responses.size() - 1);
+    }
+
+    @Then("there exists a schedule called {string} with description {string} owned by {word}")
+    public void ScheduleExists(String scheduleName, String description, String username) {
+        List<Schedule> schedules = TestController.getInstance().gateway.getSchedules(username);;
+        Assert.assertTrue(hasOneSchedule(schedules));
+        Assert.assertEquals(scheduleName, getFirstSchedule(schedules).getName());
+        //Assert.assertEquals(description, getFirstSchedule(schedules).getDescription());
     }
 
     private boolean hasOneSchedule(List<Schedule> schedules)
@@ -58,8 +62,8 @@ public class CreateScheduleSteps {
         return schedules.size() == 1;
     }
 
-    private boolean firstScheduleHasName(List<Schedule> schedules, String name)
+    private Schedule getFirstSchedule(List<Schedule> schedules)
     {
-        return schedules.get(0).getName() == name;
+        return schedules.get(0);
     }
 }
