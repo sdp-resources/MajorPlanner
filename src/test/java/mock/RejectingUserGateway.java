@@ -1,8 +1,9 @@
-package majorPlanner.gateway;
+package mock;
 
 import majorPlanner.entity.User;
+import majorPlanner.gateway.UserGateway;
 
-public class RejectingUserGateway extends UserGateway{
+public class RejectingUserGateway extends UserGateway {
     private String requestedUserID = null;
 
     @Override

@@ -1,6 +1,6 @@
 package majorPlanner;
 
-import majorPlanner.gateway.RejectingUserGateway;
+import mock.RejectingUserGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.interactor.CreateScheduleInteractor;
 import majorPlanner.request.CreateScheduleRequest;
