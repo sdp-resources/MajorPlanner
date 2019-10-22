@@ -1,4 +1,4 @@
-package MajorPlanner;
+package majorPlanner;
 
 import majorPlanner.gateway.RejectingUserGateway;
 import majorPlanner.gateway.ScheduleGateway;
