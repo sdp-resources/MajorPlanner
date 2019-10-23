@@ -1,6 +1,7 @@
 package mock;
 
 import majorPlanner.entity.Schedule;
+import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
 import majorPlanner.session.Session;
 
@@ -49,5 +50,10 @@ public class MemoryGateway implements Gateway {
             }
         }
         return schedules;
+    }
+
+    @Override
+    public User getUser(String userID) {
+        return null;
     }
 }

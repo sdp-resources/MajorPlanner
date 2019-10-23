@@ -1,3 +1,3 @@
 package majorPlanner.gateway;
 
-public interface Gateway extends SessionGateway, ScheduleGateway { }
+public interface Gateway extends SessionGateway, ScheduleGateway, UserGateway { }

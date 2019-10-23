@@ -1,10 +1,10 @@
 package majorPlanner;
 
-import mock.RejectingUserGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.interactor.CreateScheduleInteractor;
 import majorPlanner.request.CreateScheduleRequest;
-import majorPlanner.response.CreateScheduleResponse;
+import majorPlanner.response.Response;
+import mock.RejectingUserGateway;
 import mock.ScheduleGatewayDummy;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,10 +30,9 @@ public class CreateScheduleTest {
     @Test
     public void invalidUserResponseIsFailure() {
         CreateScheduleRequest request = new CreateScheduleRequest(USER_ID);
-        CreateScheduleResponse response = scheduleInteractor.executeRequest(request);
-        assertThat(response.message, is(CreateScheduleInteractor.INVALID_USER_MESSAGE));
+        Response response = scheduleInteractor.execute(request);
+        assertThat(response.containsError(), is(true));
         assertThat(rejectUserGateway.getRequestedUserID(), is(request.ownerID));
-        assertThat(response.ownerID, is(request.ownerID));
     }
 
 

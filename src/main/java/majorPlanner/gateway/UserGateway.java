@@ -2,6 +2,6 @@ package majorPlanner.gateway;
 
 import majorPlanner.entity.User;
 
-public abstract class UserGateway {
-    public abstract User getUser(String userID);
+public interface UserGateway {
+    User getUser(String userID);
 }
