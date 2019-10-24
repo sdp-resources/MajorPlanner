@@ -8,6 +8,6 @@ import majorPlanner.response.SuccessResponse;
 public class AcceptingAuthorizer implements Authorizer {
     @Override
     public Response authorize(Request request) {
-        return new SuccessResponse();
+        return new SuccessResponse<>();
     }
 }

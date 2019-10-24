@@ -1,6 +1,7 @@
 package majorPlanner.response;
 
-public class SuccessResponse implements Response {
+public class SuccessResponse<T> implements Response {
+
     @Override
     public boolean containsError() {
         return false;

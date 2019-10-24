@@ -20,7 +20,9 @@ public class Controller {
 
     public Response createSchedule(Session session, String username, String scheduleName, String description)
     {
-        return executeRequest(new CreateScheduleRequest(username), new CreateScheduleInteractor(gateway, gateway));
+        CreateScheduleRequest request = new CreateScheduleRequest(username);
+        request.setSession(session);
+        return executeRequest(request, new CreateScheduleInteractor(gateway, gateway));
     }
 
     private Response executeRequest(Request request, Interactor interactor)

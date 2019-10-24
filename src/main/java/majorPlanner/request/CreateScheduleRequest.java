@@ -1,7 +1,7 @@
 package majorPlanner.request;
 
 public class CreateScheduleRequest extends Request {
-    public String ownerID;
+    public final String ownerID;
 
     public CreateScheduleRequest(String ownerID) {
         this.ownerID = ownerID;

@@ -8,7 +8,7 @@ import majorPlanner.request.CreateScheduleRequest;
 import majorPlanner.request.Request;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
-import majorPlanner.response.SuccessfulResponse;
+import majorPlanner.response.SuccessResponse;
 
 public class CreateScheduleInteractor implements Interactor {
     public static final String INVALID_USER_MESSAGE = "Invalid User";
@@ -26,7 +26,7 @@ public class CreateScheduleInteractor implements Interactor {
         if(user == null){
             return new ErrorResponse(INVALID_USER_MESSAGE);
         }else{
-            return new SuccessfulResponse<Schedule>();
+            return new SuccessResponse<Schedule>();
         }
     }
 }

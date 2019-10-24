@@ -1,6 +1,7 @@
 package acceptance;
 
 import majorPlanner.Controller;
+import majorPlanner.authorizer.GatewayBackedAuthorizer;
 import majorPlanner.entity.Role;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
@@ -23,7 +24,7 @@ public class TestController extends Controller {
 
     public TestController(Gateway gateway)
     {
-        super(gateway, new AcceptingAuthorizer());
+        super(gateway, new GatewayBackedAuthorizer());
         this.gateway = gateway;
         responses = new ArrayList<>();
         usersToRoles = new HashMap<>();
