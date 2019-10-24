@@ -20,9 +20,4 @@ public class User {
 
     public Role getRole() { return role; }
 
-    public enum Role
-    {
-        User,
-        Admin
-    }
 }

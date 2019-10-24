@@ -1,7 +1,7 @@
 package acceptance;
 
 import majorPlanner.Controller;
-import majorPlanner.authorizer.Authorizer;
+import majorPlanner.entity.Role;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
 import majorPlanner.response.Response;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class TestController extends Controller {
     private static TestController instance;
     private Map<String, Session> usersToSessions;
-    private Map<String, String> usersToRoles;
+    private Map<String, Role> usersToRoles;
     public final Gateway gateway;
     public List<Response> responses;
 
@@ -40,9 +40,10 @@ public class TestController extends Controller {
         return instance;
     }
 
-    public void defineUser(String name, String role)
+    public void defineUser(String name, String roleName)
     {
-        gateway.addUser(new User(name, User.Role.valueOf(role)));
+        Role role = Role.valueOf(roleName);
+        gateway.addUser(new User(name, role));
         usersToRoles.put(name, role);
     }
 

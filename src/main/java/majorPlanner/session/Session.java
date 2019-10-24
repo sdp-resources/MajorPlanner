@@ -1,7 +1,9 @@
 package majorPlanner.session;
 
+import majorPlanner.entity.Role;
+
 public class Session {
-    public Session(String token, String username, String role)
+    public Session(String token, String username, Role role)
     {
         this.token = token;
         this.username = username;
@@ -10,5 +12,5 @@ public class Session {
 
     public String token;
     public String username;
-    public String role;
+    public Role role;
 }
