@@ -1,5 +1,6 @@
 package mock;
 
+import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
@@ -50,5 +51,15 @@ public class MemoryGateway implements Gateway {
     @Override
     public void addUser(User user) {
         userMap.put(user.getUserID(), user);
+    }
+
+    @Override
+    public void addCourse(Course course) {
+
+    }
+
+    @Override
+    public Course getCourse(String courseID) {
+        return null;
     }
 }

@@ -1,6 +1,19 @@
 package majorPlanner.entity;
 
-public abstract class Course {
-    public abstract int getId();
-    public abstract String getName();
+public class Course {
+    private final String iD;
+    //private final String name;
+
+    public Course (String iD) {
+        this.iD = iD;
+    }
+
+    public String getId() {
+        return iD;
+    }
+
+    //public String getName() {
+    //    return name;
+  //  }
+
 }
