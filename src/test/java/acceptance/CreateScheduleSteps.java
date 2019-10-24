@@ -19,14 +19,15 @@ public class CreateScheduleSteps {
         TestController.resetInstance();
     }
 
-    @Given("{word} is a {word} and logged in")
-    public void HasRoleAndLoggedIn(String userId, String role) {
-        TestController.getInstance().defineUser(userId, role);
+    @Given("{word} is a {word}")
+    public void UserHasRole(String name, String role)
+    {
+        TestController.getInstance().defineUser(name, role);
     }
 
-    @When("{word} creates a schedule called {string} with description {string}")
-    public void CreateSchedule(String username, String scheduleName, String description) {
-        TestController.getInstance().createSchedule(username, username, scheduleName, description);
+    @Given("{word} is logged in")
+    public void UserLoggedIn(String userId) {
+        TestController.getInstance().defineSession(userId);
     }
 
     @When("{word} creates a schedule called {string} with description {string} in the name of {word}")

@@ -2,24 +2,28 @@ package majorPlanner;
 
 import majorPlanner.authorizer.Authorizer;
 import majorPlanner.gateway.Gateway;
+import majorPlanner.interactor.CreateScheduleInteractor;
 import majorPlanner.interactor.Interactor;
+import majorPlanner.request.CreateScheduleRequest;
 import majorPlanner.request.Request;
 import majorPlanner.response.*;
 import majorPlanner.session.Session;
 
 public class Controller {
     private Gateway gateway;
+    private Authorizer authorizer;
 
-    public Controller(Gateway gateway) {
+    public Controller(Gateway gateway, Authorizer authorizer) {
         this.gateway = gateway;
+        this.authorizer = authorizer;
     }
 
     public Response createSchedule(Session session, String username, String scheduleName, String description)
     {
-        return new ErrorResponse("Story not implemented!");
+        return executeRequest(new CreateScheduleRequest(username), new CreateScheduleInteractor(gateway, gateway));
     }
 
-    private Response executeRequest(Request request, Authorizer authorizer, Interactor interactor)
+    private Response executeRequest(Request request, Interactor interactor)
     {
         Response response = authorizer.authorize(request);
         if (response.containsError()) return response;

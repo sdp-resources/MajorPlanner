@@ -13,6 +13,11 @@ public class AcceptingUserGateway implements UserGateway {
         return new User(userID);
     }
 
+    @Override
+    public void addUser(User user) {
+
+    }
+
     public String getRequestedUserID() {
         return requestedUserID;
     }

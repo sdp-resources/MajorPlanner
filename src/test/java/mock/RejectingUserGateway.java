@@ -12,6 +12,11 @@ public class RejectingUserGateway implements UserGateway {
         return null;
     }
 
+    @Override
+    public void addUser(User user) {
+
+    }
+
     public String getRequestedUserID() {
         return requestedUserID;
     }

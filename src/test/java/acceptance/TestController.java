@@ -1,9 +1,12 @@
 package acceptance;
 
 import majorPlanner.Controller;
+import majorPlanner.authorizer.Authorizer;
+import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
 import majorPlanner.response.Response;
 import majorPlanner.session.Session;
+import mock.AcceptingAuthorizer;
 import mock.MemoryGateway;
 
 import java.util.ArrayList;
@@ -14,14 +17,16 @@ import java.util.Map;
 public class TestController extends Controller {
     private static TestController instance;
     private Map<String, Session> usersToSessions;
+    private Map<String, String> usersToRoles;
     public final Gateway gateway;
     public List<Response> responses;
 
     public TestController(Gateway gateway)
     {
-        super(gateway);
+        super(gateway, new AcceptingAuthorizer());
         this.gateway = gateway;
         responses = new ArrayList<>();
+        usersToRoles = new HashMap<>();
         usersToSessions = new HashMap<>();
     }
 
@@ -37,7 +42,13 @@ public class TestController extends Controller {
 
     public void defineUser(String name, String role)
     {
-        usersToSessions.put(name, new Session(null, name, role));
+        gateway.addUser(new User(name, User.Role.valueOf(role)));
+        usersToRoles.put(name, role);
+    }
+
+    public void defineSession(String name)
+    {
+        usersToSessions.put(name, new Session(null, name, usersToRoles.get(name)));
     }
 
     public Response createSchedule(String sessionUser, String ownerUser, String scheduleName, String description)

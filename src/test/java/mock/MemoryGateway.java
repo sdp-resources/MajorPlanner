@@ -12,10 +12,12 @@ import java.util.Map;
 
 public class MemoryGateway implements Gateway {
     private Map<Integer, Schedule> scheduleMap;
+    private Map<String, User> userMap;
 
     public MemoryGateway()
     {
-        scheduleMap = new HashMap<Integer, Schedule>();
+        scheduleMap = new HashMap<>();
+        userMap = new HashMap<>();
     }
 
     @Override
@@ -42,6 +44,11 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public User getUser(String userID) {
-        return null;
+        return userMap.get(userID);
+    }
+
+    @Override
+    public void addUser(User user) {
+        userMap.put(user.getUserID(), user);
     }
 }
