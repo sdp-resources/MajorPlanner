@@ -5,10 +5,13 @@ import majorPlanner.gateway.ScheduleGateway;
 
 import java.util.List;
 
-public class ScheduleGatewayDummy implements ScheduleGateway {
+public class ScheduleGatewaySpy implements ScheduleGateway {
+
+    private Schedule providedSchedule;
+
     @Override
     public void addSchedule(Schedule schedule) {
-
+        providedSchedule = schedule;
     }
 
     @Override
@@ -19,5 +22,9 @@ public class ScheduleGatewayDummy implements ScheduleGateway {
     @Override
     public List<Schedule> getSchedules(String owner) {
         return null;
+    }
+
+    public Schedule getProvidedSchedule() {
+        return providedSchedule;
     }
 }
