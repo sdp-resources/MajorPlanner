@@ -8,4 +8,5 @@ public interface ScheduleGateway {
     void addSchedule(Schedule schedule);
     Schedule getSchedule(int id);
     List<Schedule> getSchedules(String owner);
+    void save();
 }

@@ -1,9 +1,11 @@
 package majorPlanner;
 
+import majorPlanner.entity.Schedule;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.interactor.CreateScheduleInteractor;
 import majorPlanner.request.CreateScheduleRequest;
 import majorPlanner.response.Response;
+import majorPlanner.response.SuccessResponse;
 import mock.AcceptingUserGateway;
 import mock.RejectingUserGateway;
 import mock.ScheduleGatewaySpy;
@@ -34,11 +36,16 @@ public class CreateScheduleTest {
         CreateScheduleInteractor scheduleInteractor = new CreateScheduleInteractor(acceptingUserGateway, scheduleGateway);
         CreateScheduleRequest request = new CreateScheduleRequest(USER_ID);
         Response response = scheduleInteractor.execute(request);
-        assertThat(acceptingUserGateway.getRequestedUserID(), is(request.ownerID));
-//        assertThat(scheduleGateway.getProvidedSchedule(), is((response.ownerID)));
-//        assertThat(scheduleGateway.getProvidedSchedule(), is((response.description)));
-//        assertThat(scheduleGateway.getProvidedSchedule(), is((response.name)));
         assertThat(response.containsError(), is(false));
-//        assertThat(ScheduleGatewayDummy.savedCalled(), is(true));
+        SuccessResponse<Schedule> successResponse = (SuccessResponse<Schedule>) response;
+        assertThat(acceptingUserGateway.getRequestedUserID(), is(request.ownerID));
+        Schedule providedSchedule = scheduleGateway.getProvidedSchedule();
+        Schedule returnedSchedule = successResponse.getValue();
+        assertThat(returnedSchedule.getOwner().getUserID(), is((request.ownerID)));
+        assertThat(returnedSchedule.getDescription(), is((request.description)));
+        assertThat(returnedSchedule.getName(), is((request.name)));
+        assertThat(response.containsError(), is(false));
+        assertThat(providedSchedule, is(returnedSchedule));
+        assertThat(scheduleGateway.saveCalled(), is(true));
     }
 }

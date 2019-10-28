@@ -31,7 +31,7 @@ public class AddCourseToScheduleInteractor {
             return new ErrorResponse(INVALID_SCHEDULE_MESSAGE);
         }
         else{
-            return new SuccessResponse<Schedule>();
+            return new SuccessResponse<Schedule>(null);
         }
 
 

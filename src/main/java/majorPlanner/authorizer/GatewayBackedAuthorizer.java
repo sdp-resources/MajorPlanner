@@ -20,10 +20,10 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
     @Override
     public Response visitCreateScheduleRequest(CreateScheduleRequest createScheduleRequest) {
         if(createScheduleRequest.ownerID.equals(createScheduleRequest.getSession().username)) {
-            return new SuccessResponse();
+            return new SuccessResponse<Void>(null);
         }
         else if(createScheduleRequest.getSession().role == Role.Admin){
-            return new SuccessResponse();
+            return new SuccessResponse<Void>(null);
         }
         else {
             return new ErrorResponse(USER_MISMATCH_MESSAGE);

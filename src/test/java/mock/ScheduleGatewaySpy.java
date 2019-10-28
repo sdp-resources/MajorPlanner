@@ -8,6 +8,7 @@ import java.util.List;
 public class ScheduleGatewaySpy implements ScheduleGateway {
 
     private Schedule providedSchedule;
+    private Boolean saveCalled = false;
 
     @Override
     public void addSchedule(Schedule schedule) {
@@ -24,7 +25,14 @@ public class ScheduleGatewaySpy implements ScheduleGateway {
         return null;
     }
 
+    @Override
+    public void save() {
+        saveCalled = true;
+    }
+
     public Schedule getProvidedSchedule() {
         return providedSchedule;
     }
+
+    public Boolean saveCalled() { return saveCalled; }
 }

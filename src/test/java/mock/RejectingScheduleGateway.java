@@ -25,5 +25,10 @@ public class RejectingScheduleGateway implements ScheduleGateway {
         return null;
     }
 
+    @Override
+    public void save() {
+
+    }
+
     public int getRequestedScheduleID () { return requestedScheduleID;}
 }

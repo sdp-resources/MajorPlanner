@@ -32,15 +32,20 @@ public class MemoryGateway implements Gateway {
     }
 
     @Override
-    public List<Schedule> getSchedules(String owner) {
+    public List<Schedule> getSchedules(String ownerID) {
         List<Schedule> schedules = new ArrayList<>();
         for (Schedule s : scheduleMap.values()) {
-            if(s.getOwner().equals(owner))
+            if(s.getOwner().getUserID().equals(ownerID))
             {
                 schedules.add(s);
             }
         }
         return schedules;
+    }
+
+    @Override
+    public void save() {
+
     }
 
     @Override
