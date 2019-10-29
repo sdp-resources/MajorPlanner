@@ -11,6 +11,7 @@ public class Schedule {
         this.setName(name);
     }
 
+
     public int getId() {
         return 0;
     }
@@ -38,4 +39,6 @@ public class Schedule {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

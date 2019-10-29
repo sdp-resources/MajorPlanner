@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class ErrorResponse implements Response {
     private static final String INVALID_USER_MESSAGE = "Invalid User";
+    private static final String INVALID_SCHEDULE_MESSAGE = "Invalid Schedule";
+    private static final String INVALID_COURSE_MESSAGE = "Invalid Course";
     private final String error;
 
     public ErrorResponse(String error)
@@ -15,6 +17,12 @@ public class ErrorResponse implements Response {
     public static ErrorResponse invalidUsername() {
         return new ErrorResponse(INVALID_USER_MESSAGE);
     }
+
+    @NotNull
+    public static ErrorResponse invalidCourse() {return new ErrorResponse(INVALID_COURSE_MESSAGE);}
+
+    @NotNull
+    public static ErrorResponse invalidSchedule() {return new ErrorResponse(INVALID_SCHEDULE_MESSAGE);}
 
     @Override
     public boolean containsError() {
