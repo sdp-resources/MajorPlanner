@@ -21,7 +21,7 @@ public class ScheduleGatewaySpy implements ScheduleGateway {
     }
 
     @Override
-    public List<Schedule> getSchedules(String owner) {
+    public List<Schedule> getSchedulesFromOwnerId(String owner) {
         return null;
     }
 

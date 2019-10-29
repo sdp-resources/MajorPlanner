@@ -21,7 +21,7 @@ public class RejectingScheduleGateway implements ScheduleGateway {
     }
 
     @Override
-    public List<Schedule> getSchedules(String owner) {
+    public List<Schedule> getSchedulesFromOwnerId(String owner) {
         return null;
     }
 

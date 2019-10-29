@@ -6,9 +6,7 @@ import cucumber.api.java.en.Then;
 import io.cucumber.java.Before;
 import majorPlanner.entity.Schedule;
 import majorPlanner.response.Response;
-import majorPlanner.session.Session;
 import org.junit.Assert;
-import org.junit.Test;
 
 import java.util.List;
 
@@ -52,7 +50,7 @@ public class CreateScheduleSteps {
 
     @Then("there exists a schedule called {string} with description {string} owned by {word}")
     public void ScheduleExists(String scheduleName, String description, String username) {
-        List<Schedule> schedules = TestController.getInstance().gateway.getSchedules(username);;
+        List<Schedule> schedules = TestController.getInstance().gateway.getSchedulesFromOwnerId(username);;
         Assert.assertTrue(hasOneSchedule(schedules));
         Assert.assertEquals(scheduleName, getFirstSchedule(schedules).getName());
         //Assert.assertEquals(description, getFirstSchedule(schedules).getDescription());

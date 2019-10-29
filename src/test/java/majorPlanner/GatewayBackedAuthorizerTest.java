@@ -9,27 +9,38 @@ import majorPlanner.response.Response;
 import majorPlanner.session.Session;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.experimental.theories.suppliers.TestedOn;
 
 public class GatewayBackedAuthorizerTest {
     @Test
     public void userInSessionMatchesOwner()
     {
         Response response = authorize("dantgeo", "dantgeo", Role.User);
-        Assert.assertFalse(response.containsError());
+        assertErrorFree(response);
     }
 
     @Test
     public void userInSessionDoesNotMatchOwner(){
         Response response = authorize("dantgeo", "marsht", Role.User);
-        Assert.assertTrue(response.containsError());
-        Assert.assertEquals(GatewayBackedAuthorizer.USER_MISMATCH_MESSAGE, ((ErrorResponse)response).getError());
+        assertContainsError(response);
+        assertMessageEquals(GatewayBackedAuthorizer.USER_MISMATCH_MESSAGE, (ErrorResponse) response);
     }
 
     @Test
     public void adminInSessionIgnoresRequirements(){
         Response response = authorize("dantgeo", "marsht", Role.Admin);
+        assertErrorFree(response);
+    }
+
+    private void assertErrorFree(Response response) {
         Assert.assertFalse(response.containsError());
+    }
+
+    private void assertContainsError(Response response) {
+        Assert.assertTrue(response.containsError());
+    }
+
+    private void assertMessageEquals(String message, ErrorResponse response) {
+        Assert.assertEquals(message, response.getError());
     }
 
     private Response authorize(String scheduleOwner, String sessionUser, Role role) {
