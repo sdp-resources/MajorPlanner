@@ -1,19 +1,14 @@
 package majorPlanner.entity;
 
 public class Course {
-    private final String iD;
-    //private final String name;
+    private final String id;
 
-    public Course (String iD) {
-        this.iD = iD;
+    public Course (String id) {
+        this.id = id;
     }
 
     public String getId() {
-        return iD;
+        return id;
     }
-
-    //public String getName() {
-    //    return name;
-  //  }
 
 }
