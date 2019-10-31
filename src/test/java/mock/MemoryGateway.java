@@ -23,7 +23,7 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public void addSchedule(Schedule schedule) {
-        scheduleMap.put(schedule.getId(), schedule);
+        scheduleMap.put(schedule.getID(), schedule);
     }
 
     @Override

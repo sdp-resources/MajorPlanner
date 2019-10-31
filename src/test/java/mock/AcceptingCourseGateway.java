@@ -6,6 +6,7 @@ import majorPlanner.gateway.CourseGateway;
 public class AcceptingCourseGateway implements CourseGateway {
 
     private String requestedCourseID;
+    public Course providedCourse;
 
     @Override
     public void addCourse(Course course) {
@@ -15,7 +16,8 @@ public class AcceptingCourseGateway implements CourseGateway {
     @Override
     public Course getCourse(String courseID) {
         requestedCourseID = courseID;
-        return new Course(requestedCourseID);
+        providedCourse = new Course(requestedCourseID);
+        return providedCourse;
     }
 
     public String getRequestedCourseID() { return requestedCourseID; }

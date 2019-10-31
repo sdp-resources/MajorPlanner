@@ -9,6 +9,7 @@ public class ScheduleGatewaySpy implements ScheduleGateway {
 
     private Schedule providedSchedule;
     private Boolean saveCalled = false;
+    private int requestedScheduleID;
 
     @Override
     public void addSchedule(Schedule schedule) {
@@ -16,8 +17,13 @@ public class ScheduleGatewaySpy implements ScheduleGateway {
     }
 
     @Override
-    public Schedule getSchedule(int id) {
+    public Schedule getSchedule(int scheduleID) {
+        setRequestedScheduleID(scheduleID);
         return null;
+    }
+
+    protected void setRequestedScheduleID(int scheduleID) {
+        requestedScheduleID = scheduleID;
     }
 
     @Override
@@ -35,4 +41,6 @@ public class ScheduleGatewaySpy implements ScheduleGateway {
     }
 
     public Boolean saveCalled() { return saveCalled; }
+
+    public int getRequestedScheduleID() { return requestedScheduleID; }
 }

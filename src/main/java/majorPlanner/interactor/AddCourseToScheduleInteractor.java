@@ -2,6 +2,7 @@ package majorPlanner.interactor;
 
 import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
+import majorPlanner.entity.Term;
 import majorPlanner.gateway.CourseGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.CreateAddCourseToScheduleRequest;
@@ -26,11 +27,13 @@ public class AddCourseToScheduleInteractor {
         if (course == null) {
             return ErrorResponse.invalidCourse();
         }
-        Schedule schedule = scheduleGateway.getSchedule (request.scheduleID);
+        Schedule schedule = scheduleGateway.getSchedule(request.scheduleID);
         if (schedule == null){
             return ErrorResponse.invalidSchedule();
         }
         else{
+
+            schedule.addCourse(course, request.term, request.year);
             return new SuccessResponse<Schedule>(schedule);
         }
 

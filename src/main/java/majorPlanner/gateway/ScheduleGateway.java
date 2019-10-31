@@ -1,6 +1,7 @@
 package majorPlanner.gateway;
 
 import majorPlanner.entity.Schedule;
+import majorPlanner.entity.Term;
 
 import java.util.List;
 import java.util.function.Function;

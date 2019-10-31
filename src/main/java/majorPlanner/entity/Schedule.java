@@ -1,9 +1,14 @@
 package majorPlanner.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Schedule {
     private User owner;
     private String description;
     private String name;
+    private int ID;
+    private List<AddedCourse> addedCourses = new ArrayList<>();
 
     public Schedule(User owner, String name, String description) {
         this.setOwner(owner);
@@ -11,10 +16,6 @@ public class Schedule {
         this.setName(name);
     }
 
-
-    public int getId() {
-        return 0;
-    }
 
     public String getName() {
         return name;
@@ -41,4 +42,20 @@ public class Schedule {
     }
 
 
+    public void setID(int id) {
+        this.ID = id;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public List<AddedCourse> getAddedCourses() {
+        return addedCourses;
+    }
+
+    public void addCourse(Course course, Term term, Year year) {
+        AddedCourse addedCourse = new AddedCourse(term, year, course);
+        addedCourses.add(addedCourse);
+    }
 }

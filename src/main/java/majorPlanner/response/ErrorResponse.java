@@ -6,6 +6,7 @@ public class ErrorResponse implements Response {
     private static final String INVALID_USER_MESSAGE = "Invalid User";
     private static final String INVALID_SCHEDULE_MESSAGE = "Invalid Schedule";
     private static final String INVALID_COURSE_MESSAGE = "Invalid Course";
+    private static final String PREVIOUSLY_ADDED_COURSE_MESSAGE = "Course already in schedule";
     private final String error;
 
     public ErrorResponse(String error)
@@ -23,6 +24,9 @@ public class ErrorResponse implements Response {
 
     @NotNull
     public static ErrorResponse invalidSchedule() {return new ErrorResponse(INVALID_SCHEDULE_MESSAGE);}
+
+    @NotNull
+    public static ErrorResponse previouslyAddedCourse() {return new ErrorResponse(PREVIOUSLY_ADDED_COURSE_MESSAGE);}
 
     @Override
     public boolean containsError() {

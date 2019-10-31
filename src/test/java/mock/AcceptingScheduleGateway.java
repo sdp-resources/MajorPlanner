@@ -2,26 +2,19 @@ package mock;
 
 import majorPlanner.entity.Schedule;
 import majorPlanner.entity.User;
-import majorPlanner.gateway.ScheduleGateway;
 
 import java.util.List;
 
-public class AcceptingScheduleGateway implements ScheduleGateway {
+public class AcceptingScheduleGateway extends ScheduleGatewaySpy {
 
-    private int requestedScheduleID;
-
-    @Override
-    public void addSchedule(Schedule schedule) {
-
-    }
+    private final User dummyUser = new User(null, null);
+    public final Schedule providedSchedule = new Schedule(dummyUser, "Uncle Bob", "fake course");
 
     @Override
     public Schedule getSchedule(int scheduleID) {
-        User dummyUser = new User(null, null);
-        String description = "fake course";
-        String name = "Uncle Bob";
-        requestedScheduleID = scheduleID;
-        return new Schedule(dummyUser, name, description);
+        super.getSchedule(scheduleID);
+        providedSchedule.setID(scheduleID);
+        return providedSchedule;
     }
 
     @Override
@@ -29,10 +22,5 @@ public class AcceptingScheduleGateway implements ScheduleGateway {
         return null;
     }
 
-    @Override
-    public void save() {
 
-    }
-
-    public int getRequestedScheduleID() { return requestedScheduleID; }
 }
