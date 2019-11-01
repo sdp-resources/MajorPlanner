@@ -1,0 +1,56 @@
+{% extends "base.twig" %}
+{% block content %}
+    <div>
+        <h2>{{ schedule.name }}</h2>
+        <p>{{ schedule.description }}</p>
+        <p>Owned by: {{ schedule.owner.userID }}</p>
+        <div>
+            <h3>Schedule</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Year</th>
+                    {% for term in terms %}
+                        <th scope="col">{{ term }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for year in years %}
+                <tr>
+                    <th scope="row">{{ year }}</th>
+                    {% for term in terms %}
+                    <td>
+                        {% for course in schedule.addedCourses %}
+                        {% if course.term == term and course.year == year %}
+                            {{ course.course.id }}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3>List of Courses</h3>
+            <table>
+                <thead>
+                <tr>
+                    <td>Course ID</td>
+                    <td>Term</td>
+                    <td>Year</td>
+                </tr>
+                </thead>
+                {% for course in schedule.addedCourses %}
+                    <tr>
+                        <td>{{ course.course.id }}</td>
+                        <td>{{ course.term }}</td>
+                        <td>{{ course.year }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

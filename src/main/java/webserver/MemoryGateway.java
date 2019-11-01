@@ -1,10 +1,9 @@
-package mock;
+package webserver;
 
 import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
-import majorPlanner.session.Session;
 
 import java.util.ArrayList;
 import java.util.HashMap;

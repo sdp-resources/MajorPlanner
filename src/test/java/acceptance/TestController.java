@@ -7,8 +7,7 @@ import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
 import majorPlanner.response.Response;
 import majorPlanner.session.Session;
-import mock.AcceptingAuthorizer;
-import mock.MemoryGateway;
+import webserver.MemoryGateway;
 
 import java.util.ArrayList;
 import java.util.HashMap;
