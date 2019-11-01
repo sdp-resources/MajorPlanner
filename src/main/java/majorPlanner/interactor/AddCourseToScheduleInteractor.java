@@ -2,15 +2,15 @@ package majorPlanner.interactor;
 
 import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
-import majorPlanner.entity.Term;
 import majorPlanner.gateway.CourseGateway;
 import majorPlanner.gateway.ScheduleGateway;
-import majorPlanner.request.CreateAddCourseToScheduleRequest;
+import majorPlanner.request.AddCourseRequest;
+import majorPlanner.request.Request;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import majorPlanner.response.SuccessResponse;
 
-public class AddCourseToScheduleInteractor {
+public class AddCourseToScheduleInteractor implements Interactor {
 
 
 
@@ -22,7 +22,7 @@ public class AddCourseToScheduleInteractor {
         this.scheduleGateway = scheduleGateway;
     }
 
-    public Response executeRequest(CreateAddCourseToScheduleRequest request) {
+    public Response executeRequest(AddCourseRequest request) {
         Course course = courseGateway.getCourse(request.courseID);
         if (course == null) {
             return ErrorResponse.invalidCourse();
@@ -36,7 +36,10 @@ public class AddCourseToScheduleInteractor {
             schedule.addCourse(course, request.term, request.year);
             return new SuccessResponse<Schedule>(schedule);
         }
+    }
 
-
+    @Override
+    public Response execute(Request request) {
+        return executeRequest((AddCourseRequest) request);
     }
 }

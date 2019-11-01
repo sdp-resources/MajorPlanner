@@ -11,10 +11,6 @@ public class CreateScheduleRequest extends Request {
         this.name = name;
     }
 
-    public CreateScheduleRequest(String ownerID) {
-        this(ownerID, "", "");
-    }
-
     @Override
     public <T> T accept(RequestVisitor<T> visitor) {
         return visitor.visitCreateScheduleRequest(this);

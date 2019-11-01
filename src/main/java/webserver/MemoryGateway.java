@@ -13,11 +13,13 @@ import java.util.Map;
 public class MemoryGateway implements Gateway {
     private Map<Integer, Schedule> scheduleMap;
     private Map<String, User> userMap;
+    private Map<String, Course> courseMap;
 
     public MemoryGateway()
     {
         scheduleMap = new HashMap<>();
         userMap = new HashMap<>();
+        courseMap = new HashMap<>();
     }
 
     @Override
@@ -59,11 +61,11 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public void addCourse(Course course) {
-
+        courseMap.put(course.getId(), course);
     }
 
     @Override
     public Course getCourse(String courseID) {
-        return null;
+        return courseMap.get(courseID);
     }
 }

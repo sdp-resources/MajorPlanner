@@ -1,11 +1,10 @@
 package majorPlanner;
 
 import majorPlanner.entity.*;
-import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.response.Response;
 import mock.*;
 import majorPlanner.interactor.AddCourseToScheduleInteractor;
-import majorPlanner.request.CreateAddCourseToScheduleRequest;
+import majorPlanner.request.AddCourseRequest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +21,7 @@ public class AddToScheduleTest {
     private AcceptingCourseGateway acceptCourseGateway;
     private ScheduleGatewaySpy rejectScheduleGateway;
     private AcceptingScheduleGateway acceptScheduleGateway;
-    private CreateAddCourseToScheduleRequest request;
+    private AddCourseRequest request;
 
     @Before
     public void setup(){
@@ -30,7 +29,7 @@ public class AddToScheduleTest {
         acceptCourseGateway = new AcceptingCourseGateway();
         rejectScheduleGateway = new RejectingScheduleGateway();
         acceptScheduleGateway = new AcceptingScheduleGateway();
-        request = new CreateAddCourseToScheduleRequest(COURSE_ID, SCHEDULE_ID, Term.Fall, Year.Freshman);
+        request = new AddCourseRequest(COURSE_ID, SCHEDULE_ID, Term.Fall, Year.Freshman);
     }
 
     @Test
