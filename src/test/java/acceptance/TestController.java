@@ -78,4 +78,23 @@ public class TestController extends Controller {
         gateway.addSchedule(schedule);
         nameToSchedule.put(name, schedule);
     }
+
+    public int getScheduleId(String name) {
+        return nameToSchedule.get(name).getID();
+    }
+
+    public boolean scheduleHasCourse(String scheduleName, String courseName, String term, String year) {
+        Schedule schedule = nameToSchedule.get(scheduleName);
+        Course course = nameToCourse.get(courseName);
+        return scheduleContainsAddedCourse(schedule, course,Term.valueOf(term), Year.valueOf(year));
+    }
+
+    private boolean scheduleContainsAddedCourse(Schedule schedule, Course course, Term term, Year year) {
+        for (AddedCourse ac: schedule.getAddedCourses()) {
+            if (ac.getCourse().getId().equals(course.getId()) && ac.getTerm().equals(term) && ac.getYear().equals(year)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -22,6 +22,15 @@ Feature: Add Course to Schedule
     When Eve adds "Data Structures" to MySchedule for Winter of Junior year
     Then the latest response has an error
 
+  Scenario: User adds course to their own schedule
+    Given George is a User
+    And George is logged in
+    And a schedule, MySchedule, with owner George
+    And "Calculus 3" is a course with id "MAT221"
+    When George adds "Calculus 3" to MySchedule for Fall of Senior year
+    Then the latest response has no error
+    And MySchedule has the course, "Calculus 3" during Fall of Senior year
+
   Scenario: Admin adds a course to a schedule
     Given Ben is a Admin
     And Celeste is a User
@@ -30,6 +39,7 @@ Feature: Add Course to Schedule
     And "Data Structures" is a course with id "CS223"
     When Ben adds "Data Structures" to MySchedule for Winter of Freshman year
     Then the latest response has no error
+    And MySchedule has the course, "Data Structures" during Winter of Freshman year
 
   Scenario: User adds course to schedule twice
     Given Celeste is a User

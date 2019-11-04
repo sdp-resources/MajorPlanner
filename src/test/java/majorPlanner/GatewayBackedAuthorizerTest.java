@@ -1,10 +1,9 @@
 package majorPlanner;
 
+import io.cucumber.java.bs.A;
 import majorPlanner.authorizer.Authorizer;
 import majorPlanner.authorizer.GatewayBackedAuthorizer;
-import majorPlanner.entity.Role;
-import majorPlanner.entity.Term;
-import majorPlanner.entity.Year;
+import majorPlanner.entity.*;
 import majorPlanner.request.AddCourseRequest;
 import majorPlanner.request.CreateScheduleRequest;
 import majorPlanner.request.Request;
@@ -27,21 +26,21 @@ public class GatewayBackedAuthorizerTest {
     }
 
     @Test
-    public void userInSessionMatchesOwner()
+    public void createScheduleUserInSessionMatchesOwner()
     {
         Response response = authorize("dantgeo", Role.User, getCreateScheduleRequest());
         assertErrorFree(response);
     }
 
     @Test
-    public void userInSessionDoesNotMatchOwner(){
+    public void createScheduleUserInSessionDoesNotMatchOwner(){
         Response response = authorize("marsht", Role.User, getCreateScheduleRequest());
         assertContainsError(response);
         assertMessageEquals(GatewayBackedAuthorizer.USER_MISMATCH_MESSAGE, (ErrorResponse) response);
     }
 
     @Test
-    public void adminInSessionIgnoresRequirements(){
+    public void createScheduleAdminInSessionIgnoresRequirements(){
         Response response = authorize("marsht", Role.Admin, getCreateScheduleRequest());
         assertErrorFree(response);
     }
@@ -51,10 +50,49 @@ public class GatewayBackedAuthorizerTest {
     }
 
     @Test
-    public void scheduleDoesNotExist(){
+    public void addCourseScheduleDoesNotExist(){
         AddCourseRequest request = new AddCourseRequest("CS220", 0, Term.Winter, Year.Freshman);
+        gateway.addCourse(new Course("CS220"));
         Response response = authorize("marsht", Role.User, request);
         assertContainsError(response);
+        assertMessageEquals(GatewayBackedAuthorizer.SCHEDULE_DOES_NOT_EXIST_MESSAGE, (ErrorResponse) response);
+    }
+
+    @Test
+    public void addCourseCourseDoesNotExist()
+    {
+        AddCourseRequest request = new AddCourseRequest("CS220", 23, Term.Winter, Year.Freshman);
+        Schedule s = new Schedule(new User("marsht", Role.User), "MySchedule", "description");
+        s.setID(23);
+        gateway.addSchedule(s);
+        Response response = authorize("marsht", Role.User, request);
+        assertContainsError(response);
+        assertMessageEquals(GatewayBackedAuthorizer.COURSE_DOES_NOT_EXIST_MESSAGE, (ErrorResponse) response);
+    }
+
+    @Test
+    public void addCourseUserInSessionDoesNotMatchOwner()
+    {
+        AddCourseRequest request = new AddCourseRequest("CS223", 43, Term.Fall, Year.Junior);
+        Schedule s = new Schedule(new User("smithma", Role.User), "MahSchedule", "jfdhgsjhlfdg");
+        s.setID(43);
+        gateway.addSchedule(s);
+        gateway.addCourse(new Course("CS223"));
+        Response response = authorize("givensb22", Role.User, request);
+        assertContainsError(response);
+        assertMessageEquals(GatewayBackedAuthorizer.USER_MISMATCH_MESSAGE, (ErrorResponse) response);
+    }
+
+    @Test
+    public void addCourseUserInSessionMatchesOwner()
+    {
+        AddCourseRequest request = new AddCourseRequest("CS223", 43, Term.Fall, Year.Junior);
+        Schedule s = new Schedule(new User("smithma", Role.User), "MahSchedule", "jfdhgsjhlfdg");
+        s.setID(43);
+        gateway.addSchedule(s);
+        gateway.addCourse(new Course("CS223"));
+        Response response = authorize("smithma", Role.User, request);
+        assertErrorFree(response);
     }
 
     private void assertErrorFree(Response response) {
