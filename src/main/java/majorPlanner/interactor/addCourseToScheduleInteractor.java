@@ -1,5 +1,6 @@
 package majorPlanner.interactor;
 
+import majorPlanner.entity.AddedCourse;
 import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
 import majorPlanner.gateway.CourseGateway;
@@ -10,14 +11,16 @@ import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import majorPlanner.response.SuccessResponse;
 
-public class AddCourseToScheduleInteractor implements Interactor {
+import java.util.List;
+
+public class addCourseToScheduleInteractor implements Interactor {
 
 
 
     private final CourseGateway courseGateway;
     private final ScheduleGateway scheduleGateway;
 
-    public AddCourseToScheduleInteractor(CourseGateway courseGateway, ScheduleGateway scheduleGateway){
+    public addCourseToScheduleInteractor(CourseGateway courseGateway, ScheduleGateway scheduleGateway){
         this.courseGateway = courseGateway;
         this.scheduleGateway = scheduleGateway;
     }
@@ -28,14 +31,22 @@ public class AddCourseToScheduleInteractor implements Interactor {
             return ErrorResponse.invalidCourse();
         }
         Schedule schedule = scheduleGateway.getSchedule(request.scheduleID);
+
         if (schedule == null){
             return ErrorResponse.invalidSchedule();
         }
-        else{
+        List<AddedCourse> addedCourses = schedule.getAddedCourses();
+        for (AddedCourse addedCourse : addedCourses) {
+            if(addedCourse.getCourse().equals(course)){
+                return ErrorResponse.previouslyAddedCourse();
+            }
 
-            schedule.addCourse(course, request.term, request.year);
-            return new SuccessResponse<Schedule>(schedule);
         }
+
+        schedule.addCourse(course, request.term, request.year);
+        scheduleGateway.save();
+        return new SuccessResponse<Schedule>(schedule);
+
     }
 
     @Override

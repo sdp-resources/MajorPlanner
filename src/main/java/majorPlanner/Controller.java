@@ -4,7 +4,7 @@ import majorPlanner.authorizer.Authorizer;
 import majorPlanner.entity.Term;
 import majorPlanner.entity.Year;
 import majorPlanner.gateway.Gateway;
-import majorPlanner.interactor.AddCourseToScheduleInteractor;
+import majorPlanner.interactor.addCourseToScheduleInteractor;
 import majorPlanner.interactor.CreateScheduleInteractor;
 import majorPlanner.interactor.Interactor;
 import majorPlanner.request.AddCourseRequest;
@@ -32,7 +32,7 @@ public class Controller {
     public Response addCourse(Session session, String course, int schedule, Term term, Year year) {
         AddCourseRequest request = new AddCourseRequest(course, schedule, term, year);
         request.setSession(session);
-        return executeRequest(request, new AddCourseToScheduleInteractor(gateway, gateway));
+        return executeRequest(request, new addCourseToScheduleInteractor(gateway, gateway));
     }
 
     private Response executeRequest(Request request, Interactor interactor)

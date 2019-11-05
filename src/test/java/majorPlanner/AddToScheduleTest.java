@@ -3,7 +3,7 @@ package majorPlanner;
 import majorPlanner.entity.*;
 import majorPlanner.response.Response;
 import mock.*;
-import majorPlanner.interactor.AddCourseToScheduleInteractor;
+import majorPlanner.interactor.addCourseToScheduleInteractor;
 import majorPlanner.request.AddCourseRequest;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class AddToScheduleTest {
     private static final String COURSE_ID = "Course1";
     private static final int SCHEDULE_ID = 1234;
     private RejectingCourseGateway rejectCourseGateway;
-    private AddCourseToScheduleInteractor courseInteractor;
+    private addCourseToScheduleInteractor courseInteractor;
     private AcceptingCourseGateway acceptCourseGateway;
     private ScheduleGatewaySpy rejectScheduleGateway;
     private AcceptingScheduleGateway acceptScheduleGateway;
@@ -34,39 +34,47 @@ public class AddToScheduleTest {
 
     @Test
     public void IfCourseIDInvalidReturnError() {
-        courseInteractor = new AddCourseToScheduleInteractor(rejectCourseGateway, null);
+        courseInteractor = new addCourseToScheduleInteractor(rejectCourseGateway, null);
         Response response = courseInteractor.executeRequest(request);
-        assertThat(response.containsError(), is(true));
+        AssertErrorResponse(response, true);
         assertThat(rejectCourseGateway.getRequestedCourseID(), is(request.courseID));
     }
 
     @Test
     public void IfCourseIDValidAndScheduleIDInvalidReturnError() {
-        courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, rejectScheduleGateway);
+        courseInteractor = new addCourseToScheduleInteractor(acceptCourseGateway, rejectScheduleGateway);
         Response response = courseInteractor.executeRequest(request);
-        assertThat(response.containsError(), is (true));
+        AssertErrorResponse(response, true);
         assertThat(rejectScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
     }
 
     @Test
     public void IfCourseAndScheduleAreValidReturnSuccessResponse() {
-        courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
+        courseInteractor = new addCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
         Response response = courseInteractor.executeRequest(request);
-        assertThat(response.containsError(), is(false));
+        AssertErrorResponse(response, false);
         assertThat(acceptScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
         Schedule schedule = acceptScheduleGateway.providedSchedule;
-        AddedCourse addedCourse = schedule.getAddedCourses().get(0);;
+        AddedCourse addedCourse = schedule.getAddedCourses().get(0);
         assertThat(schedule.getAddedCourses().size(), is(1));
+        AssertRequestedCourseIsAddedCourse(addedCourse);
+    }
+
+    @Test
+    public void IfCourseAlreadyInScheduleReturnError(){
+        courseInteractor = new addCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
+        acceptScheduleGateway.providedSchedule.addCourse(new Course(COURSE_ID), Term.Fall, Year.Freshman);
+        Response response = courseInteractor.executeRequest(request);
+        AssertErrorResponse(response, true);
+    }
+
+    private void AssertRequestedCourseIsAddedCourse(AddedCourse addedCourse) {
         assertThat(addedCourse.getTerm(), is(request.term));
         assertThat(addedCourse.getYear(), is(request.year));
         assertThat(addedCourse.getCourse(), is(acceptCourseGateway.providedCourse));
     }
 
-    @Test
-    public void IfCourseAlreadyInScheduleReturnError(){
-        courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
-        acceptScheduleGateway.providedSchedule.addCourse(acceptCourseGateway.providedCourse, Term.Fall, Year.Freshman);
-        Response response = courseInteractor.executeRequest(request);
-        //assertThat(response.containsError(), is(true));
+    private void AssertErrorResponse(Response response, boolean b) {
+        assertThat(response.containsError(), is(b));
     }
 }
