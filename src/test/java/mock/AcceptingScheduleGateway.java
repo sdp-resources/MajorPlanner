@@ -8,13 +8,13 @@ import java.util.List;
 public class AcceptingScheduleGateway extends ScheduleGatewaySpy {
 
     private final User dummyUser = new User(null, null);
-    public final Schedule providedSchedule = new Schedule(dummyUser, "Uncle Bob", "fake course");
+    public final Schedule returnedSchedule = new Schedule(dummyUser, "Uncle Bob", "fake course");
 
     @Override
     public Schedule getSchedule(int scheduleID) {
         super.getSchedule(scheduleID);
-        providedSchedule.setID(scheduleID);
-        return providedSchedule;
+        returnedSchedule.setID(scheduleID);
+        return returnedSchedule;
     }
 
     @Override
