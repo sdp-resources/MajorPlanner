@@ -58,4 +58,10 @@ public class Schedule {
         AddedCourse addedCourse = new AddedCourse(term, year, course);
         addedCourses.add(addedCourse);
     }
+
+    public boolean containsCourse(Course course) {
+        for (AddedCourse addedCourse : getAddedCourses())
+            if (addedCourse.getCourse().equals(course)) return true;
+        return false;
+    }
 }

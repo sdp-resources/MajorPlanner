@@ -2,6 +2,8 @@ package majorPlanner.response;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class ErrorResponse implements Response {
     private static final String INVALID_USER_MESSAGE = "Invalid User";
     private static final String INVALID_SCHEDULE_MESSAGE = "Invalid Schedule";
@@ -12,6 +14,19 @@ public class ErrorResponse implements Response {
     public ErrorResponse(String error)
     {
         this.error = error;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ErrorResponse that = (ErrorResponse) o;
+        return Objects.equals(error, that.error);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(error);
     }
 
     @NotNull
