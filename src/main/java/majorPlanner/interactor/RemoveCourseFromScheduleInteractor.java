@@ -29,6 +29,7 @@ public class RemoveCourseFromScheduleInteractor {
         if (schedule.isEmpty()) return ErrorResponse.emptySchedule();
         if (!schedule.containsCourse(courseToBeRemoved)) return ErrorResponse.courseNotInSchedule();
         schedule.deleteCourse(courseToBeRemoved);
+        scheduleGateway.save();
         return new SuccessResponse<Schedule>(schedule);
     }
 

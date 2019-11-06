@@ -9,6 +9,7 @@ import majorPlanner.request.RemoveCourseFromScheduleRequest;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import mock.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +44,7 @@ public class RemoveCourseFromScheduleTest {
         executeRequest();
         assertThat(response, is(ErrorResponse.invalidCourse()));
         assertThat(rejectCourseGateway.getRequestedCourseID(), is(request.courseID));
+        assertSaveWasNotCalled();
     }
 
     @Test
@@ -52,6 +54,7 @@ public class RemoveCourseFromScheduleTest {
         executeRequest();
         assertThat(response, is(ErrorResponse.invalidSchedule()));
         assertThat(rejectScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
+        assertSaveWasNotCalled();
     }
 
     @Test
@@ -62,6 +65,7 @@ public class RemoveCourseFromScheduleTest {
         executeRequest();
         assertThat(schedule.getID(), is(SCHEDULE_ID));
         assertThat(response, is(ErrorResponse.emptySchedule()));
+        assertSaveWasNotCalled();
     }
 
     @Test
@@ -72,6 +76,7 @@ public class RemoveCourseFromScheduleTest {
         createCourseRemovalRequest();
         executeRequest();
         assertThat((response.containsError()), is(false));
+        assertSaveWasCalled();
     }
 
     @Test
@@ -82,6 +87,7 @@ public class RemoveCourseFromScheduleTest {
         createCourseRemovalRequest();
         executeRequest();
         assertThat(response, is(ErrorResponse.courseNotInSchedule()));
+        assertSaveWasNotCalled();
     }
 
     private Schedule createSchedule() {
@@ -95,4 +101,13 @@ public class RemoveCourseFromScheduleTest {
     private void executeRequest() {
         response = courseInteractor.executeRequest(request);
     }
+
+    private void assertSaveWasCalled() {
+        Assert.assertThat(acceptScheduleGateway.saveCalled(), is(true));
+    }
+
+    private void assertSaveWasNotCalled() {
+        Assert.assertThat(acceptScheduleGateway.saveCalled(), is(false));
+    }
+
 }
