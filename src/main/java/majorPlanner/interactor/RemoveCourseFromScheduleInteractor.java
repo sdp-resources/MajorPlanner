@@ -7,10 +7,14 @@ import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.RemoveCourseFromScheduleRequest;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
+import majorPlanner.response.SuccessResponse;
+
 
 public class RemoveCourseFromScheduleInteractor {
     private final CourseGateway courseGateway;
     private final ScheduleGateway scheduleGateway;
+    private Course courseToBeRemoved;
+    private Schedule schedule;
 
     public RemoveCourseFromScheduleInteractor(CourseGateway courseGateway, ScheduleGateway scheduleGateway) {
         this.courseGateway = courseGateway;
@@ -18,11 +22,21 @@ public class RemoveCourseFromScheduleInteractor {
     }
 
     public Response executeRequest(RemoveCourseFromScheduleRequest request) {
-        Course course = courseGateway.getCourse(request.courseID);
-        if(course == null){
-            return ErrorResponse.invalidCourse();
-        }
-        Schedule schedule = scheduleGateway.getSchedule(request.scheduleID);
-        return ErrorResponse.invalidSchedule();
+        courseToBeRemoved = courseGateway.getCourse(request.courseID);
+        schedule = scheduleGateway.getSchedule(request.scheduleID);
+        if (isInvalidCourse()) return ErrorResponse.invalidCourse();
+        if (isInvalidSchedule()) return ErrorResponse.invalidSchedule();
+        if (schedule.isEmpty()) return ErrorResponse.emptySchedule();
+        if (!schedule.containsCourse(courseToBeRemoved)) return ErrorResponse.courseNotInSchedule();
+        schedule.deleteCourse(courseToBeRemoved);
+        return new SuccessResponse<Schedule>(schedule);
+    }
+
+    private boolean isInvalidSchedule() {
+        return schedule == null;
+    }
+
+    private boolean isInvalidCourse() {
+        return courseToBeRemoved == null;
     }
 }

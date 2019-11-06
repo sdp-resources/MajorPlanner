@@ -1,5 +1,7 @@
 package majorPlanner.entity;
 
+import majorPlanner.interactor.RemoveCourseFromScheduleInteractor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,9 +61,25 @@ public class Schedule {
         addedCourses.add(addedCourse);
     }
 
+    public boolean deleteCourse(Course courseToBeRemoved){
+        int index = 0;
+        for (AddedCourse course : addedCourses) {
+            if(course.getCourse().equals(courseToBeRemoved)){
+                addedCourses.remove(index);
+                return true;
+            }
+            index += 1;
+        }
+        return false;
+    }
+
     public boolean containsCourse(Course course) {
         for (AddedCourse addedCourse : getAddedCourses())
             if (addedCourse.getCourse().equals(course)) return true;
         return false;
+    }
+
+    public boolean isEmpty() {
+        return getAddedCourses().size() == 0;
     }
 }

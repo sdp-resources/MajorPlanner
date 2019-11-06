@@ -9,6 +9,8 @@ public class ErrorResponse implements Response {
     private static final String INVALID_SCHEDULE_MESSAGE = "Invalid Schedule";
     private static final String INVALID_COURSE_MESSAGE = "Invalid Course";
     private static final String PREVIOUSLY_ADDED_COURSE_MESSAGE = "Course already in schedule";
+    private static final String EMPTY_SCHEDULE_MESSAGE = "Cannot delete course from empty schedule";
+    private static final String COURSE_NOT_IN_SCHEDULE = "This course can not be found in the schedule";
     private final String error;
 
     public ErrorResponse(String error)
@@ -42,6 +44,12 @@ public class ErrorResponse implements Response {
 
     @NotNull
     public static ErrorResponse previouslyAddedCourse() {return new ErrorResponse(PREVIOUSLY_ADDED_COURSE_MESSAGE);}
+
+    @NotNull
+    public static ErrorResponse emptySchedule() {return new ErrorResponse(EMPTY_SCHEDULE_MESSAGE);}
+
+    @NotNull
+    public static ErrorResponse courseNotInSchedule() {return new ErrorResponse(COURSE_NOT_IN_SCHEDULE);}
 
     @Override
     public boolean containsError() {

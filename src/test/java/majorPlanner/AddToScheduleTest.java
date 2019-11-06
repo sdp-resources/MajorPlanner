@@ -59,15 +59,15 @@ public class AddToScheduleTest {
         response = courseInteractor.executeRequest(request);
         assertSuccessfulResponse();
         assertThat(acceptScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
-        assertNumberCoursesInScheduleIs(acceptScheduleGateway.providedSchedule, 1);
-        assertRequestedCourseIsAddedCourse(acceptScheduleGateway.providedSchedule.getAddedCourses().get(0));
+        assertNumberCoursesInScheduleIs(acceptScheduleGateway.returnedSchedule, 1);
+        assertRequestedCourseIsAddedCourse(acceptScheduleGateway.returnedSchedule.getAddedCourses().get(0));
         assertSaveWasCalled();
     }
 
     @Test
     public void whenCourseAlreadyInSchedule_ReturnError(){
         courseInteractor = new addCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
-        acceptScheduleGateway.providedSchedule.addCourse(new Course(COURSE_ID), Term.Fall, Year.Freshman);
+        acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID), Term.Fall, Year.Freshman);
         response = courseInteractor.executeRequest(request);
         assertThat(response, is(ErrorResponse.previouslyAddedCourse()));
         assertSaveWasNotCalled();
@@ -76,12 +76,12 @@ public class AddToScheduleTest {
     @Test
     public void WhenAddingNewCourseToPopulatedSchedule_CourseAdded(){
         courseInteractor = new addCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
-        acceptScheduleGateway.providedSchedule.addCourse(new Course(COURSE_ID_OTHER), Term.Fall, Year.Freshman);
+        acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID_OTHER), Term.Fall, Year.Freshman);
         response = courseInteractor.executeRequest(request);
         assertSuccessfulResponse();
         assertThat(acceptScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
-        assertNumberCoursesInScheduleIs(acceptScheduleGateway.providedSchedule, 2);
-        assertRequestedCourseIsAddedCourse(acceptScheduleGateway.providedSchedule.getAddedCourses().get(1));
+        assertNumberCoursesInScheduleIs(acceptScheduleGateway.returnedSchedule, 2);
+        assertRequestedCourseIsAddedCourse(acceptScheduleGateway.returnedSchedule.getAddedCourses().get(1));
         assertSaveWasCalled();
     }
 
