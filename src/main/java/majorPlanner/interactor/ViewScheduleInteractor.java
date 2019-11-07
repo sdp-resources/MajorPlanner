@@ -8,7 +8,6 @@ import majorPlanner.response.Response;
 
 public class ViewScheduleInteractor implements Interactor {
     private final ScheduleGateway scheduleGateway;
-    private ViewScheduleRequest request;
 
     public ViewScheduleInteractor(ScheduleGateway scheduleGateway) {
         this.scheduleGateway = scheduleGateway;
@@ -19,9 +18,8 @@ public class ViewScheduleInteractor implements Interactor {
         return ErrorResponse.invalidSchedule();
     }
 
-
     @Override
     public Response execute(Request request) {
-        return null;
+        return executeRequest((ViewScheduleRequest) request);
     }
 }

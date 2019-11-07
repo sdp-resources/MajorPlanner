@@ -4,6 +4,8 @@ import majorPlanner.Controller;
 import majorPlanner.authorizer.GatewayBackedAuthorizer;
 import majorPlanner.entity.*;
 import majorPlanner.gateway.Gateway;
+import majorPlanner.interactor.Interactor;
+import majorPlanner.request.Request;
 import majorPlanner.response.Response;
 import majorPlanner.session.Session;
 import webserver.MemoryGateway;
@@ -38,29 +40,15 @@ public class TestController extends Controller {
         return instance;
     }
 
-    public void defineUser(String name, String roleName)
+    public void addUser(User user)
     {
-        User user = new User(name, Role.valueOf(roleName));
         gateway.addUser(user);
-        userNamesToUsers.put(name, user);
     }
 
     public void defineCourse(String name, String id) {
         Course course = new Course(id);
         gateway.addCourse(course);
         nameToCourse.put(name, course);
-    }
-
-    public void defineSession(String name)
-    {
-        usersToSessions.put(name, new Session(null, name, userNamesToUsers.get(name).getRole()));
-    }
-
-    public Response createSchedule(String sessionUser, String ownerUser, String scheduleName, String description)
-    {
-        Response response = super.createSchedule(usersToSessions.get(sessionUser), ownerUser, scheduleName, description);
-        responses.add(response);
-        return response;
     }
 
     public Response addCourse(String user, String course, String scheduleName, Term term, Year year) {
@@ -79,10 +67,6 @@ public class TestController extends Controller {
         nameToSchedule.put(name, schedule);
     }
 
-    public int getScheduleId(String name) {
-        return nameToSchedule.get(name).getID();
-    }
-
     public boolean scheduleHasCourse(String scheduleName, String courseName, String term, String year) {
         Schedule schedule = nameToSchedule.get(scheduleName);
         Course course = nameToCourse.get(courseName);
@@ -96,5 +80,12 @@ public class TestController extends Controller {
             }
         }
         return false;
+    }
+
+    @Override
+    protected Response execute(Request request, Interactor interactor) {
+        Response response = super.execute(request, interactor);
+        responses.add(response);
+        return response;
     }
 }

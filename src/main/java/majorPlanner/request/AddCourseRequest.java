@@ -18,6 +18,6 @@ public class AddCourseRequest extends Request {
 
     @Override
     public <T> T accept(RequestVisitor<T> visitor) {
-        return visitor.visitAddCourseRequest(this);
+        return visitor.visit(this);
     }
 }

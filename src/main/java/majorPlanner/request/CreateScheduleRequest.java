@@ -13,6 +13,6 @@ public class CreateScheduleRequest extends Request {
 
     @Override
     public <T> T accept(RequestVisitor<T> visitor) {
-        return visitor.visitCreateScheduleRequest(this);
+        return visitor.visit(this);
     }
 }

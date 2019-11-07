@@ -3,11 +3,9 @@ package majorPlanner.authorizer;
 import majorPlanner.entity.Course;
 import majorPlanner.entity.Role;
 import majorPlanner.entity.Schedule;
+import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
-import majorPlanner.request.AddCourseRequest;
-import majorPlanner.request.CreateScheduleRequest;
-import majorPlanner.request.Request;
-import majorPlanner.request.RequestVisitor;
+import majorPlanner.request.*;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import majorPlanner.response.SuccessResponse;
@@ -30,37 +28,34 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
     }
 
     @Override
-    public Response visitCreateScheduleRequest(CreateScheduleRequest createScheduleRequest) {
-        if (createScheduleRequest.ownerID.equals(createScheduleRequest.getSession().username)) {
-            return new SuccessResponse<Void>(null);
-        }
-        else if(createScheduleRequest.getSession().role == Role.Admin){
-            return new SuccessResponse<Void>(null);
-        }
-        else {
-            return new ErrorResponse(USER_MISMATCH_MESSAGE);
-        }
+    public Response visit(CreateScheduleRequest request) {
+        if (request.ownerID.equals(request.getSession().getUsername())) return new SuccessResponse<Void>(null);
+        if(request.getSession().getRole() == Role.Admin) return new SuccessResponse<Void>(null);
+        return new ErrorResponse(USER_MISMATCH_MESSAGE);
     }
 
     @Override
-    public Response visitAddCourseRequest(AddCourseRequest addCourseRequest) {
-        Schedule schedule = gateway.getSchedule(addCourseRequest.scheduleID);
-        Course course = gateway.getCourse(addCourseRequest.courseID);
-        if (schedule == null)
-        {
-            return new ErrorResponse(SCHEDULE_DOES_NOT_EXIST_MESSAGE);
-        }
-        if (course == null)
-        {
-            return new ErrorResponse(COURSE_DOES_NOT_EXIST_MESSAGE);
-        }
-        else if (!schedule.getOwner().getUserID().equals(addCourseRequest.getSession().username))
-        {
+    public Response visit(AddCourseRequest request) {
+        Schedule schedule = gateway.getSchedule(request.scheduleID);
+        Course course = gateway.getCourse(request.courseID);
+        if (schedule == null) return new ErrorResponse(SCHEDULE_DOES_NOT_EXIST_MESSAGE);
+        if (course == null) return new ErrorResponse(COURSE_DOES_NOT_EXIST_MESSAGE);
+        if (!schedule.getOwner().getUserID().equals(request.getSession().getUsername()))
+            return new ErrorResponse(USER_MISMATCH_MESSAGE);
+        return new SuccessResponse<Void>(null);
+    }
+
+    @Override
+    public Response visit(ViewScheduleRequest request) {
+        Schedule schedule = gateway.getSchedule(request.scheduleID);
+        if (schedule == null) return ErrorResponse.invalidSchedule();
+        if (!matchesAdminOrUser(schedule.getOwner(), request.getSession().getUser())) {
             return new ErrorResponse(USER_MISMATCH_MESSAGE);
         }
-        else
-        {
-            return new SuccessResponse<Void>(null);
-        }
+        return new SuccessResponse<Void>(null);
+    }
+
+    private boolean matchesAdminOrUser(User owner, User user) {
+        return owner.equals(user) || owner.isAdmin();
     }
 }

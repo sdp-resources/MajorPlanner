@@ -1,16 +1,17 @@
 package acceptance;
 
 import cucumber.api.java.en.Given;
+import majorPlanner.entity.Role;
+import majorPlanner.entity.User;
+import majorPlanner.session.Session;
 
 public class DefineUserSteps {
-    @Given("{word} is a {word}")
-    public void UserHasRole(String name, String role)
+    @Given("{word} is a logged in {word}")
+    public void userHasRole(String name, String role)
     {
-        TestController.getInstance().defineUser(name, role);
-    }
-
-    @Given("{word} is logged in")
-    public void UserLoggedIn(String userId) {
-        TestController.getInstance().defineSession(userId);
+        User user = new User("testUser", Role.valueOf(role));
+        Session session = new Session(null, user);
+        TestController.getInstance().addUser(user);
+        TestContext.put(name, session);
     }
 }

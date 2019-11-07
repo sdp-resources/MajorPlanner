@@ -79,7 +79,7 @@ public class WebServer {
 
   @NotNull
   private Session getSession(String userid) {
-    return new Session("token", userid, Role.User);
+    return new Session("token", new User(userid, Role.User));
   }
 
   private Schedule getSchedule(Integer id) {

@@ -9,6 +9,6 @@ public class ViewScheduleRequest extends Request{
 
     @Override
     public <T> T accept(RequestVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
 }

@@ -1,7 +1,7 @@
 package majorPlanner.request;
 
 public interface RequestVisitor<T> {
-    T visitCreateScheduleRequest(CreateScheduleRequest createScheduleRequest);
-
-    T visitAddCourseRequest(AddCourseRequest addCourseRequest);
+    T visit(CreateScheduleRequest request);
+    T visit(AddCourseRequest request);
+    T visit(ViewScheduleRequest request);
 }

@@ -1,6 +1,5 @@
 package majorPlanner;
 
-import io.cucumber.java.bs.A;
 import majorPlanner.authorizer.Authorizer;
 import majorPlanner.authorizer.GatewayBackedAuthorizer;
 import majorPlanner.entity.*;
@@ -10,7 +9,6 @@ import majorPlanner.request.Request;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import majorPlanner.session.Session;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -108,7 +106,7 @@ public class GatewayBackedAuthorizerTest {
     }
 
     private Response authorize(String sessionUser, Role role, Request request) {
-        request.setSession(new Session(null, sessionUser, role));
+        request.setSession(new Session(null, new User(sessionUser, role)));
         Authorizer authorizer = new GatewayBackedAuthorizer(gateway);
         return authorizer.authorize(request);
     }

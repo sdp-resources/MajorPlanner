@@ -1,8 +1,7 @@
 package majorPlanner.authorizer;
 
-import majorPlanner.request.RequestVisitor;
-import majorPlanner.response.Response;
 import majorPlanner.request.Request;
+import majorPlanner.response.Response;
 
 public interface Authorizer {
     Response authorize(Request request);
