@@ -13,69 +13,67 @@ import org.jetbrains.annotations.NotNull;
 import static io.javalin.plugin.rendering.template.TemplateUtil.model;
 
 public class WebServer {
-  private static Javalin app;
-  private int port;
-  private Controller requestHandler;
+    private static Javalin app;
+    private int port;
+    private Controller requestHandler;
 
-  public WebServer(int port) {
-    this.port = port;
-    app = Javalin.create();
-    setup();
-  }
-
-  public void start() {
-    app.start(port);
-  }
-
-  Controller getRequestHandler() {
-    return requestHandler;
-  }
-
-  void setRequestHandler(Controller requestHandler) {
-    this.requestHandler = requestHandler;
-  }
-
-  protected void setup() {
-    app.get("/", this::getIndex);
-    app.get("/schedule/:id", this::showSchedule);
-    app.post("/schedule", this::addSchedule);
-  }
-
-  private void showSchedule(Context ctx) {
-    Integer id = Integer.valueOf(ctx.pathParam("id"));
-    Schedule schedule = getSchedule(id);
-    ctx.render("/schedule.twig",
-               model("schedule", schedule,
-                     "terms", new Term[]{Term.Fall, Term.Winter, Term.Spring},
-                     "years", new Year[]{Year.Freshman, Year.Sophomore, Year.Junior, Year.Senior}));
-  }
-
-  private void addSchedule(Context ctx) {
-    Session session = getUserSession(ctx);
-    Response response = requestHandler.createSchedule(
-        session,
-        ctx.formParam("ownerid"),
-        ctx.formParam("name"),
-        ctx.formParam("description"));
-    if (response.containsError()) {
-      System.out.println("Exiting with error");
-      ctx.status(404).result(((ErrorResponse) response).getError());
-    } else {
-      SuccessResponse<Schedule> successResponse = (SuccessResponse<Schedule>) response;
-      Schedule schedule = successResponse.getValue();
-      ctx.redirect("/schedule/" + schedule.getID());
+    public WebServer(int port) {
+        this.port = port;
+        app = Javalin.create();
+        setup();
     }
-  }
 
-  private void getIndex(Context ctx) {
-    ctx.render("/index.twig", model());
-  }
+    public void start() {
+        app.start(port);
+    }
 
-  @NotNull
-  private Session getUserSession(Context ctx) {
-    // TODO: Not the right way to get the session
-    return getSession(ctx.formParam("ownerid"));
-  }
+    Controller getRequestHandler() {
+        return requestHandler;
+    }
+
+    void setRequestHandler(Controller requestHandler) {
+        this.requestHandler = requestHandler;
+    }
+
+    protected void setup() {
+        app.get("/", this::getIndex);
+        app.get("/schedule/:id", this::showSchedule);
+        app.post("/schedule", this::addSchedule);
+    }
+
+    private void showSchedule(Context ctx) {
+        Integer id = Integer.valueOf(ctx.pathParam("id"));
+        Schedule schedule = getSchedule(id);
+        ctx.render("/schedule.twig",
+                   model("schedule", schedule,
+                         "terms", new Term[]{Term.Fall, Term.Winter, Term.Spring},
+                         "years", new Year[]{Year.Freshman, Year.Sophomore, Year.Junior, Year.Senior}));
+    }
+
+    private void addSchedule(Context ctx) {
+        Session session = getUserSession(ctx);
+        Response response = requestHandler.createSchedule(
+                session,
+                ctx.formParam("ownerid"),
+                ctx.formParam("name"),
+                ctx.formParam("description"));
+        if (response.containsError()) {
+            ctx.status(404).result(((ErrorResponse) response).getError());
+        } else {
+            Schedule schedule = ((SuccessResponse<Schedule>) response).getValue();
+            ctx.redirect("/schedule/" + schedule.getID());
+        }
+    }
+
+    private void getIndex(Context ctx) {
+        ctx.render("/index.twig", model());
+    }
+
+    @NotNull
+    private Session getUserSession(Context ctx) {
+        // TODO: Not the right way to get the session
+        return getSession(ctx.formParam("ownerid"));
+    }
 
   @NotNull
   private Session getSession(String userid) {
