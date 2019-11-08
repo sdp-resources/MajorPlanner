@@ -3,6 +3,8 @@ package majorPlanner.response;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ErrorResponse implements Response {
     private static final String INVALID_USER_MESSAGE = "Invalid User";
@@ -54,6 +56,16 @@ public class ErrorResponse implements Response {
     @Override
     public boolean containsError() {
         return true;
+    }
+
+    @Override
+    public void handle(Consumer<Object> onSuccess, Consumer<String> onFailure) {
+        onFailure.accept(error);
+    }
+
+    @Override
+    public <T> T handle(Function<Object, T> onSuccess, Function<String, T> onFailure) {
+        return onFailure.apply(error);
     }
 
     public String getError()

@@ -4,9 +4,6 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import majorPlanner.Controller;
 import majorPlanner.entity.*;
-import majorPlanner.response.ErrorResponse;
-import majorPlanner.response.Response;
-import majorPlanner.response.SuccessResponse;
 import majorPlanner.session.Session;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,17 +49,13 @@ public class WebServer {
 
     private void addSchedule(Context ctx) {
         Session session = getUserSession(ctx);
-        Response response = requestHandler.createSchedule(
+        requestHandler.createSchedule(
                 session,
                 ctx.formParam("ownerid"),
                 ctx.formParam("name"),
-                ctx.formParam("description"));
-        if (response.containsError()) {
-            ctx.status(404).result(((ErrorResponse) response).getError());
-        } else {
-            Schedule schedule = ((SuccessResponse<Schedule>) response).getValue();
-            ctx.redirect("/schedule/" + schedule.getID());
-        }
+                ctx.formParam("description"))
+                .handle(o -> { ctx.redirect(Path.schedule((Schedule) o)); },
+                        error -> ctx.status(404).result(error));
     }
 
     private void getIndex(Context ctx) {
@@ -75,10 +68,10 @@ public class WebServer {
         return getSession(ctx.formParam("ownerid"));
     }
 
-  @NotNull
-  private Session getSession(String userid) {
-    return new Session("token", new User(userid, Role.User));
-  }
+    @NotNull
+    private Session getSession(String userid) {
+        return new Session("token", new User(userid, Role.User));
+    }
 
   private Schedule getSchedule(Integer id) {
     // TODO: Make proper request when method is available
