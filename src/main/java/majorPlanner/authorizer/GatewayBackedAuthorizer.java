@@ -55,6 +55,14 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
         return new SuccessResponse<Void>(null);
     }
 
+    @Override
+    public Response visit(RemoveCourseFromScheduleRequest request) {
+        Schedule schedule = gateway.getSchedule(request.scheduleID);
+        if (schedule == null) return ErrorResponse.invalidSchedule();
+        if (!matchesAdminOrUser(schedule.getOwner(), request.getSession().getUser())) return ErrorResponse.invalidUsername();
+        return new SuccessResponse<Void>(null);
+    }
+
     private boolean matchesAdminOrUser(User owner, User user) {
         return owner.equals(user) || owner.isAdmin();
     }

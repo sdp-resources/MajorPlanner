@@ -4,6 +4,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import majorPlanner.entity.*;
 import org.junit.Assert;
 
@@ -23,18 +24,31 @@ public class AddCourseSteps {
         TestController.getInstance().defineCourse(name, id);
     }
 
-    @When("{word} adds {string} to {word} for {word} of {word} year")
-    public void userAddsCourseToSchedule(String user, String course, String scheduleName, String term, String year) {
-        TestController.getInstance().addCourse(user, course, scheduleName, Term.valueOf(term), Year.valueOf(year));
-    }
-
-    @When("{word} adds {string} to schedule with id {int} for {word} of {word} year")
-    public void userAddsCourseToSchedule(String user, String course, int scheduleId, String term, String year) {
-        TestController.getInstance().addCourse(user, course, scheduleId, Term.valueOf(term).toString(), Year.valueOf(year).toString());
+    @When("{word} adds {string} to schedule with id {word} for {word} of {word} year")
+    public void userAddsCourseToSchedule(String user, String course, String scheduleIDName, String term, String year) {
+        TestController.getInstance().addCourse(TestContext.getSession(user), course, TestContext.getScheduleId(scheduleIDName), term, year);
     }
 
     @Then("{word} has the course, {string} during {word} of {word} year")
     public void scheduleHasTheCourse(String schedule, String course, String term, String year) {
         Assert.assertThat(TestController.getInstance().scheduleHasCourse(schedule, course, term, year), is(true));
+    }
+
+    @And("{word} has the course {word}")
+    public void sHasTheCourseC(String scheduleName, String courseName) {
+        TestContext.put(courseName, TestContext.getSchedule(scheduleName).getAddedCourses().get(0));
+    }
+
+    @And("{word} has a course with id {word} term {word} and year {word}")
+    public void sHasACourseWithNameTermFallAndYearSenior(String scheduleName, String id, String term, String year) {
+        Schedule schedule = TestContext.getSchedule(scheduleName);
+        Assert.assertThat(hasCourseWithProperties(schedule, id, term, year), is(true));
+    }
+
+    private boolean hasCourseWithProperties(Schedule schedule, String id, String term, String year) {
+        for (AddedCourse course : schedule.getAddedCourses()) {
+            if (course.getCourse().getId().equals(id) && course.getTerm().toString().equals(term) && course.getYear().toString().equals(year)) return true;
+        }
+        return false;
     }
 }

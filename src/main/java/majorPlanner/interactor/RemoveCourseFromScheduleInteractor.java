@@ -5,12 +5,13 @@ import majorPlanner.entity.Schedule;
 import majorPlanner.gateway.CourseGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.RemoveCourseFromScheduleRequest;
+import majorPlanner.request.Request;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import majorPlanner.response.SuccessResponse;
 
 
-public class RemoveCourseFromScheduleInteractor {
+public class RemoveCourseFromScheduleInteractor implements Interactor {
     private final CourseGateway courseGateway;
     private final ScheduleGateway scheduleGateway;
     private Course courseToBeRemoved;
@@ -39,5 +40,10 @@ public class RemoveCourseFromScheduleInteractor {
 
     private boolean isInvalidCourse() {
         return courseToBeRemoved == null;
+    }
+
+    @Override
+    public Response execute(Request request) {
+        return executeRequest((RemoveCourseFromScheduleRequest) request);
     }
 }

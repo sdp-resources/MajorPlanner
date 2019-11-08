@@ -2,14 +2,8 @@ package majorPlanner;
 
 import majorPlanner.authorizer.Authorizer;
 import majorPlanner.gateway.Gateway;
-import majorPlanner.interactor.ViewScheduleInteractor;
-import majorPlanner.interactor.AddCourseToScheduleInteractor;
-import majorPlanner.interactor.CreateScheduleInteractor;
-import majorPlanner.interactor.Interactor;
-import majorPlanner.request.AddCourseRequest;
-import majorPlanner.request.CreateScheduleRequest;
-import majorPlanner.request.Request;
-import majorPlanner.request.ViewScheduleRequest;
+import majorPlanner.interactor.*;
+import majorPlanner.request.*;
 import majorPlanner.response.*;
 import majorPlanner.session.Session;
 
@@ -47,5 +41,11 @@ public class Controller {
         Response response = authorizer.authorize(request);
         if (response.containsError()) return response;
         return interactor.execute(request);
+    }
+
+    public Response removeCourse(Session session, String courseID, int scheduleID) {
+        RemoveCourseFromScheduleRequest request = new RemoveCourseFromScheduleRequest(courseID, scheduleID);
+        RemoveCourseFromScheduleInteractor interactor = new RemoveCourseFromScheduleInteractor(gateway, gateway);
+        return executeWithSession(request, interactor, session);
     }
 }

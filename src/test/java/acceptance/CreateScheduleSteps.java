@@ -80,4 +80,9 @@ public class CreateScheduleSteps {
     private void assertSuccessful(Response response) {
         assertThat(response.containsError(), is(false));
     }
+
+    @And("{word} is the scheduleId {int}")
+    public void setIdNameToValue(String idName, int number) {
+        TestContext.put(idName, number);
+    }
 }
