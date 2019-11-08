@@ -1,7 +1,5 @@
 package majorPlanner.entity;
 
-import majorPlanner.interactor.RemoveCourseFromScheduleInteractor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +54,9 @@ public class Schedule {
         return addedCourses;
     }
 
-    public void addCourse(Course course, Term term, Year year) {
+    public void addCourse(Course course, String termString, String yearString) {
+        Term term = Term.valueOf(termString);
+        Year year = Year.valueOf(yearString);
         AddedCourse addedCourse = new AddedCourse(term, year, course);
         addedCourses.add(addedCourse);
     }

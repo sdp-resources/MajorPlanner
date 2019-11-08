@@ -10,12 +10,12 @@ import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import majorPlanner.response.SuccessResponse;
 
-public class addCourseToScheduleInteractor implements Interactor {
+public class AddCourseToScheduleInteractor implements Interactor {
 
     private final CourseGateway courseGateway;
     private final ScheduleGateway scheduleGateway;
 
-    public addCourseToScheduleInteractor(CourseGateway courseGateway, ScheduleGateway scheduleGateway){
+    public AddCourseToScheduleInteractor(CourseGateway courseGateway, ScheduleGateway scheduleGateway){
         this.courseGateway = courseGateway;
         this.scheduleGateway = scheduleGateway;
     }

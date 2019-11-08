@@ -72,7 +72,7 @@ public class RemoveCourseFromScheduleTest {
     public void deleteCourseFromSchedule(){
         courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
         Schedule schedule = createSchedule();
-        schedule.addCourse(new Course(COURSE_ID), Term.Fall, Year.Freshman);
+        schedule.addCourse(new Course(COURSE_ID), Term.Fall.toString(), Year.Freshman.toString());
         createCourseRemovalRequest();
         executeRequest();
         assertThat((response.containsError()), is(false));
@@ -83,7 +83,7 @@ public class RemoveCourseFromScheduleTest {
     public void deleteCourseThatScheduleDoesNotHave(){
         courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
         Schedule schedule = createSchedule();
-        schedule.addCourse(new Course(ADDITIONAL_COURSE_ID), Term.Fall, Year.Freshman);
+        schedule.addCourse(new Course(ADDITIONAL_COURSE_ID), Term.Fall.toString(), Year.Freshman.toString());
         createCourseRemovalRequest();
         executeRequest();
         assertThat(response, is(ErrorResponse.courseNotInSchedule()));

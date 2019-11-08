@@ -4,12 +4,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import io.cucumber.java.Before;
-import io.cucumber.java.en.And;
 import majorPlanner.entity.*;
-import majorPlanner.response.Response;
 import org.junit.Assert;
-
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 
@@ -34,7 +30,7 @@ public class AddCourseSteps {
 
     @When("{word} adds {string} to schedule with id {int} for {word} of {word} year")
     public void userAddsCourseToSchedule(String user, String course, int scheduleId, String term, String year) {
-        TestController.getInstance().addCourse(user, course, scheduleId, Term.valueOf(term), Year.valueOf(year));
+        TestController.getInstance().addCourse(user, course, scheduleId, Term.valueOf(term).toString(), Year.valueOf(year).toString());
     }
 
     @Then("{word} has the course, {string} during {word} of {word} year")

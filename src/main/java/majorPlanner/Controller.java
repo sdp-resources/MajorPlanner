@@ -1,11 +1,9 @@
 package majorPlanner;
 
 import majorPlanner.authorizer.Authorizer;
-import majorPlanner.entity.Term;
-import majorPlanner.entity.Year;
 import majorPlanner.gateway.Gateway;
 import majorPlanner.interactor.ViewScheduleInteractor;
-import majorPlanner.interactor.addCourseToScheduleInteractor;
+import majorPlanner.interactor.AddCourseToScheduleInteractor;
 import majorPlanner.interactor.CreateScheduleInteractor;
 import majorPlanner.interactor.Interactor;
 import majorPlanner.request.AddCourseRequest;
@@ -34,9 +32,9 @@ public class Controller {
         return executeWithSession(new ViewScheduleRequest(scheduleId), new ViewScheduleInteractor(gateway), session);
     }
 
-    public Response addCourse(Session session, String course, int schedule, Term term, Year year) {
+    public Response addCourse(Session session, String course, int schedule, String term, String year) {
         return executeWithSession(new AddCourseRequest(course, schedule, term, year),
-                new addCourseToScheduleInteractor(gateway, gateway),
+                new AddCourseToScheduleInteractor(gateway, gateway),
                 session);
     }
 

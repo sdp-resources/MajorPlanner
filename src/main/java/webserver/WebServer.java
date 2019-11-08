@@ -86,8 +86,8 @@ public class WebServer {
     // TODO: Make proper request when method is available
     User owner = new User("Joe", Role.User);
     Schedule schedule = new Schedule(owner, "schedule name", "schedule description");
-    schedule.addCourse(new Course("MAT121"), Term.Fall, Year.Freshman);
-    schedule.addCourse(new Course("MAT122"), Term.Winter, Year.Sophomore);
+    schedule.addCourse(new Course("MAT121"), Term.Fall.toString(), Year.Freshman.toString());
+    schedule.addCourse(new Course("MAT122"), Term.Winter.toString(), Year.Sophomore.toString());
     return schedule;
   }
 }

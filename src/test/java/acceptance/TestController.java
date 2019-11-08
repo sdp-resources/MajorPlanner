@@ -52,11 +52,11 @@ public class TestController extends Controller {
     }
 
     public Response addCourse(String user, String course, String scheduleName, Term term, Year year) {
-        return addCourse(user, course, nameToSchedule.get(scheduleName).getID(), term, year);
+        return addCourse(user, course, nameToSchedule.get(scheduleName).getID(), term.toString(), year.toString());
     }
 
-    public Response addCourse(String user, String course, int scheduleId, Term term, Year year) {
-        Response response = super.addCourse(usersToSessions.get(user), course, scheduleId, term, year);
+    public Response addCourse(String user, String course, int scheduleId, String termString, String yearString) {
+        Response response = super.addCourse(usersToSessions.get(user), course, scheduleId, termString, yearString);
         responses.add(response);
         return response;
     }
