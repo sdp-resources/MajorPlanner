@@ -4,6 +4,7 @@ import majorPlanner.Controller;
 import majorPlanner.authorizer.Authorizer;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
+import majorPlanner.interactor.GatewayBackedInteractorFactory;
 import mock.AcceptingAuthorizer;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class WebServerRoutesTest extends ServerTestBase {
   private Controller requestHandler;
   private Gateway gateway = new MemoryGateway();
   private Authorizer authorizer = new AcceptingAuthorizer();
-  private Controller controller = new Controller(gateway, authorizer);
+  private Controller controller = new Controller(authorizer, new GatewayBackedInteractorFactory(gateway));
 
   @Before
   public void setUp() {

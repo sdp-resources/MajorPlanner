@@ -6,9 +6,7 @@ import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.gateway.UserGateway;
 import majorPlanner.request.CreateScheduleRequest;
 import majorPlanner.request.Request;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
-import majorPlanner.response.SuccessResponse;
 import org.jetbrains.annotations.NotNull;
 
 public class CreateScheduleInteractor implements Interactor {
@@ -24,10 +22,10 @@ public class CreateScheduleInteractor implements Interactor {
         CreateScheduleRequest createScheduleRequest = (CreateScheduleRequest) request;
         User user = userGateway.getUser(createScheduleRequest.ownerID);
         if (user == null) {
-            return ErrorResponse.invalidUsername();
+            return Response.invalidUsername();
         } else {
             Schedule schedule = createAndSaveSchedule(user, createScheduleRequest.name, createScheduleRequest.description);
-            return new SuccessResponse<>(schedule);
+            return Response.success(schedule);
         }
     }
 

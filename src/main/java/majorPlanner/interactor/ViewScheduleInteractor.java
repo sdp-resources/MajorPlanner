@@ -3,7 +3,6 @@ package majorPlanner.interactor;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.Request;
 import majorPlanner.request.ViewScheduleRequest;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 
 public class ViewScheduleInteractor implements Interactor {
@@ -15,7 +14,7 @@ public class ViewScheduleInteractor implements Interactor {
 
     public Response executeRequest(ViewScheduleRequest request) {
         scheduleGateway.getSchedule(request.scheduleID);
-        return ErrorResponse.invalidSchedule();
+        return Response.invalidSchedule();
     }
 
     @Override

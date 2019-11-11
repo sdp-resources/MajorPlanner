@@ -2,7 +2,6 @@ package majorPlanner;
 
 import majorPlanner.interactor.ViewScheduleInteractor;
 import majorPlanner.request.ViewScheduleRequest;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import mock.RejectingScheduleGateway;
 import mock.ScheduleGatewaySpy;
@@ -23,7 +22,7 @@ public class ViewScheduleTest {
         viewScheduleInteractor = new ViewScheduleInteractor(rejectingScheduleGateway);
         request = new ViewScheduleRequest(scheduleID);
         Response response = viewScheduleInteractor.executeRequest(request);
-        assertThat(response, is(ErrorResponse.invalidSchedule()));
+        assertThat(response, is(Response.invalidSchedule()));
         assertThat(rejectingScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
     }
 

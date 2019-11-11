@@ -5,9 +5,9 @@ import majorPlanner.authorizer.Authorizer;
 import majorPlanner.entity.Role;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
+import majorPlanner.interactor.GatewayBackedInteractorFactory;
 import majorPlanner.request.Request;
 import majorPlanner.response.Response;
-import majorPlanner.response.SuccessResponse;
 
 public class Main {
   public static void main(String[] args) {
@@ -16,10 +16,10 @@ public class Main {
     gateway.addUser(new User("Joe", Role.User));
     Authorizer authorizer = new Authorizer() {
       public Response authorize(Request request) {
-        return new SuccessResponse<>(null);
+        return Response.ok();
       }
     };
-    Controller requestHandler = new Controller(gateway, authorizer);
+    Controller requestHandler = new Controller(authorizer, new GatewayBackedInteractorFactory(gateway));
     server.setRequestHandler(requestHandler);
     server.start();
   }

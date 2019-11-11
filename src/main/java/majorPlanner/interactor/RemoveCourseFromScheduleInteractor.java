@@ -8,7 +8,6 @@ import majorPlanner.request.RemoveCourseFromScheduleRequest;
 import majorPlanner.request.Request;
 import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
-import majorPlanner.response.SuccessResponse;
 
 
 public class RemoveCourseFromScheduleInteractor implements Interactor {
@@ -25,13 +24,13 @@ public class RemoveCourseFromScheduleInteractor implements Interactor {
     public Response executeRequest(RemoveCourseFromScheduleRequest request) {
         courseToBeRemoved = courseGateway.getCourse(request.courseID);
         schedule = scheduleGateway.getSchedule(request.scheduleID);
-        if (isInvalidCourse()) return ErrorResponse.invalidCourse();
-        if (isInvalidSchedule()) return ErrorResponse.invalidSchedule();
-        if (schedule.isEmpty()) return ErrorResponse.emptySchedule();
-        if (!schedule.containsCourse(courseToBeRemoved)) return ErrorResponse.courseNotInSchedule();
+        if (isInvalidCourse()) return Response.invalidCourse();
+        if (isInvalidSchedule()) return Response.invalidSchedule();
+        if (schedule.isEmpty()) return Response.emptySchedule();
+        if (!schedule.containsCourse(courseToBeRemoved)) return Response.courseNotInSchedule();
         schedule.deleteCourse(courseToBeRemoved);
         scheduleGateway.save();
-        return new SuccessResponse<Schedule>(schedule);
+        return Response.success(schedule);
     }
 
     private boolean isInvalidSchedule() {

@@ -6,7 +6,6 @@ import majorPlanner.entity.*;
 import majorPlanner.request.AddCourseRequest;
 import majorPlanner.request.CreateScheduleRequest;
 import majorPlanner.request.Request;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import majorPlanner.session.Session;
 import org.junit.Assert;
@@ -34,7 +33,7 @@ public class GatewayBackedAuthorizerTest {
     public void createScheduleUserInSessionDoesNotMatchOwner(){
         Response response = authorize("marsht", Role.User, getCreateScheduleRequest());
         assertContainsError(response);
-        assertMessageEquals(GatewayBackedAuthorizer.USER_MISMATCH_MESSAGE, (ErrorResponse) response);
+        Assert.assertEquals(Response.userMismatch(), response);
     }
 
     @Test
@@ -53,7 +52,7 @@ public class GatewayBackedAuthorizerTest {
         gateway.addCourse(new Course("CS220"));
         Response response = authorize("marsht", Role.User, request);
         assertContainsError(response);
-        assertMessageEquals(GatewayBackedAuthorizer.SCHEDULE_DOES_NOT_EXIST_MESSAGE, (ErrorResponse) response);
+        Assert.assertEquals(Response.nonExistentSchedule(), response);
     }
 
     @Test
@@ -65,7 +64,7 @@ public class GatewayBackedAuthorizerTest {
         gateway.addSchedule(s);
         Response response = authorize("marsht", Role.User, request);
         assertContainsError(response);
-        assertMessageEquals(GatewayBackedAuthorizer.COURSE_DOES_NOT_EXIST_MESSAGE, (ErrorResponse) response);
+        Assert.assertEquals(Response.nonExistentCourse(), response);
     }
 
     @Test
@@ -78,7 +77,7 @@ public class GatewayBackedAuthorizerTest {
         gateway.addCourse(new Course("CS223"));
         Response response = authorize("givensb22", Role.User, request);
         assertContainsError(response);
-        assertMessageEquals(GatewayBackedAuthorizer.USER_MISMATCH_MESSAGE, (ErrorResponse) response);
+        Assert.assertEquals(Response.userMismatch(), response);
     }
 
     @Test
@@ -99,10 +98,6 @@ public class GatewayBackedAuthorizerTest {
 
     private void assertContainsError(Response response) {
         Assert.assertTrue(response.containsError());
-    }
-
-    private void assertMessageEquals(String message, ErrorResponse response) {
-        Assert.assertEquals(message, response.getError());
     }
 
     private Response authorize(String sessionUser, Role role, Request request) {

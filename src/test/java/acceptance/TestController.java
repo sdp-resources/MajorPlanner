@@ -4,6 +4,7 @@ import majorPlanner.Controller;
 import majorPlanner.authorizer.GatewayBackedAuthorizer;
 import majorPlanner.entity.*;
 import majorPlanner.gateway.Gateway;
+import majorPlanner.interactor.GatewayBackedInteractorFactory;
 import majorPlanner.interactor.Interactor;
 import majorPlanner.request.Request;
 import majorPlanner.response.Response;
@@ -26,7 +27,7 @@ public class TestController extends Controller {
 
     public TestController(Gateway gateway)
     {
-        super(gateway, new GatewayBackedAuthorizer(gateway));
+        super(new GatewayBackedAuthorizer(gateway), new GatewayBackedInteractorFactory(gateway));
         this.gateway = gateway;
     }
 

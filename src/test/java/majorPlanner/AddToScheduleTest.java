@@ -1,7 +1,6 @@
 package majorPlanner;
 
 import majorPlanner.entity.*;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import mock.*;
 import majorPlanner.interactor.AddCourseToScheduleInteractor;
@@ -39,7 +38,7 @@ public class AddToScheduleTest {
     public void whenCourseIDInvalid_ReturnError() {
         courseInteractor = new AddCourseToScheduleInteractor(rejectCourseGateway, acceptScheduleGateway);
         response = courseInteractor.executeRequest(request);
-        assertThat(response, is(ErrorResponse.invalidCourse()));
+        assertThat(response, is(Response.invalidCourse()));
         assertThat(rejectCourseGateway.getRequestedCourseID(), is(request.courseID));
         assertSaveWasNotCalled();
     }
@@ -48,7 +47,7 @@ public class AddToScheduleTest {
     public void whenCourseIDValidAndScheduleIDInvalid_ReturnError() {
         courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, rejectScheduleGateway);
         response = courseInteractor.executeRequest(request);
-        assertThat(response, is(ErrorResponse.invalidSchedule()));
+        assertThat(response, is(Response.invalidSchedule()));
         assertThat(rejectScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
         assertSaveWasNotCalled();
     }
@@ -69,7 +68,7 @@ public class AddToScheduleTest {
         courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
         acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID), Term.Fall.toString(), Year.Freshman.toString());
         response = courseInteractor.executeRequest(request);
-        assertThat(response, is(ErrorResponse.previouslyAddedCourse()));
+        assertThat(response, is(Response.previouslyAddedCourse()));
         assertSaveWasNotCalled();
     }
 

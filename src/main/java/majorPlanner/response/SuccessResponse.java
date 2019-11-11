@@ -6,7 +6,7 @@ import java.util.function.Function;
 public class SuccessResponse<T> implements Response {
     private final T value;
 
-    public SuccessResponse(T value) {
+    SuccessResponse(T value) {
         this.value = value;
     }
 

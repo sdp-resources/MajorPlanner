@@ -6,7 +6,6 @@ import majorPlanner.entity.Term;
 import majorPlanner.entity.Year;
 import majorPlanner.interactor.RemoveCourseFromScheduleInteractor;
 import majorPlanner.request.RemoveCourseFromScheduleRequest;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 import mock.*;
 import org.junit.Assert;
@@ -42,7 +41,7 @@ public class RemoveCourseFromScheduleTest {
         courseInteractor = new RemoveCourseFromScheduleInteractor(rejectCourseGateway, acceptScheduleGateway);
         createCourseRemovalRequest();
         executeRequest();
-        assertThat(response, is(ErrorResponse.invalidCourse()));
+        assertThat(response, is(Response.invalidCourse()));
         assertThat(rejectCourseGateway.getRequestedCourseID(), is(request.courseID));
         assertSaveWasNotCalled();
     }
@@ -52,7 +51,7 @@ public class RemoveCourseFromScheduleTest {
         courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, rejectScheduleGateway);
         createCourseRemovalRequest();
         executeRequest();
-        assertThat(response, is(ErrorResponse.invalidSchedule()));
+        assertThat(response, is(Response.invalidSchedule()));
         assertThat(rejectScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
         assertSaveWasNotCalled();
     }
@@ -64,7 +63,7 @@ public class RemoveCourseFromScheduleTest {
         createCourseRemovalRequest();
         executeRequest();
         assertThat(schedule.getID(), is(SCHEDULE_ID));
-        assertThat(response, is(ErrorResponse.emptySchedule()));
+        assertThat(response, is(Response.emptySchedule()));
         assertSaveWasNotCalled();
     }
 
@@ -86,7 +85,7 @@ public class RemoveCourseFromScheduleTest {
         schedule.addCourse(new Course(ADDITIONAL_COURSE_ID), Term.Fall.toString(), Year.Freshman.toString());
         createCourseRemovalRequest();
         executeRequest();
-        assertThat(response, is(ErrorResponse.courseNotInSchedule()));
+        assertThat(response, is(Response.courseNotInSchedule()));
         assertSaveWasNotCalled();
     }
 

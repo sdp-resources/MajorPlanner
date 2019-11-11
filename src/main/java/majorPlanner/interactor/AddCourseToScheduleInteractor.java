@@ -6,9 +6,7 @@ import majorPlanner.gateway.CourseGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.AddCourseRequest;
 import majorPlanner.request.Request;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
-import majorPlanner.response.SuccessResponse;
 
 public class AddCourseToScheduleInteractor implements Interactor {
 
@@ -23,12 +21,12 @@ public class AddCourseToScheduleInteractor implements Interactor {
     public Response executeRequest(AddCourseRequest request) {
         Course course = courseGateway.getCourse(request.courseID);
         Schedule schedule = scheduleGateway.getSchedule(request.scheduleID);
-        if (course == null) return ErrorResponse.invalidCourse();
-        if (schedule == null) return ErrorResponse.invalidSchedule();
-        if (schedule.containsCourse(course)) return ErrorResponse.previouslyAddedCourse();
+        if (course == null) return Response.invalidCourse();
+        if (schedule == null) return Response.invalidSchedule();
+        if (schedule.containsCourse(course)) return Response.previouslyAddedCourse();
         schedule.addCourse(course, request.term, request.year);
         scheduleGateway.save();
-        return new SuccessResponse<>(schedule);
+        return Response.success(schedule);
     }
 
     @Override
