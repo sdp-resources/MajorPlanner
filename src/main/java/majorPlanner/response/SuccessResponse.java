@@ -1,5 +1,6 @@
 package majorPlanner.response;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -29,4 +30,16 @@ public class SuccessResponse<T> implements Response {
         return onSuccess.apply(value);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SuccessResponse<?> that = (SuccessResponse<?>) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
 }

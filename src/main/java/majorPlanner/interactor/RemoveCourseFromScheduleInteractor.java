@@ -6,7 +6,6 @@ import majorPlanner.gateway.CourseGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.RemoveCourseFromScheduleRequest;
 import majorPlanner.request.Request;
-import majorPlanner.response.ErrorResponse;
 import majorPlanner.response.Response;
 
 

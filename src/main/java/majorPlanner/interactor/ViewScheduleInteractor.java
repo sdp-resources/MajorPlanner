@@ -1,5 +1,6 @@
 package majorPlanner.interactor;
 
+import majorPlanner.entity.Schedule;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.Request;
 import majorPlanner.request.ViewScheduleRequest;
@@ -13,8 +14,9 @@ public class ViewScheduleInteractor implements Interactor {
     }
 
     public Response executeRequest(ViewScheduleRequest request) {
-        scheduleGateway.getSchedule(request.scheduleID);
-        return Response.invalidSchedule();
+        Schedule schedule = scheduleGateway.getSchedule(request.scheduleID);
+        if (schedule == null) return Response.invalidSchedule();
+        return Response.success(schedule);
     }
 
     @Override
