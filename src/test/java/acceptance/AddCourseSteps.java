@@ -11,7 +11,7 @@ import org.junit.Assert;
 import static org.hamcrest.CoreMatchers.is;
 
 public class AddCourseSteps {
-    private Term term;
+    private Period period;
     private Year year;
 
     @Before
@@ -45,9 +45,10 @@ public class AddCourseSteps {
         Assert.assertThat(hasCourseWithProperties(schedule, id, term, year), is(true));
     }
 
-    private boolean hasCourseWithProperties(Schedule schedule, String id, String term, String year) {
+    private boolean hasCourseWithProperties(Schedule schedule, String id, String period, String year) {
+        CalendarTerm t = CalendarTerm.of(period, year);
         for (AddedCourse course : schedule.getAddedCourses()) {
-            if (course.getCourse().getId().equals(id) && course.getTerm().toString().equals(term) && course.getYear().toString().equals(year)) return true;
+            if (course.getCourse().getId().equals(id) && course.getTerm().equals(t)) return true;
         }
         return false;
     }

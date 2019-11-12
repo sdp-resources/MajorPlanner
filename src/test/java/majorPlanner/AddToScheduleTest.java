@@ -31,7 +31,7 @@ public class AddToScheduleTest {
         acceptCourseGateway = new AcceptingCourseGateway();
         rejectScheduleGateway = new RejectingScheduleGateway();
         acceptScheduleGateway = new AcceptingScheduleGateway();
-        request = new AddCourseRequest(COURSE_ID, SCHEDULE_ID, Term.Fall.toString(), Year.Freshman.toString());
+        request = new AddCourseRequest(COURSE_ID, SCHEDULE_ID, Period.Fall.toString(), Year.Freshman.toString());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class AddToScheduleTest {
     @Test
     public void whenCourseAlreadyInSchedule_ReturnError(){
         courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
-        acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID), Term.Fall.toString(), Year.Freshman.toString());
+        acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID), Period.Fall.toString(), Year.Freshman.toString());
         response = courseInteractor.executeRequest(request);
         assertThat(response, is(Response.previouslyAddedCourse()));
         assertSaveWasNotCalled();
@@ -75,7 +75,7 @@ public class AddToScheduleTest {
     @Test
     public void WhenAddingNewCourseToPopulatedSchedule_CourseAdded(){
         courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
-        acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID_OTHER), Term.Fall.toString(), Year.Freshman.toString());
+        acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID_OTHER), Period.Fall.toString(), Year.Freshman.toString());
         response = courseInteractor.executeRequest(request);
         assertSuccessfulResponse();
         assertThat(acceptScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
@@ -85,8 +85,8 @@ public class AddToScheduleTest {
     }
 
     private void assertRequestedCourseIsAddedCourse(AddedCourse addedCourse) {
-        assertThat(addedCourse.getTerm().toString(), is(request.term));
-        assertThat(addedCourse.getYear().toString(), is(request.year));
+        CalendarTerm t = CalendarTerm.of(request.period, request.year);
+        assertThat(addedCourse.getTerm(), is(t));
         assertThat(addedCourse.getCourse(), is(acceptCourseGateway.providedCourse));
     }
 

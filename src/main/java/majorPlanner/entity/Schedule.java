@@ -54,10 +54,9 @@ public class Schedule {
         return addedCourses;
     }
 
-    public void addCourse(Course course, String termString, String yearString) {
-        Term term = Term.valueOf(termString);
-        Year year = Year.valueOf(yearString);
-        AddedCourse addedCourse = new AddedCourse(term, year, course);
+    public void addCourse(Course course, String periodString, String yearString) {
+        CalendarTerm term = CalendarTerm.of(periodString, yearString);
+        AddedCourse addedCourse = new AddedCourse(term, course);
         addedCourses.add(addedCourse);
     }
 

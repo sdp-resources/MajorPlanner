@@ -1,8 +1,8 @@
 package majorPlanner;
 
 import majorPlanner.entity.Course;
+import majorPlanner.entity.Period;
 import majorPlanner.entity.Schedule;
-import majorPlanner.entity.Term;
 import majorPlanner.entity.Year;
 import majorPlanner.interactor.RemoveCourseFromScheduleInteractor;
 import majorPlanner.request.RemoveCourseFromScheduleRequest;
@@ -71,7 +71,7 @@ public class RemoveCourseFromScheduleTest {
     public void deleteCourseFromSchedule(){
         courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
         Schedule schedule = createSchedule();
-        schedule.addCourse(new Course(COURSE_ID), Term.Fall.toString(), Year.Freshman.toString());
+        schedule.addCourse(new Course(COURSE_ID), Period.Fall.toString(), Year.Freshman.toString());
         createCourseRemovalRequest();
         executeRequest();
         assertThat((response.containsError()), is(false));
@@ -82,7 +82,7 @@ public class RemoveCourseFromScheduleTest {
     public void deleteCourseThatScheduleDoesNotHave(){
         courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
         Schedule schedule = createSchedule();
-        schedule.addCourse(new Course(ADDITIONAL_COURSE_ID), Term.Fall.toString(), Year.Freshman.toString());
+        schedule.addCourse(new Course(ADDITIONAL_COURSE_ID), Period.Fall.toString(), Year.Freshman.toString());
         createCourseRemovalRequest();
         executeRequest();
         assertThat(response, is(Response.courseNotInSchedule()));

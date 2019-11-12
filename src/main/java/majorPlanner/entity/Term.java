@@ -1,5 +1,8 @@
 package majorPlanner.entity;
 
-public enum Term {
-    Fall, Winter, Spring
+public interface Term {
+    Period getPeriod();
+
+    Year getYear();
+
 }

@@ -2,8 +2,7 @@ package acceptance;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import majorPlanner.entity.AddedCourse;
-import majorPlanner.entity.Schedule;
+import majorPlanner.entity.*;
 import org.junit.Assert;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -20,10 +19,12 @@ public class RemoveCourseSteps {
         Assert.assertThat(hasCourseWithProperties(schedule, courseID, term, year), is(false));
     }
 
-    private boolean hasCourseWithProperties(Schedule schedule, String id, String term, String year) {
+    private boolean hasCourseWithProperties(Schedule schedule, String id, String period, String year) {
+        CalendarTerm t = CalendarTerm.of(period, year);
         for (AddedCourse course : schedule.getAddedCourses()) {
-            if (course.getCourse().getId().equals(id) && course.getTerm().toString().equals(term) && course.getYear().toString().equals(year)) return true;
+            if (course.getCourse().getId().equals(id) && course.getTerm().equals(t)) return true;
         }
         return false;
     }
+
 }

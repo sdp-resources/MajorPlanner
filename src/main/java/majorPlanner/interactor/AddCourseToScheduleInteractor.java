@@ -24,7 +24,7 @@ public class AddCourseToScheduleInteractor implements Interactor {
         if (course == null) return Response.invalidCourse();
         if (schedule == null) return Response.invalidSchedule();
         if (schedule.containsCourse(course)) return Response.previouslyAddedCourse();
-        schedule.addCourse(course, request.term, request.year);
+        schedule.addCourse(course, request.period, request.year);
         scheduleGateway.save();
         return Response.success(schedule);
     }

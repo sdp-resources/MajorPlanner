@@ -48,7 +48,7 @@ public class GatewayBackedAuthorizerTest {
 
     @Test
     public void addCourseScheduleDoesNotExist(){
-        AddCourseRequest request = new AddCourseRequest("CS220", 0, Term.Winter.toString(), Year.Freshman.toString());
+        AddCourseRequest request = new AddCourseRequest("CS220", 0, Period.Winter.toString(), Year.Freshman.toString());
         gateway.addCourse(new Course("CS220"));
         Response response = authorize("marsht", Role.User, request);
         assertContainsError(response);
@@ -58,7 +58,7 @@ public class GatewayBackedAuthorizerTest {
     @Test
     public void addCourseCourseDoesNotExist()
     {
-        AddCourseRequest request = new AddCourseRequest("CS220", 23, Term.Winter.toString(), Year.Freshman.toString());
+        AddCourseRequest request = new AddCourseRequest("CS220", 23, Period.Winter.toString(), Year.Freshman.toString());
         Schedule s = new Schedule(new User("marsht", Role.User), "MySchedule", "description");
         s.setID(23);
         gateway.addSchedule(s);
@@ -70,7 +70,7 @@ public class GatewayBackedAuthorizerTest {
     @Test
     public void addCourseUserInSessionDoesNotMatchOwner()
     {
-        AddCourseRequest request = new AddCourseRequest("CS223", 43, Term.Fall.toString(), Year.Junior.toString());
+        AddCourseRequest request = new AddCourseRequest("CS223", 43, Period.Fall.toString(), Year.Junior.toString());
         Schedule s = new Schedule(new User("smithma", Role.User), "MahSchedule", "jfdhgsjhlfdg");
         s.setID(43);
         gateway.addSchedule(s);
@@ -83,7 +83,7 @@ public class GatewayBackedAuthorizerTest {
     @Test
     public void addCourseUserInSessionMatchesOwner()
     {
-        AddCourseRequest request = new AddCourseRequest("CS223", 43, Term.Fall.toString(), Year.Junior.toString());
+        AddCourseRequest request = new AddCourseRequest("CS223", 43, Period.Fall.toString(), Year.Junior.toString());
         Schedule s = new Schedule(new User("smithma", Role.User), "MahSchedule", "jfdhgsjhlfdg");
         s.setID(43);
         gateway.addSchedule(s);

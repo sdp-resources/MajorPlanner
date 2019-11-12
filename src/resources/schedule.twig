@@ -12,8 +12,8 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">Year</th>
-                        {% for term in terms %}
-                            <th scope="col">{{ term }}</th>
+                        {% for period in terms %}
+                            <th scope="col">{{ period }}</th>
                         {% endfor %}
                     </tr>
                     </thead>
@@ -21,10 +21,10 @@
                     {% for year in years %}
                         <tr>
                             <th scope="row">{{ year }}</th>
-                            {% for term in terms %}
+                            {% for period in terms %}
                                 <td>
                                     {% for course in schedule.addedCourses %}
-                                        {% if course.term == term and course.year == year %}
+                                        {% if course.period == period and course.year == year %}
                                             {{ course.course.id }}
                                         {% endif %}
                                     {% endfor %}
@@ -50,7 +50,7 @@
                     {% for course in schedule.addedCourses %}
                         <tr>
                             <td>{{ course.course.id }}</td>
-                            <td>{{ course.term }}</td>
+                            <td>{{ course.period }}</td>
                             <td>{{ course.year }}</td>
                         </tr>
                     {% endfor %}

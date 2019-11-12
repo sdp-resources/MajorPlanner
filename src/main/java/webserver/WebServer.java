@@ -43,7 +43,7 @@ public class WebServer {
         Schedule schedule = getSchedule(id);
         ctx.render("/schedule.twig",
                    model("schedule", schedule,
-                         "terms", new Term[]{Term.Fall, Term.Winter, Term.Spring},
+                         "terms", new Period[]{Period.Fall, Period.Winter, Period.Spring},
                          "years", new Year[]{Year.Freshman, Year.Sophomore, Year.Junior, Year.Senior}));
     }
 
@@ -77,8 +77,8 @@ public class WebServer {
     // TODO: Make proper request when method is available
     User owner = new User("Joe", Role.User);
     Schedule schedule = new Schedule(owner, "schedule name", "schedule description");
-    schedule.addCourse(new Course("MAT121"), Term.Fall.toString(), Year.Freshman.toString());
-    schedule.addCourse(new Course("MAT122"), Term.Winter.toString(), Year.Sophomore.toString());
+    schedule.addCourse(new Course("MAT121"), Period.Fall.toString(), Year.Freshman.toString());
+    schedule.addCourse(new Course("MAT122"), Period.Winter.toString(), Year.Sophomore.toString());
     return schedule;
   }
 }

@@ -52,8 +52,8 @@ public class TestController extends Controller {
         nameToCourse.put(name, course);
     }
 
-    public Response addCourse(String user, String course, String scheduleName, Term term, Year year) {
-        return addCourse(user, course, nameToSchedule.get(scheduleName).getID(), term.toString(), year.toString());
+    public Response addCourse(String user, String course, String scheduleName, Period period, Year year) {
+        return addCourse(user, course, nameToSchedule.get(scheduleName).getID(), period.toString(), year.toString());
     }
 
     public Response addCourse(String user, String course, int scheduleId, String termString, String yearString) {
@@ -71,12 +71,13 @@ public class TestController extends Controller {
     public boolean scheduleHasCourse(String scheduleName, String courseName, String term, String year) {
         Schedule schedule = nameToSchedule.get(scheduleName);
         Course course = nameToCourse.get(courseName);
-        return scheduleContainsAddedCourse(schedule, course,Term.valueOf(term), Year.valueOf(year));
+        return scheduleContainsAddedCourse(schedule, course, Period.valueOf(term), Year.valueOf(year));
     }
 
-    private boolean scheduleContainsAddedCourse(Schedule schedule, Course course, Term term, Year year) {
+    private boolean scheduleContainsAddedCourse(Schedule schedule, Course course, Period period, Year year) {
+        CalendarTerm t = new CalendarTerm(period, year);
         for (AddedCourse ac: schedule.getAddedCourses()) {
-            if (ac.getCourse().getId().equals(course.getId()) && ac.getTerm().equals(term) && ac.getYear().equals(year)) {
+            if (ac.getCourse().getId().equals(course.getId()) && ac.getTerm().equals(t)) {
                 return true;
             }
         }
