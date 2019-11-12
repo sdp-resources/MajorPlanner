@@ -43,3 +43,11 @@ Feature: Add Course to Schedule
     When Celeste adds "Da course" to schedule with id i for Fall of Sophomore year
     And Celeste adds "Da course" to schedule with id i for Winter of Sophomore year
     Then the latest response has an error
+
+  Scenario: User adds transfer course
+    Given Tucker is a logged in User
+    And "AP Physics" is a course with id "APPHYS"
+    When Tucker creates a schedule with name "name" description "desc" owned by Tucker with resulting id i
+    When Tucker adds transfer course "AP Physics" to schedule with id i
+    When Tucker views the schedule s with id i
+    Then s has a course with id "APPHYS"

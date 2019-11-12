@@ -73,12 +73,20 @@ public class Schedule {
     }
 
     public boolean containsCourse(Course course) {
-        for (AddedCourse addedCourse : getAddedCourses())
+        for (AddedCourse addedCourse : addedCourses)
             if (addedCourse.getCourse().equals(course)) return true;
         return false;
     }
 
     public boolean isEmpty() {
-        return getAddedCourses().size() == 0;
+        return addedCourses.size() == 0;
     }
+
+    public boolean containsCourse(Course course, Term term) {
+        for (AddedCourse ac : addedCourses) {
+            if (ac.matches(course, term)) return true;
+        }
+        return false;
+    }
+
 }

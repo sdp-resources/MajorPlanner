@@ -49,4 +49,7 @@ public class Controller {
         return executeWithSession(request, interactor, session);
     }
 
+    public Response addTransferCourse(Session session, String courseId, int scheduleId) {
+        return null;
+    }
 }

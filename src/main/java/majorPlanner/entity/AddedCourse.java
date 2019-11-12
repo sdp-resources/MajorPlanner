@@ -19,4 +19,7 @@ public class AddedCourse {
 
     public Term getTerm() { return term;}
 
+    boolean matches(Course course, Term term) {
+        return this.course.equals(course) && this.term.equals(term);
+    }
 }
