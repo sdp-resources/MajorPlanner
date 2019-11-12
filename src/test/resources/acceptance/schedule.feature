@@ -12,8 +12,8 @@ Feature: Schedule
     And Haris is a logged in User
     When MrAdmin creates a schedule with name "Schedule for Haris" description "Default template schedule" owned by Haris with resulting id i
     And MrAdmin views the schedule s with id i
-    Then the schedule s has name "name"
-    And the schedule s has description "desc"
+    Then the schedule s has name "Schedule for Haris"
+    And the schedule s has description "Default template schedule"
     And the schedule s has no courses
 
   Scenario: User creates a schedule for someone else

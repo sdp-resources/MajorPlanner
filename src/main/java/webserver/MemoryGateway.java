@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MemoryGateway implements Gateway {
+    private int lastId = 0;
+
     private Map<Integer, Schedule> scheduleMap;
     private Map<String, User> userMap;
     private Map<String, Course> courseMap;
@@ -24,6 +26,7 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public void addSchedule(Schedule schedule) {
+        schedule.setID(++lastId);
         scheduleMap.put(schedule.getID(), schedule);
     }
 

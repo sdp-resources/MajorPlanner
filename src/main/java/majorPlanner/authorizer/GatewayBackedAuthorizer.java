@@ -23,8 +23,8 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
 
     @Override
     public Response visit(CreateScheduleRequest request) {
-        if (request.ownerID.equals(request.getSession().getUsername())) return Response.ok();
-        if(request.getSession().getRole() == Role.Admin) return Response.ok();
+        if (request.ownerID.equals(request.getSession().getUser().getUserID())) return Response.ok();
+        if (request.getSession().getRole() == Role.Admin) return Response.ok();
         return Response.userMismatch();
     }
 
@@ -34,7 +34,7 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
         Course course = gateway.getCourse(request.courseID);
         if (schedule == null) return Response.nonExistentSchedule();
         if (course == null) return Response.nonExistentCourse();
-        if (!schedule.getOwner().getUserID().equals(request.getSession().getUsername()))
+        if (!matchesAdminOrUser(schedule.getOwner(), request.getSession().getUser()))
             return Response.userMismatch();
         return Response.ok();
     }
@@ -58,6 +58,6 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
     }
 
     private boolean matchesAdminOrUser(User owner, User user) {
-        return owner.equals(user) || owner.isAdmin();
+        return owner.equals(user) || user.isAdmin();
     }
 }

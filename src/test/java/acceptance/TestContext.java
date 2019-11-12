@@ -31,6 +31,10 @@ public class TestContext {
         return getSession(name).getUser();
     }
 
+    public static String getCourseId(String course) {
+        return (String) data.get(course);
+    }
+
     @Before
     public void reset()
     {
