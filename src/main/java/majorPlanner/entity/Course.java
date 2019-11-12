@@ -1,9 +1,12 @@
 package majorPlanner.entity;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Course {
     private final String id;
+    private Set<String> tags = new HashSet<>();
 
     public Course (String id) {
         this.id = id;
@@ -11,6 +14,22 @@ public class Course {
 
     public String getId() {
         return id;
+    }
+
+    public void addTag() {
+
+    }
+
+    public boolean hasTag() {
+        return false;
+    }
+
+    public Set<String> getTags(){
+        return tags;
+    }
+
+    public void removeTag() {
+
     }
 
     @Override
