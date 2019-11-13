@@ -1,17 +1,7 @@
 package majorPlanner.interactor;
 
-import org.jetbrains.annotations.NotNull;
+import majorPlanner.request.Request;
 
 public interface InteractorFactory {
-    @NotNull
-    Interactor createSchedule();
-
-    @NotNull
-    Interactor viewSchedule();
-
-    @NotNull
-    Interactor addCourseToSchedule();
-
-    @NotNull
-    Interactor removeCourseFromSchedule();
+    Interactor getInteractorFor(Request request);
 }

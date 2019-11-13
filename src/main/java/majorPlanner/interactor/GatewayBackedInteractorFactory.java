@@ -1,44 +1,56 @@
 package majorPlanner.interactor;
 
 import majorPlanner.gateway.Gateway;
+import majorPlanner.request.*;
 import org.jetbrains.annotations.NotNull;
 
 public class GatewayBackedInteractorFactory implements InteractorFactory {
-    public Gateway gateway;
+    public final RequestVisitor requestVisitor = new RequestVisitor();
 
     public Gateway getGateway() {
-        return gateway;
+        return requestVisitor.getGateway();
     }
 
     public void setGateway(Gateway gateway) {
-        this.gateway = gateway;
+        this.requestVisitor.gateway = gateway;
     }
 
     public GatewayBackedInteractorFactory(Gateway gateway) {
-        this.gateway = gateway;
+        this.requestVisitor.gateway = gateway;
     }
 
     @Override
-    @NotNull
-    public Interactor createSchedule() {
-        return new CreateScheduleInteractor(gateway, gateway);
+    public Interactor getInteractorFor(Request request) {
+        return requestVisitor.visit(request);
     }
 
-    @Override
-    @NotNull
-    public Interactor viewSchedule() {
-        return new ViewScheduleInteractor(gateway);
-    }
+    public static class RequestVisitor implements majorPlanner.request.RequestVisitor<Interactor> {
+        public Gateway gateway;
 
-    @Override
-    @NotNull
-    public Interactor addCourseToSchedule() {
-        return new AddCourseToScheduleInteractor(gateway, gateway);
-    }
+        public RequestVisitor() {
+        }
 
-    @Override
-    @NotNull
-    public Interactor removeCourseFromSchedule() {
-        return new RemoveCourseFromScheduleInteractor(gateway, gateway);
+        public Gateway getGateway() {
+            return gateway;
+        }
+
+        @Override
+        public Interactor visit(CreateScheduleRequest request) {
+            return new CreateScheduleInteractor(gateway, gateway);
+        }
+
+        @Override
+        public Interactor visit(AddCourseRequest request) {
+            return new AddCourseToScheduleInteractor(gateway, gateway);
+        }
+
+        @Override
+        public Interactor visit(ViewScheduleRequest request) {
+            return new ViewScheduleInteractor(gateway);        }
+
+        @Override
+        public Interactor visit(RemoveCourseFromScheduleRequest request) {
+            return new RemoveCourseFromScheduleInteractor(gateway, gateway);
+        }
     }
 }
