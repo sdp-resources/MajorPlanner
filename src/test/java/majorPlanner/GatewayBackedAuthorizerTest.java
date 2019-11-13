@@ -13,91 +13,71 @@ import org.junit.Before;
 import org.junit.Test;
 import webserver.MemoryGateway;
 
+import static org.hamcrest.CoreMatchers.is;
+
 public class GatewayBackedAuthorizerTest {
 
+    public static final int SCHEDULE_ID = 43;
+    public static final String COURSE_ID = "CS223";
     private MemoryGateway gateway;
+    private Schedule schedule;
+    private Course course;
+    private AddCourseRequest addCourseRequest;
+    private CreateScheduleRequest createScheduleRequest;
 
     @Before
     public void setUp(){
         gateway = new MemoryGateway();
-    }
-
-    @Test
-    public void createScheduleUserInSessionMatchesOwner()
-    {
-        Response response = authorize("dantgeo", Role.User, getCreateScheduleRequest());
-        assertErrorFree(response);
+        schedule = new Schedule(new User("smithma", Role.User), "MahSchedule", "jfdhgsjhlfdg");
+        schedule.setID(SCHEDULE_ID);
+        course = new Course(COURSE_ID);
+        addCourseRequest = new AddCourseRequest(COURSE_ID, SCHEDULE_ID, "Winter", "Freshman");
+        createScheduleRequest = new CreateScheduleRequest("dantgeo", "", "");
     }
 
     @Test
     public void createScheduleUserInSessionDoesNotMatchOwner(){
-        Response response = authorize("marsht", Role.User, getCreateScheduleRequest());
-        assertContainsError(response);
+        Response response = authorize("marsht", Role.User, createScheduleRequest);
         Assert.assertEquals(Response.userMismatch(), response);
     }
 
     @Test
     public void createScheduleAdminInSessionIgnoresRequirements(){
-        Response response = authorize("marsht", Role.Admin, getCreateScheduleRequest());
-        assertErrorFree(response);
-    }
-
-    private CreateScheduleRequest getCreateScheduleRequest() {
-        return new CreateScheduleRequest("dantgeo", "", "");
+        Response response = authorize("marsht", Role.Admin, createScheduleRequest);
+        Assert.assertThat(response, is(Response.ok()));
     }
 
     @Test
     public void addCourseScheduleDoesNotExist(){
-        AddCourseRequest request = new AddCourseRequest("CS220", 0, Period.Winter.toString(), Year.Freshman.toString());
-        gateway.addCourse(new Course("CS220"));
-        Response response = authorize("marsht", Role.User, request);
-        assertContainsError(response);
+        gateway.addCourse(course);
+        Response response = authorize("marsht", Role.User, addCourseRequest);
         Assert.assertEquals(Response.nonExistentSchedule(), response);
     }
 
     @Test
     public void addCourseCourseDoesNotExist()
     {
-        AddCourseRequest request = new AddCourseRequest("CS220", 23, Period.Winter.toString(), Year.Freshman.toString());
-        Schedule s = new Schedule(new User("marsht", Role.User), "MySchedule", "description");
-        s.setID(23);
-        gateway.addSchedule(s);
-        Response response = authorize("marsht", Role.User, request);
-        assertContainsError(response);
+        gateway.addSchedule(schedule);
+        Response response = authorize("marsht", Role.User, addCourseRequest);
         Assert.assertEquals(Response.nonExistentCourse(), response);
     }
 
     @Test
     public void addCourseUserInSessionDoesNotMatchOwner()
     {
-        AddCourseRequest request = new AddCourseRequest("CS223", 43, Period.Fall.toString(), Year.Junior.toString());
-        Schedule s = new Schedule(new User("smithma", Role.User), "MahSchedule", "jfdhgsjhlfdg");
-        s.setID(43);
-        gateway.addSchedule(s);
-        gateway.addCourse(new Course("CS223"));
-        Response response = authorize("givensb22", Role.User, request);
-        assertContainsError(response);
+        gateway.addSchedule(schedule);
+        gateway.addCourse(course);
+        Response response = authorize("givensb22", Role.User, addCourseRequest);
         Assert.assertEquals(Response.userMismatch(), response);
     }
 
     @Test
     public void addCourseUserInSessionMatchesOwner()
     {
-        AddCourseRequest request = new AddCourseRequest("CS223", 43, Period.Fall.toString(), Year.Junior.toString());
-        Schedule s = new Schedule(new User("smithma", Role.User), "MahSchedule", "jfdhgsjhlfdg");
-        s.setID(43);
-        gateway.addSchedule(s);
-        gateway.addCourse(new Course("CS223"));
-        Response response = authorize("smithma", Role.User, request);
-        assertErrorFree(response);
-    }
-
-    private void assertErrorFree(Response response) {
-        Assert.assertFalse(response.containsError());
-    }
-
-    private void assertContainsError(Response response) {
-        Assert.assertTrue(response.containsError());
+        gateway.addSchedule(schedule);
+        gateway.addCourse(course);
+        Response response = authorize("smithma", Role.User, addCourseRequest);
+        Assert.assertThat(response, is(Response.ok()));
     }
 
     private Response authorize(String sessionUser, Role role, Request request) {

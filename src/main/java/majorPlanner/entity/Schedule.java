@@ -7,7 +7,7 @@ public class Schedule {
     private User owner;
     private String description;
     private String name;
-    private int ID;
+    private Integer ID;
     private List<AddedCourse> addedCourses = new ArrayList<>();
 
     public Schedule(User owner, String name, String description) {
@@ -42,11 +42,11 @@ public class Schedule {
     }
 
 
-    public void setID(int id) {
+    public void setID(Integer id) {
         this.ID = id;
     }
 
-    public int getID() {
+    public Integer getID() {
         return ID;
     }
 

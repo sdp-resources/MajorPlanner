@@ -44,4 +44,9 @@ public class ErrorResponse implements Response {
     {
         return error;
     }
+
+    @Override
+    public String toString() {
+        return "ErrorResponse{" + error + '}';
+    }
 }

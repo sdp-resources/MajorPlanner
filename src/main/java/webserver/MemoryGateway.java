@@ -17,8 +17,7 @@ public class MemoryGateway implements Gateway {
     private Map<String, User> userMap;
     private Map<String, Course> courseMap;
 
-    public MemoryGateway()
-    {
+    public MemoryGateway() {
         scheduleMap = new HashMap<>();
         userMap = new HashMap<>();
         courseMap = new HashMap<>();
@@ -26,7 +25,8 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public void addSchedule(Schedule schedule) {
-        schedule.setID(++lastId);
+        if (schedule.getID() == null) schedule.setID(++lastId);
+
         scheduleMap.put(schedule.getID(), schedule);
     }
 
@@ -39,8 +39,7 @@ public class MemoryGateway implements Gateway {
     public List<Schedule> getSchedulesFromOwnerId(String ownerID) {
         List<Schedule> schedules = new ArrayList<>();
         for (Schedule s : scheduleMap.values()) {
-            if(s.getOwner().getUserID().equals(ownerID))
-            {
+            if (s.getOwner().getUserID().equals(ownerID)) {
                 schedules.add(s);
             }
         }
