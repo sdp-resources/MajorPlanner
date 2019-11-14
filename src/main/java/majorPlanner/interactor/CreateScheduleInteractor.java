@@ -5,26 +5,27 @@ import majorPlanner.entity.User;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.gateway.UserGateway;
 import majorPlanner.request.CreateScheduleRequest;
-import majorPlanner.request.Request;
 import majorPlanner.response.Response;
 import org.jetbrains.annotations.NotNull;
 
 public class CreateScheduleInteractor implements Interactor {
+    private CreateScheduleRequest request;
     private final UserGateway userGateway;
     private final ScheduleGateway scheduleGateway;
 
-    public CreateScheduleInteractor(UserGateway userGateway, ScheduleGateway scheduleGateway) {
+    public CreateScheduleInteractor(CreateScheduleRequest request, UserGateway userGateway, ScheduleGateway scheduleGateway) {
+        this.request = request;
         this.userGateway = userGateway;
         this.scheduleGateway = scheduleGateway;
     }
 
-    public Response execute(Request request) {
-        CreateScheduleRequest createScheduleRequest = (CreateScheduleRequest) request;
-        User user = userGateway.getUser(createScheduleRequest.ownerID);
+    @Override
+    public Response execute() {
+        User user = userGateway.getUser(request.ownerID);
         if (user == null) {
             return Response.invalidUsername();
         } else {
-            Schedule schedule = createAndSaveSchedule(user, createScheduleRequest.name, createScheduleRequest.description);
+            Schedule schedule = createAndSaveSchedule(user, request.name, request.description);
             return Response.success(schedule);
         }
     }

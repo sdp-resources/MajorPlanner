@@ -36,8 +36,8 @@ public class AddToScheduleTest {
 
     @Test
     public void whenCourseIDInvalid_ReturnError() {
-        courseInteractor = new AddCourseToScheduleInteractor(rejectCourseGateway, acceptScheduleGateway);
-        response = courseInteractor.executeRequest(request);
+        courseInteractor = new AddCourseToScheduleInteractor(request, rejectCourseGateway, acceptScheduleGateway);
+        response = courseInteractor.execute();
         assertThat(response, is(Response.invalidCourse()));
         assertThat(rejectCourseGateway.getRequestedCourseID(), is(request.courseID));
         assertSaveWasNotCalled();
@@ -45,8 +45,8 @@ public class AddToScheduleTest {
 
     @Test
     public void whenCourseIDValidAndScheduleIDInvalid_ReturnError() {
-        courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, rejectScheduleGateway);
-        response = courseInteractor.executeRequest(request);
+        courseInteractor = new AddCourseToScheduleInteractor(request, acceptCourseGateway, rejectScheduleGateway);
+        response = courseInteractor.execute();
         assertThat(response, is(Response.invalidSchedule()));
         assertThat(rejectScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
         assertSaveWasNotCalled();
@@ -54,8 +54,8 @@ public class AddToScheduleTest {
 
     @Test
     public void whenCourseAndScheduleAreValid_CourseAdded() {
-        courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
-        response = courseInteractor.executeRequest(request);
+        courseInteractor = new AddCourseToScheduleInteractor(request, acceptCourseGateway, acceptScheduleGateway);
+        response = courseInteractor.execute();
         assertSuccessfulResponse();
         assertThat(acceptScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
         assertNumberCoursesInScheduleIs(acceptScheduleGateway.returnedSchedule, 1);
@@ -65,18 +65,18 @@ public class AddToScheduleTest {
 
     @Test
     public void whenCourseAlreadyInSchedule_ReturnError(){
-        courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
+        courseInteractor = new AddCourseToScheduleInteractor(request, acceptCourseGateway, acceptScheduleGateway);
         acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID), Period.Fall.toString(), Year.Freshman.toString());
-        response = courseInteractor.executeRequest(request);
+        response = courseInteractor.execute();
         assertThat(response, is(Response.previouslyAddedCourse()));
         assertSaveWasNotCalled();
     }
 
     @Test
     public void WhenAddingNewCourseToPopulatedSchedule_CourseAdded(){
-        courseInteractor = new AddCourseToScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
+        courseInteractor = new AddCourseToScheduleInteractor(request, acceptCourseGateway, acceptScheduleGateway);
         acceptScheduleGateway.returnedSchedule.addCourse(new Course(COURSE_ID_OTHER), Period.Fall.toString(), Year.Freshman.toString());
-        response = courseInteractor.executeRequest(request);
+        response = courseInteractor.execute();
         assertSuccessfulResponse();
         assertThat(acceptScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
         assertNumberCoursesInScheduleIs(acceptScheduleGateway.returnedSchedule, 2);

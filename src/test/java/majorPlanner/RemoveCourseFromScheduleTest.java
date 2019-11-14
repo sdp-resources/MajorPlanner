@@ -34,12 +34,12 @@ public class RemoveCourseFromScheduleTest {
         acceptCourseGateway = new AcceptingCourseGateway();
         rejectScheduleGateway = new RejectingScheduleGateway();
         acceptScheduleGateway = new AcceptingScheduleGateway();
+        request = new RemoveCourseFromScheduleRequest(COURSE_ID, SCHEDULE_ID);
     }
 
     @Test
     public void removeCourseThatDoesNotExist(){
-        courseInteractor = new RemoveCourseFromScheduleInteractor(rejectCourseGateway, acceptScheduleGateway);
-        createCourseRemovalRequest();
+        courseInteractor = new RemoveCourseFromScheduleInteractor(request, rejectCourseGateway, acceptScheduleGateway);
         executeRequest();
         assertThat(response, is(Response.invalidCourse()));
         assertThat(rejectCourseGateway.getRequestedCourseID(), is(request.courseID));
@@ -48,8 +48,7 @@ public class RemoveCourseFromScheduleTest {
 
     @Test
     public void deleteCourseFromScheduleThatDoesNotExist(){
-        courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, rejectScheduleGateway);
-        createCourseRemovalRequest();
+        courseInteractor = new RemoveCourseFromScheduleInteractor(request, acceptCourseGateway, rejectScheduleGateway);
         executeRequest();
         assertThat(response, is(Response.invalidSchedule()));
         assertThat(rejectScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
@@ -58,9 +57,8 @@ public class RemoveCourseFromScheduleTest {
 
     @Test
     public void whenDeletingCourseFromEmptyScheduleGetAnError(){
-        courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
+        courseInteractor = new RemoveCourseFromScheduleInteractor(request, acceptCourseGateway, acceptScheduleGateway);
         Schedule schedule = createSchedule();
-        createCourseRemovalRequest();
         executeRequest();
         assertThat(schedule.getID(), is(SCHEDULE_ID));
         assertThat(response, is(Response.emptySchedule()));
@@ -69,10 +67,9 @@ public class RemoveCourseFromScheduleTest {
 
     @Test
     public void deleteCourseFromSchedule(){
-        courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
+        courseInteractor = new RemoveCourseFromScheduleInteractor(request, acceptCourseGateway, acceptScheduleGateway);
         Schedule schedule = createSchedule();
         schedule.addCourse(new Course(COURSE_ID), Period.Fall.toString(), Year.Freshman.toString());
-        createCourseRemovalRequest();
         executeRequest();
         assertThat((response.containsError()), is(false));
         assertSaveWasCalled();
@@ -80,10 +77,9 @@ public class RemoveCourseFromScheduleTest {
 
     @Test
     public void deleteCourseThatScheduleDoesNotHave(){
-        courseInteractor = new RemoveCourseFromScheduleInteractor(acceptCourseGateway, acceptScheduleGateway);
+        courseInteractor = new RemoveCourseFromScheduleInteractor(request, acceptCourseGateway, acceptScheduleGateway);
         Schedule schedule = createSchedule();
         schedule.addCourse(new Course(ADDITIONAL_COURSE_ID), Period.Fall.toString(), Year.Freshman.toString());
-        createCourseRemovalRequest();
         executeRequest();
         assertThat(response, is(Response.courseNotInSchedule()));
         assertSaveWasNotCalled();
@@ -93,12 +89,8 @@ public class RemoveCourseFromScheduleTest {
         return acceptScheduleGateway.returnedSchedule;
     }
 
-    private void createCourseRemovalRequest() {
-        request = new RemoveCourseFromScheduleRequest(COURSE_ID, SCHEDULE_ID);
-    }
-
     private void executeRequest() {
-        response = courseInteractor.executeRequest(request);
+        response = courseInteractor.execute();
     }
 
     private void assertSaveWasCalled() {

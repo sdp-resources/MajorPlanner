@@ -2,21 +2,20 @@ package majorPlanner.interactor;
 
 import majorPlanner.gateway.Gateway;
 import majorPlanner.request.*;
-import org.jetbrains.annotations.NotNull;
 
 public class GatewayBackedInteractorFactory implements InteractorFactory {
-    public final RequestVisitor requestVisitor = new RequestVisitor();
+    private final RequestVisitor requestVisitor = new RequestVisitor();
+
+    public GatewayBackedInteractorFactory(Gateway gateway) {
+        setGateway(gateway);
+    }
 
     public Gateway getGateway() {
         return requestVisitor.getGateway();
     }
 
     public void setGateway(Gateway gateway) {
-        this.requestVisitor.gateway = gateway;
-    }
-
-    public GatewayBackedInteractorFactory(Gateway gateway) {
-        this.requestVisitor.gateway = gateway;
+        requestVisitor.gateway = gateway;
     }
 
     @Override
@@ -27,30 +26,27 @@ public class GatewayBackedInteractorFactory implements InteractorFactory {
     public static class RequestVisitor implements majorPlanner.request.RequestVisitor<Interactor> {
         public Gateway gateway;
 
-        public RequestVisitor() {
-        }
-
         public Gateway getGateway() {
             return gateway;
         }
 
         @Override
         public Interactor visit(CreateScheduleRequest request) {
-            return new CreateScheduleInteractor(gateway, gateway);
+            return new CreateScheduleInteractor(request, gateway, gateway);
         }
 
         @Override
         public Interactor visit(AddCourseRequest request) {
-            return new AddCourseToScheduleInteractor(gateway, gateway);
+            return new AddCourseToScheduleInteractor(request, gateway, gateway);
         }
 
         @Override
         public Interactor visit(ViewScheduleRequest request) {
-            return new ViewScheduleInteractor(gateway);        }
+            return new ViewScheduleInteractor(request, gateway);        }
 
         @Override
         public Interactor visit(RemoveCourseFromScheduleRequest request) {
-            return new RemoveCourseFromScheduleInteractor(gateway, gateway);
+            return new RemoveCourseFromScheduleInteractor(request, gateway, gateway);
         }
     }
 }

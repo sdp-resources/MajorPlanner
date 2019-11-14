@@ -42,7 +42,7 @@ public class Controller {
     protected Response execute(Request request, Interactor interactor) {
         Response response = authorizer.authorize(request);
         if (response.containsError()) return response;
-        return interactor.execute(request);
+        return interactor.execute();
     }
 
     public Response removeCourse(Session session, String courseID, int scheduleID) {

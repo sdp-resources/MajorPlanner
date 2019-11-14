@@ -5,20 +5,25 @@ import majorPlanner.entity.Schedule;
 import majorPlanner.gateway.CourseGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.AddCourseRequest;
-import majorPlanner.request.Request;
 import majorPlanner.response.Response;
 
 public class AddCourseToScheduleInteractor implements Interactor {
 
     private final CourseGateway courseGateway;
     private final ScheduleGateway scheduleGateway;
+    private AddCourseRequest request;
 
-    public AddCourseToScheduleInteractor(CourseGateway courseGateway, ScheduleGateway scheduleGateway){
+    public AddCourseToScheduleInteractor(
+            AddCourseRequest request,
+            CourseGateway courseGateway,
+            ScheduleGateway scheduleGateway){
+        this.request = request;
         this.courseGateway = courseGateway;
         this.scheduleGateway = scheduleGateway;
     }
 
-    public Response executeRequest(AddCourseRequest request) {
+    @Override
+    public Response execute() {
         Course course = courseGateway.getCourse(request.courseID);
         Schedule schedule = scheduleGateway.getSchedule(request.scheduleID);
         if (course == null) return Response.invalidCourse();
@@ -27,10 +32,5 @@ public class AddCourseToScheduleInteractor implements Interactor {
         schedule.addCourse(course, request.period, request.year);
         scheduleGateway.save();
         return Response.success(schedule);
-    }
-
-    @Override
-    public Response execute(Request request) {
-        return executeRequest((AddCourseRequest) request);
     }
 }

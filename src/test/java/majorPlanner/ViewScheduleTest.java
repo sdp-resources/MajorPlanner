@@ -1,6 +1,5 @@
 package majorPlanner;
 
-import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.interactor.ViewScheduleInteractor;
 import majorPlanner.request.ViewScheduleRequest;
 import majorPlanner.response.Response;
@@ -27,8 +26,8 @@ public class ViewScheduleTest {
     @Test
     public void whenScheduleIdInvalid_ReturnErrorResponse() {
         ScheduleGatewaySpy rejectingScheduleGateway = new RejectingScheduleGateway();
-        viewScheduleInteractor = new ViewScheduleInteractor(rejectingScheduleGateway);
-        Response response = viewScheduleInteractor.executeRequest(request);
+        viewScheduleInteractor = new ViewScheduleInteractor(request, rejectingScheduleGateway);
+        Response response = viewScheduleInteractor.execute();
         assertThat(response, is(Response.invalidSchedule()));
         assertThat(rejectingScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
     }
@@ -36,8 +35,8 @@ public class ViewScheduleTest {
     @Test
     public void whenScheduleIdValid_ReturnSchedule(){
         AcceptingScheduleGateway acceptingScheduleGateway = new AcceptingScheduleGateway();
-        viewScheduleInteractor = new ViewScheduleInteractor(acceptingScheduleGateway);
-        Response response = viewScheduleInteractor.executeRequest(request);
+        viewScheduleInteractor = new ViewScheduleInteractor(request, acceptingScheduleGateway);
+        Response response = viewScheduleInteractor.execute();
         assertThat(response, is(Response.success(acceptingScheduleGateway.returnedSchedule)));
         assertThat(acceptingScheduleGateway.getRequestedScheduleID(), is(request.scheduleID));
     }

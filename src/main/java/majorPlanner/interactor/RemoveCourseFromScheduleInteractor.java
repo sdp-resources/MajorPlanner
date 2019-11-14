@@ -5,7 +5,6 @@ import majorPlanner.entity.Schedule;
 import majorPlanner.gateway.CourseGateway;
 import majorPlanner.gateway.ScheduleGateway;
 import majorPlanner.request.RemoveCourseFromScheduleRequest;
-import majorPlanner.request.Request;
 import majorPlanner.response.Response;
 
 
@@ -14,19 +13,32 @@ public class RemoveCourseFromScheduleInteractor implements Interactor {
     private final ScheduleGateway scheduleGateway;
     private Course courseToBeRemoved;
     private Schedule schedule;
+    private RemoveCourseFromScheduleRequest request;
 
-    public RemoveCourseFromScheduleInteractor(CourseGateway courseGateway, ScheduleGateway scheduleGateway) {
+    public RemoveCourseFromScheduleInteractor(
+            RemoveCourseFromScheduleRequest request,
+            CourseGateway courseGateway,
+            ScheduleGateway scheduleGateway) {
+        this.request = request;
         this.courseGateway = courseGateway;
         this.scheduleGateway = scheduleGateway;
     }
 
-    public Response executeRequest(RemoveCourseFromScheduleRequest request) {
+    public Response execute() {
         courseToBeRemoved = courseGateway.getCourse(request.courseID);
         schedule = scheduleGateway.getSchedule(request.scheduleID);
-        if (isInvalidCourse()) return Response.invalidCourse();
-        if (isInvalidSchedule()) return Response.invalidSchedule();
-        if (schedule.isEmpty()) return Response.emptySchedule();
-        if (!schedule.containsCourse(courseToBeRemoved)) return Response.courseNotInSchedule();
+        if (isInvalidCourse()) {
+            return Response.invalidCourse();
+        }
+        if (isInvalidSchedule()) {
+            return Response.invalidSchedule();
+        }
+        if (schedule.isEmpty()) {
+            return Response.emptySchedule();
+        }
+        if (!schedule.containsCourse(courseToBeRemoved)) {
+            return Response.courseNotInSchedule();
+        }
         schedule.deleteCourse(courseToBeRemoved);
         scheduleGateway.save();
         return Response.success(schedule);
@@ -38,10 +50,5 @@ public class RemoveCourseFromScheduleInteractor implements Interactor {
 
     private boolean isInvalidCourse() {
         return courseToBeRemoved == null;
-    }
-
-    @Override
-    public Response execute(Request request) {
-        return executeRequest((RemoveCourseFromScheduleRequest) request);
     }
 }

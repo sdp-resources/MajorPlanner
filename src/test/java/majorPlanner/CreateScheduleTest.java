@@ -34,8 +34,8 @@ public class CreateScheduleTest {
     @Test
     public void invalidUserResponseIsFailure() {
         userGatewaySpy = new RejectingUserGateway();
-        scheduleInteractor = new CreateScheduleInteractor(userGatewaySpy, scheduleGateway);
-        response = scheduleInteractor.execute(request);
+        scheduleInteractor = new CreateScheduleInteractor(request, userGatewaySpy, scheduleGateway);
+        response = scheduleInteractor.execute();
         assertErrorResponse();
         assertGatewayWasAskedForUser(request.ownerID);
     }
@@ -43,8 +43,8 @@ public class CreateScheduleTest {
     @Test
     public void userIsValid_scheduleCreated() {
         userGatewaySpy = new AcceptingUserGateway();
-        scheduleInteractor = new CreateScheduleInteractor(userGatewaySpy, scheduleGateway);
-        response = scheduleInteractor.execute(request);
+        scheduleInteractor = new CreateScheduleInteractor(request, userGatewaySpy, scheduleGateway);
+        response = scheduleInteractor.execute();
         assertSuccessfulResponseContainsProvidedSchedule(scheduleGateway.getProvidedSchedule());
         assertGatewayWasAskedForUser(request.ownerID);
         assertCreatedScheduleHasInfoMatchingRequest(scheduleGateway.getProvidedSchedule());
