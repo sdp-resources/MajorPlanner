@@ -1,5 +1,6 @@
-package majorPlanner.entity;
+package majorPlanner;
 
+import majorPlanner.entity.Course;
 import org.junit.Before;
 import org.junit.Test;
 
