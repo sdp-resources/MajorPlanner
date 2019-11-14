@@ -89,4 +89,9 @@ public class Schedule {
         return false;
     }
 
+    public void addTransferCourse(Course course) {
+        Term term = new TransferTerm();
+        AddedCourse addedCourse = new AddedCourse(term, course);
+        addedCourses.add(addedCourse);
+    }
 }
