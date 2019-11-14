@@ -1,5 +1,6 @@
 package majorPlanner.entity;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,20 +17,24 @@ public class Course {
         return id;
     }
 
-    public void addTag() {
-
+    public void addTag(String tag) {
+        tags.add(tag);
     }
 
-    public boolean hasTag() {
-        return false;
+    public void addTags(String... args) {
+        tags.addAll(Arrays.asList(args));
+    }
+
+    public boolean hasTag(String tag) {
+        return tags.contains(tag);
     }
 
     public Set<String> getTags(){
         return tags;
     }
 
-    public void removeTag() {
-
+    public void removeTag(String tag) {
+        tags.remove(tag);
     }
 
     @Override
