@@ -1,0 +1,354 @@
+{
+  "programs" : [
+    {
+      "name":"Physics Major",
+      "requirements": [
+        {
+          "type":"Single",
+          "course":"PHY162"
+        },
+        {
+          "type":"Single",
+          "course":"PHY186"
+        },
+        {
+          "type":"Single",
+          "course":"PHY225"
+        },
+        {
+          "type":"Single",
+          "course":"PHY245"
+        },
+        {
+          "type":"Single",
+          "course":"PHY320"
+        },
+        {
+          "type":"Single",
+          "course":"PHY331"
+        },
+        {
+          "type":"Single",
+          "course":"PHY332"
+        },
+        {
+          "type":"Single",
+          "course":"PHY340"
+        },
+        {
+          "type":"Single",
+          "course":"PHY301"
+        },
+        {
+          "type":"Single",
+          "course":"PHY301"
+        },
+        {
+          "type":"Single",
+          "course":"MAT121"
+        },
+        {
+          "type":"Single",
+          "course":"MAT122"
+        },
+        {
+          "type":"Any",
+          "requirements": [
+            {
+              "type":"All",
+              "requirements": [
+                {
+                  "type":"Single",
+                  "course":"PHY408"
+                },
+                {
+                  "type":"Single",
+                  "course":"PHY409"
+                }
+              ]
+            },
+            {
+              "type":"Single",
+              "course":"PHY471"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"English",
+      "requirements": [
+        {
+          "type":"Single",
+          "course":"ENG240"
+        },
+        {
+          "type":"Any",
+          "requirements": [
+            {
+              "type":"Single",
+              "course":"243"
+            },
+            {
+              "type":"Single",
+              "course":"244"
+            },
+            {
+              "type":"Single",
+              "course":"245"
+            },
+            {
+              "type":"Single",
+              "course":"246"
+            },
+            {
+              "type":"Single",
+              "course":"247"
+            }
+          ]
+        },
+        {
+          "type":"Any",
+          "requirements": [
+            {
+              "type":"Single",
+              "course":"243"
+            },
+            {
+              "type":"Single",
+              "course":"244"
+            },
+            {
+              "type":"Single",
+              "course":"245"
+            },
+            {
+              "type":"Single",
+              "course":"246"
+            },
+            {
+              "type":"Single",
+              "course":"247"
+            }
+          ]
+        },
+        {
+          "type":"Any",
+          "requirements": [
+            {
+              "type":"Single",
+              "course":"243"
+            },
+            {
+              "type":"Single",
+              "course":"244"
+            },
+            {
+              "type":"Single",
+              "course":"245"
+            },
+            {
+              "type":"Single",
+              "course":"246"
+            },
+            {
+              "type":"Single",
+              "course":"247"
+            }
+          ]
+        },
+        {
+          "type":"Any",
+          "requirements": [
+            {
+              "type":"Single",
+              "course":"353"
+            },
+            {
+              "type":"Single",
+              "course":"354"
+            },
+            {
+              "type":"Single",
+              "course":"356"
+            }
+          ]
+        },
+        {
+          "type":"Any",
+          "requirements": [
+            {
+              "type":"Single",
+              "course":"461"
+            },
+            {
+              "type":"Single",
+              "course":"471"
+            }
+          ]
+        },
+        {
+          "type":"Any",
+          "requirements": [
+            {
+              "type":"Single",
+              "course":"243"
+            },
+            {
+              "type":"Single",
+              "course":"244"
+            },
+            {
+              "type":"Single",
+              "course":"245"
+            },
+            {
+              "type":"Single",
+              "course":"246"
+            },
+            {
+              "type":"Single",
+              "course":"247"
+            },
+            {
+              "type":"Tag",
+              "tag": [
+                "ENG",
+                "2XX"
+              ]
+            },
+            {
+              "type":"Tag",
+              "tag": [
+                "ENG",
+                "3XX"
+              ]
+            },
+            {
+              "type":"Tag",
+              "tag": [
+                "ENG",
+                "4XX"
+              ]
+            }
+          ]
+        },
+        {
+          "type":"Exclude",
+          "requirement": {
+            "type":"Any",
+            "requirements": [
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "1XX"
+                ]
+              },
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "2XX"
+                ]
+              },
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "3XX"
+                ]
+              },
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "4XX"
+                ]
+              }
+            ]
+          },
+          "except": [
+            "ENG243",
+            "ENG244",
+            "ENG245",
+            "ENG246",
+            "ENG247"
+          ]
+        },
+        {
+          "type":"Exclude",
+          "requirement": {
+            "type":"Any",
+            "requirements": [
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "2XX"
+                ]
+              },
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "3XX"
+                ]
+              },
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "4XX"
+                ]
+              }
+            ]
+          },
+          "except": [
+            "ENG243",
+            "ENG244",
+            "ENG245",
+            "ENG246",
+            "ENG247"
+          ]
+        },
+        {
+          "type":"Exclude",
+          "requirement": {
+            "type":"Any",
+            "requirements": [
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "2XX"
+                ]
+              },
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "3XX"
+                ]
+              },
+              {
+                "type":"Tag",
+                "tag": [
+                  "ENG",
+                  "4XX"
+                ]
+              }
+            ]
+          },
+          "except": [
+            "ENG243",
+            "ENG244",
+            "ENG245",
+            "ENG246",
+            "ENG247"
+          ]
+        }
+      ]
+    }
+  ]
+}
