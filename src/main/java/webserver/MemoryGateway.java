@@ -25,7 +25,7 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public void addSchedule(Schedule schedule) {
-        if (schedule.getID() == null) schedule.setID(++lastId);
+        if (schedule.getID() == null) schedule.setID(lastId++);
 
         scheduleMap.put(schedule.getID(), schedule);
     }
