@@ -47,9 +47,9 @@ public class RequirementTests {
 
     @Test
     public void whenProvidedCourseListContainsExcludedCourses_ExcludedCourseRequirementMatchesAllRequirementsNotUsingExcludedCourses(){
-        assertRequirementMatchesExpected(excluded(either(single(course_LA), single(course_HS), single(course_W1_LA)), Set.of(course_W1_LA)),
+        assertRequirementMatchesExpected(excluded(either(single(course_LA), single(course_HS), single(course_W1_LA)), Set.of(course_W1_LA.getId())),
                                         Set.of(course_LA, course_HS, course_W1_LA, course2_HS), Set.of(course_LA, course_HS));
-        assertRequirementMatchesExpected(excluded(either(single(course_LA), single(course_HS), single(course_W1_LA)), Set.of(course_LA, course_W1_LA)),
+        assertRequirementMatchesExpected(excluded(either(single(course_LA), single(course_HS), single(course_W1_LA)), Set.of(course_LA.getId(), course_W1_LA.getId())),
                                         Set.of(course_LA, course_HS, course_W1_LA, course2_HS), Set.of(course_HS));
     }
 
@@ -61,8 +61,8 @@ public class RequirementTests {
 
     @Test
     public void whenProvideCourseListContainsExcludedCourse_ExcludedCourseRequirementMatchesNonExcludedCoursesWithCorrectTags(){
-        assertRequirementMatchesExpected(excluded(tags(Set.of("HS")), Set.of(course2_HS)), Set.of(course_LA, course_HS, course_W1_LA, course2_HS), Set.of(course_HS));
-        assertRequirementMatchesExpected(excluded(tags(Set.of("LA", "W1")), Set.of(course2_LA_W1)), Set.of(course_LA, course_W1_LA, course2_LA_W1), Set.of(course_W1_LA));
+        assertRequirementMatchesExpected(excluded(tags(Set.of("HS")), Set.of(course2_HS.getId())), Set.of(course_LA, course_HS, course_W1_LA, course2_HS), Set.of(course_HS));
+        assertRequirementMatchesExpected(excluded(tags(Set.of("LA", "W1")), Set.of(course2_LA_W1.getId())), Set.of(course_LA, course_W1_LA, course2_LA_W1), Set.of(course_W1_LA));
     }
 
     private void assertRequirementMatchesExpected(Requirement req, Set<Course> provided, Set<Course> expected) {
@@ -73,11 +73,11 @@ public class RequirementTests {
     private TagCourseRequirement tags(Set<String> tags) { return new TagCourseRequirement(tags); }
 
     @NotNull
-    private ExcludedCourseRequirement excluded(Requirement req, Set<Course> excludedCourseList) { return new ExcludedCourseRequirement(req, excludedCourseList); }
+    private ExcludedCourseRequirement excluded(Requirement req, Set<String> excludedCourseIdList) { return new ExcludedCourseRequirement(req, excludedCourseIdList); }
 
     @NotNull
     private SingleCourseRequirement single(Course course) {
-        return new SingleCourseRequirement(course);
+        return new SingleCourseRequirement(course.getId());
     }
 
     @NotNull
