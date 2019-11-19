@@ -20,4 +20,8 @@ public class TagCourseRequirement implements Requirement{
         }
         return matchedCourses;
     }
+
+    public Set<String> getTags() {
+        return tags;
+    }
 }
