@@ -29,6 +29,15 @@ public class Course {
         return tags.contains(tag);
     }
 
+    public boolean hasAllTags(Set<String> expectedTags){
+        for (String tag : expectedTags) {
+           if (!this.hasTag(tag)){
+               return false;
+           }
+        }
+        return true;
+    }
+
     public Set<String> getTags(){
         return tags;
     }
@@ -48,5 +57,12 @@ public class Course {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" + id +
+                ", " + tags +
+                '}';
     }
 }
