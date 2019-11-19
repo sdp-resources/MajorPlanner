@@ -1,9 +1,5 @@
 package majorPlanner.request;
 
-
-import majorPlanner.entity.Term;
-import majorPlanner.entity.TransferTerm;
-
 public class AddTransferCourseToScheduleRequest extends Request {
     public String courseId;
     public int scheduleId;
@@ -15,6 +11,6 @@ public class AddTransferCourseToScheduleRequest extends Request {
 
     @Override
     public <T> T accept(RequestVisitor<T> visitor) {
-        return null;
+        return visitor.visit(this);
     }
 }

@@ -17,8 +17,13 @@ public abstract class Request {
     }
 
     @NotNull
-    public static Request addSchedule(String course, int schedule, String term, String year) {
+    public static Request addCalendarCourse(String course, int schedule, String term, String year) {
         return new AddCourseRequest(course, schedule, term, year);
+    }
+
+    @NotNull
+    public static Request addTransferCourse(String course, int schedule) {
+        return new AddTransferCourseToScheduleRequest(course, schedule);
     }
 
     @NotNull

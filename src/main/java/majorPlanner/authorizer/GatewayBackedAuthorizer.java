@@ -57,6 +57,12 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
         return Response.ok();
     }
 
+    @Override
+    public Response visit(AddTransferCourseToScheduleRequest request) {
+        // TODO
+        return null;
+    }
+
     private boolean matchesAdminOrUser(User owner, User user) {
         return owner.equals(user) || user.isAdmin();
     }

@@ -29,7 +29,7 @@ public class Controller {
     }
 
     public Response addCourse(Session session, String course, int schedule, String term, String year) {
-        Request request = Request.addSchedule(course, schedule, term, year);
+        Request request = Request.addCalendarCourse(course, schedule, term, year);
         Interactor interactor = interactorFactory.getInteractorFor(request);
         return executeWithSession(request, interactor, session);
     }
@@ -51,6 +51,7 @@ public class Controller {
     }
 
     public Response addTransferCourse(Session session, String courseId, int scheduleId) {
-        return null;
+        Request request = Request.addTransferCourse(courseId, scheduleId);
+        return executeWithSession(request, interactorFactory.getInteractorFor(request), session);
     }
 }
