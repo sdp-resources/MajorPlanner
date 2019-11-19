@@ -24,8 +24,8 @@ public class AddCourseToScheduleInteractor implements Interactor {
 
     @Override
     public Response execute() {
-        Course course = courseGateway.getCourse(request.courseID);
-        Schedule schedule = scheduleGateway.getSchedule(request.scheduleID);
+        Course course = courseGateway.getCourse(request.courseId);
+        Schedule schedule = scheduleGateway.getSchedule(request.scheduleId);
         if (course == null) return Response.invalidCourse();
         if (schedule == null) return Response.invalidSchedule();
         if (schedule.containsCourse(course)) return Response.previouslyAddedCourse();
