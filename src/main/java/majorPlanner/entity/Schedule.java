@@ -1,7 +1,9 @@
 package majorPlanner.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Schedule {
     private User owner;
@@ -9,13 +11,13 @@ public class Schedule {
     private String name;
     private Integer ID;
     private List<AddedCourse> addedCourses = new ArrayList<>();
+    private Set<Program> programs = new HashSet<>();
 
     public Schedule(User owner, String name, String description) {
         this.setOwner(owner);
         this.setDescription(description);
         this.setName(name);
     }
-
 
     public String getName() {
         return name;
@@ -40,7 +42,6 @@ public class Schedule {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public void setID(Integer id) {
         this.ID = id;
@@ -82,6 +83,26 @@ public class Schedule {
         return addedCourses.size() == 0;
     }
 
+    public void addProgram(Program program) {
+        programs.add(program);
+    }
+
+    public List<MatchResult> compareScheduleToProgram(){
+        List<MatchResult> matchResults = new ArrayList<>();
+        for (Program program : programs) {
+            matchResults.addAll(program.match(getCourses()));
+        }
+        return matchResults;
+    }
+
+    private Set<Course> getCourses() {
+        Set<Course> courses = new HashSet<>();
+        for (AddedCourse addedCourse : addedCourses) {
+            courses.add(addedCourse.getCourse());
+        }
+        return courses;
+    }
+
     public boolean containsCourse(Course course, Term term) {
         for (AddedCourse ac : addedCourses) {
             if (ac.matches(course, term)) return true;
@@ -102,7 +123,7 @@ public class Schedule {
             String courseId = addedCourse.getCourse().getId();
             if(!prerequisite.isSatisfied(this, addedCourse.getTerm())){
                 problems.add(new PrerequisiteProblem(courseId, prerequisite.getMessage()));
-            };
+            }
         }
         return problems;
     }

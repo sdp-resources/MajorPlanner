@@ -1,4 +1,4 @@
 package majorPlanner.entity;
 
-public interface Match {
+public interface MatchResult {
 }
