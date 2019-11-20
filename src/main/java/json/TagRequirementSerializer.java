@@ -3,17 +3,17 @@ package json;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import majorPlanner.entity.TagCourseRequirement;
+import majorPlanner.entity.TagRequirement;
 
 import java.io.IOException;
 
-public class TagCourseRequirementSerializer extends StdSerializer<TagCourseRequirement> {
-    protected TagCourseRequirementSerializer(Class<TagCourseRequirement> t) {
+public class TagRequirementSerializer extends StdSerializer<TagRequirement> {
+    protected TagRequirementSerializer(Class<TagRequirement> t) {
         super(t);
     }
 
     @Override
-    public void serialize(TagCourseRequirement req, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(TagRequirement req, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeStringField("type", "tag");
         jsonGenerator.writeFieldName("tags");

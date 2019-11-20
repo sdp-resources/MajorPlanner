@@ -70,19 +70,19 @@ public class RequirementTests {
     }
 
     @NotNull
-    private TagCourseRequirement tags(Set<String> tags) { return new TagCourseRequirement(tags); }
+    private TagRequirement tags(Set<String> tags) { return new TagRequirement(tags); }
 
     @NotNull
     private ExcludedCourseRequirement excluded(Requirement req, Set<String> excludedCourseIdList) { return new ExcludedCourseRequirement(req, excludedCourseIdList); }
 
     @NotNull
-    private SingleCourseRequirement single(Course course) {
-        return new SingleCourseRequirement(course.getId());
+    private CourseRequirement single(Course course) {
+        return new CourseRequirement(course.getId());
     }
 
     @NotNull
-    private EitherCourseRequirement either(Requirement... reqs) {
-        return new EitherCourseRequirement(reqs);
+    private EitherRequirement either(Requirement... reqs) {
+        return new EitherRequirement(reqs);
     }
 
 }
