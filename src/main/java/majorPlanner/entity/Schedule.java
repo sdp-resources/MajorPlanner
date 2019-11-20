@@ -94,4 +94,16 @@ public class Schedule {
         AddedCourse addedCourse = new AddedCourse(term, course);
         addedCourses.add(addedCourse);
     }
+
+    public List<PrerequisiteProblem> checkPrerequisites() {
+        ArrayList<PrerequisiteProblem> problems = new ArrayList<>();
+        for (AddedCourse addedCourse : addedCourses) {
+            Prerequisite prerequisite = addedCourse.getCourse().getPrerequisite();
+            String courseId = addedCourse.getCourse().getId();
+            if(!prerequisite.isSatisfied(this, addedCourse.getTerm())){
+                problems.add(new PrerequisiteProblem(courseId, prerequisite.getMessage()));
+            };
+        }
+        return problems;
+    }
 }

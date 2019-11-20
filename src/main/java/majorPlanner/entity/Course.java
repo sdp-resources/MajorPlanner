@@ -8,6 +8,7 @@ import java.util.Set;
 public class Course {
     private final String id;
     private Set<String> tags = new HashSet<>();
+    private Prerequisite prerequisite = new NoPrerequisite();
 
     public Course (String id) {
         this.id = id;
@@ -64,5 +65,13 @@ public class Course {
         return "Course{" + id +
                 ", " + tags +
                 '}';
+    }
+
+    public void setPrerequisite(Prerequisite prereq) {
+        this.prerequisite = prereq;
+    }
+
+    public Prerequisite getPrerequisite() {
+        return prerequisite;
     }
 }
