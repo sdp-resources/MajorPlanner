@@ -24,6 +24,31 @@ public class CalendarTerm implements Term {
     }
 
     @Override
+    public boolean isAfter(Term t2) {
+        return t2.isParameterAfterThis(this);
+    }
+
+    @Override
+    public boolean isParameterAfterThis(CalendarTerm calendarTerm) {
+        return areOrdered(this, calendarTerm);
+    }
+
+    public static boolean areOrdered(CalendarTerm t1, CalendarTerm t2) {
+        int yearCompare = t1.year.compareTo(t2.year);
+        int periodCompare = t1.period.compareTo(t2.period);
+        if(yearCompare > 0) return false;
+        if(yearCompare < 0) return true;
+        if(periodCompare > 0) return false;
+        if(periodCompare < 0) return true;
+        return false;
+    }
+
+    @Override
+    public boolean isParameterAfterThis(TransferTerm transferTerm) {
+        return false;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
