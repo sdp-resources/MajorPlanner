@@ -73,7 +73,7 @@ public class RequirementTests {
     private TagRequirement tags(Set<String> tags) { return new TagRequirement(tags); }
 
     @NotNull
-    private ExcludedCourseRequirement excluded(Requirement req, Set<String> excludedCourseIdList) { return new ExcludedCourseRequirement(req, excludedCourseIdList); }
+    private ExcludeRequirement excluded(Requirement req, Set<String> excludedCourseIdList) { return new ExcludeRequirement(req, excludedCourseIdList); }
 
     @NotNull
     private CourseRequirement single(Course course) {

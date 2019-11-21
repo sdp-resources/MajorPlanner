@@ -27,6 +27,7 @@ public class RequirementReadWriteTest {
         module.addSerializer(TagRequirement.class, new TagRequirementSerializer(TagRequirement.class));
         module.addSerializer(CourseRequirement.class, new CourseRequirementSerializer(CourseRequirement.class));
         module.addSerializer(EitherRequirement.class, new EitherRequirementSerializer(EitherRequirement.class));
+        module.addSerializer(ExcludeRequirement.class, new ExcludeRequirementSerializer(ExcludeRequirement.class));
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(module);
     }
@@ -39,11 +40,11 @@ public class RequirementReadWriteTest {
         assertRoundTrips(new EitherRequirement(
                 new TagRequirement(Set.of("ENG")),
                 new CourseRequirement("CS220")));
+        assertRoundTrips(new ExcludeRequirement(new CourseRequirement("CS223"), Set.of("MAT121", "CS321", "CS328")));
     }
 
     private void assertRoundTrips(Requirement requirement) throws IOException {
         String value = serialize(requirement);
-        System.out.println(value);
         Requirement result = deserialize(value);
         assertThat(result, is(requirement));
     }
@@ -65,9 +66,15 @@ public class RequirementReadWriteTest {
                 return readCourseRequirement(json);
             case "either":
                 return readEitherRequirement(json);
+            case "exclude":
+                return readExcludeRequirement(json);
             default:
                 throw new RuntimeException("Unknown type: " + type);
         }
+    }
+
+    private Requirement readExcludeRequirement(JsonNode json) {
+        return new ExcludeRequirement(deserialize(json.get("requirement")), asStringSet(json.get("courses")));
     }
 
     private Requirement readEitherRequirement(JsonNode json) {
@@ -83,14 +90,14 @@ public class RequirementReadWriteTest {
     }
 
     private Requirement readTagRequirement(JsonNode json) {
-        return new TagRequirement(asStringArray(json.get("tags")));
+        return new TagRequirement(asStringSet(json.get("tags")));
     }
 
     private Requirement readCourseRequirement(JsonNode json) {
         return new CourseRequirement(json.get("course").asText());
     }
 
-    private Set<String> asStringArray(JsonNode tags) {
+    private Set<String> asStringSet(JsonNode tags) {
         Set<String> set = new HashSet<>();
         for (JsonNode tag : tags) {
             set.add(tag.asText());
