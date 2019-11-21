@@ -5,11 +5,12 @@ public interface Term {
 
     Year getYear();
 
-    boolean isAfter(Term t2);
+    boolean isAfter(Term term);
 
-    boolean isParameterAfterThis(TransferTerm transferTerm);
+    boolean isBefore(Term term);
 
-    boolean isParameterAfterThis(CalendarTerm calendarTerm);
+    boolean isBefore(TransferTerm transferTerm);
 
+    boolean isBefore(CalendarTerm calendarTerm);
 }
 

@@ -14,17 +14,22 @@ public class TransferTerm implements Term {
     }
 
     @Override
-    public boolean isAfter(Term t2) {
-        return t2.isParameterAfterThis(this);
+    public boolean isAfter(Term term) {
+        return term.isBefore(this);
     }
 
     @Override
-    public boolean isParameterAfterThis(CalendarTerm calendarTerm) {
+    public boolean isBefore(Term term) {
+        return term.isAfter(this);
+    }
+
+    @Override
+    public boolean isBefore(CalendarTerm calendarTerm) {
         return true;
     }
 
     @Override
-    public boolean isParameterAfterThis(TransferTerm transferTerm) {
+    public boolean isBefore(TransferTerm transferTerm) {
         return true;
     }
 

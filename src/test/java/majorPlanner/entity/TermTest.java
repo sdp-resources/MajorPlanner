@@ -16,33 +16,40 @@ public class TermTest {
     @Test
     public void TransferTermsComeAfterTransferTerms() {
         assertThat(transfer.isAfter(transfer), is(true));
+        assertThat(transfer.isBefore(transfer), is(true));
     }
 
     @Test
     public void CalendarTermsComeAfterTransferTerms() {
         assertThat(freshmanFall.isAfter(transfer), is(true));
+        assertThat(transfer.isBefore(freshmanFall), is(true));
     }
 
     @Test
     public void TransferTermsAreNotAfterCalenderTerms() {
         assertThat(transfer.isAfter(freshmanFall), is(false));
+        assertThat(freshmanFall.isBefore(transfer), is(false));
     }
 
     @Test
     public void bothAreCalenderTerms_DifferentYears() {
         assertThat(sophomoreFall.isAfter(freshmanFall), is(true));
+        assertThat(freshmanFall.isBefore(sophomoreFall), is(true));
         assertThat(freshmanFall.isAfter(sophomoreFall), is(false));
+        assertThat(sophomoreFall.isBefore(freshmanFall), is(false));
     }
-
 
     @Test
     public void bothAreCalendarTermsInSameYear_DifferentTerms(){
         assertThat(freshmanWinter.isAfter(freshmanFall), is(true));
+        assertThat(freshmanFall.isBefore(freshmanWinter), is(true));
         assertThat(freshmanFall.isAfter(freshmanWinter), is(false));
+        assertThat(freshmanWinter.isBefore(freshmanFall), is(false));
     }
 
     @Test
     public void bothAreCalendarTermsInSameYearAndSameTerm(){
         assertThat(freshmanFall.isAfter(freshmanFall), is(false));
+        assertThat(freshmanFall.isBefore(freshmanFall), is(false));
     }
 }
