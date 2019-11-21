@@ -2,18 +2,37 @@ Feature: View course list for requirement
   Scenario: User is trying to fill a single course requirement
     Given u is a logged in User
     And "" is a course with id "PHY162"
-    And a single course requirement "PHY162" with id i
+    And a requirement with id i
+      """
+      {
+        "type": "course",
+        "course": "PHY162"
+      }
+      """
     When u views the course list l for the requirement with id i
-    Then l contains only "PHY162"
+    Then l contains "PHY162"
 
-  Scenario: User is trying to fill an any requirement
+  Scenario: User is trying to fill an either requirement
     Given u is a logged in User
     And "" is a course with id "ENG243"
     And "" is a course with id "ENG244"
-    And a single course requirement "ENG243" with id i
-    And a single course requirement "ENG244" with id j
-    And a any requirement which contains i and j with id k
-    When u views the course list l for the requirement k
+    And a requirement with id i
+      """
+      {
+        "type": "either",
+        "requirements": [
+          {
+            "type": "course",
+            "course": "ENG243"
+          },
+          {
+            "type": "course",
+            "course": "ENG244"
+          }
+        ]
+      }
+      """
+    When u views the course list l for the requirement with id i
     Then l contains "ENG243" and "ENG244"
 
   Scenario: User is trying to fill a tag requirement
@@ -23,6 +42,15 @@ Feature: View course list for requirement
     And "" is a course with id "ENG243"
     And "" is a course with id "ENG244"
     And "" is a course with id "PHY243"
-    And a tag requirement "ENG" and '2XX" with id i
-    When u views the course list l for the requirement i
+    And a requirement with id i
+      """
+      {
+        "type": "tag",
+        "tags": [
+          "ENG",
+          "2XX"
+        ]
+      }
+      """
+    When u views the course list l for the requirement with id i
     Then l contains

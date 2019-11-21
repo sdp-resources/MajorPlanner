@@ -28,7 +28,7 @@ public class AddCourseSteps {
 
     @When("{word} adds {string} to schedule with id {word} for {word} of {word} year")
     public void userAddsCourseToSchedule(String user, String course, String scheduleIDName, String period, String year) {
-        Response response = TestController.getInstance().addCourse(TestContext.getSession(user), TestContext.getCourseId(course), TestContext.getScheduleId(scheduleIDName), period, year);
+        Response response = TestController.getInstance().addCourse(TestContext.getSession(user), TestContext.getCourseId(course), TestContext.getId(scheduleIDName), period, year);
     }
 
     @Then("{word} has the course, {string} during {word} of {word} year")
@@ -49,7 +49,7 @@ public class AddCourseSteps {
 
     @When("{word} adds transfer course {string} to schedule with id {word}")
     public void tuckerAddsTransferCourseToScheduleWithIdI(String userName, String courseName, String scheduleIdName) {
-        TestController.getInstance().addTransferCourse(TestContext.getSession(userName), TestContext.getCourseId(courseName), TestContext.getScheduleId(scheduleIdName));
+        TestController.getInstance().addTransferCourse(TestContext.getSession(userName), TestContext.getCourseId(courseName), TestContext.getId(scheduleIdName));
     }
 
     @Then("{word} has a course with id {string}")

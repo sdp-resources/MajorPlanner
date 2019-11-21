@@ -53,7 +53,7 @@ public class CreateScheduleSteps {
 
     @And("{word} views the schedule {word} with id {word}")
     public void viewScheduleWithId(String sessionName, String scheduleName, String idName) {
-        int scheduleId = TestContext.getScheduleId(idName);
+        int scheduleId = TestContext.getId(idName);
         Session session = TestContext.getSession(sessionName);
         Response response = TestController.getInstance().viewSchedule(session, scheduleId);
         assertSuccessful(response);

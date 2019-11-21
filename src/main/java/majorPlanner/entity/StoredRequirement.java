@@ -1,13 +1,20 @@
 package majorPlanner.entity;
 
 public class StoredRequirement {
-    private final Requirement req;
-    private final String requirementId;
-    private final String requirementDescription;
+    private Requirement requirement;
+    private Integer id;
+    private String description;
 
-    public StoredRequirement(Requirement req, String requirementId, String requirementDescription) {
-        this.req = req;
-        this.requirementId = requirementId;
-        this.requirementDescription = requirementDescription;
+    public StoredRequirement(Requirement requirement, String description) {
+        this.requirement = requirement;
+        this.description = description;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

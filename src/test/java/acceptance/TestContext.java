@@ -1,11 +1,13 @@
 package acceptance;
 
 import io.cucumber.java.Before;
+import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
 import majorPlanner.entity.User;
 import majorPlanner.session.Session;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TestContext {
@@ -19,7 +21,7 @@ public class TestContext {
         return (Session) data.get(name);
     }
 
-    public static int getScheduleId(String name) {
+    public static int getId(String name) {
         return (int) data.get(name);
     }
 
@@ -33,6 +35,10 @@ public class TestContext {
 
     public static String getCourseId(String course) {
         return (String) data.get(course);
+    }
+
+    public static List<Course> getCourseList(String name) {
+        return (List<Course>) data.get(name);
     }
 
     @Before

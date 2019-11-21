@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 public class RemoveCourseSteps {
     @When("{word} removes course with id {string} from schedule with id {word}")
     public void removeCourseFromSchedule(String user, String courseID, String scheduleIDName) {
-        TestController.getInstance().removeCourse(TestContext.getSession(user), courseID, TestContext.getScheduleId(scheduleIDName));
+        TestController.getInstance().removeCourse(TestContext.getSession(user), courseID, TestContext.getId(scheduleIDName));
     }
 
     @Then("{word} doesn't have a course with id {string} term {word} and year {word}")

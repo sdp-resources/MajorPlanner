@@ -18,7 +18,6 @@ import java.util.Map;
 
 public class TestController extends Controller {
     private static TestController instance;
-    private Map<String, Session> usersToSessions = new HashMap<>();
     private Map<String, User> userNamesToUsers = new HashMap<>();
     private Map<String, Course> nameToCourse = new HashMap<>();
     private Map<String, Schedule> nameToSchedule = new HashMap<>();
@@ -52,20 +51,14 @@ public class TestController extends Controller {
         nameToCourse.put(name, course);
     }
 
-    public Response addCourse(String user, String course, String scheduleName, Period period, Year year) {
-        return addCourse(user, course, nameToSchedule.get(scheduleName).getID(), period.toString(), year.toString());
-    }
-
-    public Response addCourse(String user, String course, int scheduleId, String termString, String yearString) {
-        Response response = super.addCourse(usersToSessions.get(user), course, scheduleId, termString, yearString);
-        responses.add(response);
-        return response;
-    }
-
     public void defineSchedule(String name, String owner) {
         Schedule schedule = new Schedule(userNamesToUsers.get(owner), name, "");
         gateway.addSchedule(schedule);
         nameToSchedule.put(name, schedule);
+    }
+
+    public void defineRequirement(StoredRequirement storedRequirement) {
+        gateway.addRequirement(storedRequirement);
     }
 
     public boolean scheduleHasCourse(String scheduleName, String courseName, String term, String year) {

@@ -2,6 +2,7 @@ package webserver;
 
 import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
+import majorPlanner.entity.StoredRequirement;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
 
@@ -16,11 +17,13 @@ public class MemoryGateway implements Gateway {
     private Map<Integer, Schedule> scheduleMap;
     private Map<String, User> userMap;
     private Map<String, Course> courseMap;
+    private Map<Integer, StoredRequirement> requirementMap;
 
     public MemoryGateway() {
         scheduleMap = new HashMap<>();
         userMap = new HashMap<>();
         courseMap = new HashMap<>();
+        requirementMap = new HashMap<>();
     }
 
     @Override
@@ -69,5 +72,20 @@ public class MemoryGateway implements Gateway {
     @Override
     public Course getCourse(String courseID) {
         return courseMap.get(courseID);
+    }
+
+    @Override
+    public void addRequirement(StoredRequirement requirement) {
+        if (requirement.getId() == null)
+        {
+            requirement.setId(++lastId);
+        }
+
+        requirementMap.put(requirement.getId(), requirement);
+    }
+
+    @Override
+    public StoredRequirement getRequirement(Integer id) {
+        return requirementMap.get(id);
     }
 }

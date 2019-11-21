@@ -54,4 +54,9 @@ public class Controller {
         Request request = Request.addTransferCourse(courseId, scheduleId);
         return executeWithSession(request, interactorFactory.getInteractorFor(request), session);
     }
+
+    public Response viewCourseList(Session session, int requirementId) {
+        Request request = Request.viewCourseList(requirementId);
+        return executeWithSession(request, interactorFactory.getInteractorFor(request), session);
+    }
 }

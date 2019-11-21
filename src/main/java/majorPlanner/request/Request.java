@@ -31,6 +31,10 @@ public abstract class Request {
         return new RemoveCourseFromScheduleRequest(courseID, scheduleID);
     }
 
+    public static Request viewCourseList(int requirementId) {
+        throw new RuntimeException("viewCourseList request not added to Request.java");
+    }
+
     public abstract <T> T accept(RequestVisitor<T> visitor);
 
     public Session getSession(){
