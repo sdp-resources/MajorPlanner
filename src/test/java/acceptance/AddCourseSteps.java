@@ -22,18 +22,22 @@ public class AddCourseSteps {
 
     @Given("{string} is a course with id {string}")
     public void defineCourse(String name, String id) {
-        TestController.getInstance().defineCourse(name, id);
-        TestContext.put(name, id);
+        Course course = new Course(id);
+        TestController.getInstance().defineCourse(course);
+        TestContext.put(name, course);
     }
 
     @When("{word} adds {string} to schedule with id {word} for {word} of {word} year")
-    public void userAddsCourseToSchedule(String user, String course, String scheduleIDName, String period, String year) {
-        Response response = TestController.getInstance().addCourse(TestContext.getSession(user), TestContext.getCourseId(course), TestContext.getId(scheduleIDName), period, year);
+    public void userAddsCourseToSchedule(String user, String courseId, String scheduleIDName, String period, String year) {
+        Response response = TestController.getInstance().addCourse(TestContext.getSession(user), courseId, TestContext.getId(scheduleIDName), period, year);
     }
 
     @Then("{word} has the course, {string} during {word} of {word} year")
-    public void scheduleHasTheCourse(String schedule, String course, String term, String year) {
-        Assert.assertThat(TestController.getInstance().scheduleHasCourse(schedule, course, term, year), is(true));
+    public void scheduleHasTheCourse(String scheduleName, String courseName, String period, String year) {
+        CalendarTerm term = new CalendarTerm(Period.valueOf(period), Year.valueOf(year));
+        Schedule schedule = TestContext.getSchedule(scheduleName);
+        Course course = TestContext.getCourse(courseName);
+        Assert.assertThat(schedule.containsCourse(course, term), is(true));
     }
 
     @And("{word} has the course {word}")
@@ -48,8 +52,8 @@ public class AddCourseSteps {
     }
 
     @When("{word} adds transfer course {string} to schedule with id {word}")
-    public void tuckerAddsTransferCourseToScheduleWithIdI(String userName, String courseName, String scheduleIdName) {
-        TestController.getInstance().addTransferCourse(TestContext.getSession(userName), TestContext.getCourseId(courseName), TestContext.getId(scheduleIdName));
+    public void tuckerAddsTransferCourseToScheduleWithIdI(String userName, String courseId, String scheduleIdName) {
+        TestController.getInstance().addTransferCourse(TestContext.getSession(userName), courseId, TestContext.getId(scheduleIdName));
     }
 
     @Then("{word} has a course with id {string}")

@@ -2,25 +2,21 @@ package acceptance;
 
 import majorPlanner.Controller;
 import majorPlanner.authorizer.GatewayBackedAuthorizer;
-import majorPlanner.entity.*;
+import majorPlanner.entity.Course;
+import majorPlanner.entity.StoredRequirement;
+import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
 import majorPlanner.interactor.GatewayBackedInteractorFactory;
 import majorPlanner.interactor.Interactor;
 import majorPlanner.request.Request;
 import majorPlanner.response.Response;
-import majorPlanner.session.Session;
 import webserver.MemoryGateway;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TestController extends Controller {
     private static TestController instance;
-    private Map<String, User> userNamesToUsers = new HashMap<>();
-    private Map<String, Course> nameToCourse = new HashMap<>();
-    private Map<String, Schedule> nameToSchedule = new HashMap<>();
     public final Gateway gateway;
     public List<Response> responses = new ArrayList<>();
 
@@ -45,36 +41,12 @@ public class TestController extends Controller {
         gateway.addUser(user);
     }
 
-    public void defineCourse(String name, String id) {
-        Course course = new Course(id);
+    public void defineCourse(Course course) {
         gateway.addCourse(course);
-        nameToCourse.put(name, course);
-    }
-
-    public void defineSchedule(String name, String owner) {
-        Schedule schedule = new Schedule(userNamesToUsers.get(owner), name, "");
-        gateway.addSchedule(schedule);
-        nameToSchedule.put(name, schedule);
     }
 
     public void defineRequirement(StoredRequirement storedRequirement) {
         gateway.addRequirement(storedRequirement);
-    }
-
-    public boolean scheduleHasCourse(String scheduleName, String courseName, String term, String year) {
-        Schedule schedule = nameToSchedule.get(scheduleName);
-        Course course = nameToCourse.get(courseName);
-        return scheduleContainsAddedCourse(schedule, course, Period.valueOf(term), Year.valueOf(year));
-    }
-
-    private boolean scheduleContainsAddedCourse(Schedule schedule, Course course, Period period, Year year) {
-        CalendarTerm t = new CalendarTerm(period, year);
-        for (AddedCourse ac: schedule.getAddedCourses()) {
-            if (ac.getCourse().getId().equals(course.getId()) && ac.getTerm().equals(t)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

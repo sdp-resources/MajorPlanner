@@ -5,6 +5,7 @@ import majorPlanner.entity.Course;
 import majorPlanner.entity.Schedule;
 import majorPlanner.entity.User;
 import majorPlanner.session.Session;
+import org.hamcrest.Matcher;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +34,12 @@ public class TestContext {
         return getSession(name).getUser();
     }
 
-    public static String getCourseId(String course) {
-        return (String) data.get(course);
-    }
-
     public static List<Course> getCourseList(String name) {
         return (List<Course>) data.get(name);
+    }
+
+    public static Course getCourse(String courseName) {
+       return (Course) data.get(courseName);
     }
 
     @Before

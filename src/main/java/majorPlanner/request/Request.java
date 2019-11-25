@@ -32,7 +32,7 @@ public abstract class Request {
     }
 
     public static Request viewCourseList(int requirementId) {
-        throw new RuntimeException("viewCourseList request not added to Request.java");
+        return new ViewCourseListRequest(requirementId);
     }
 
     public abstract <T> T accept(RequestVisitor<T> visitor);

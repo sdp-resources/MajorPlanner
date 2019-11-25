@@ -4,14 +4,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import json.JsonConverter;
-import majorPlanner.entity.Course;
-import majorPlanner.entity.Requirement;
 import majorPlanner.entity.StoredRequirement;
 import majorPlanner.response.Response;
-import static org.hamcrest.CoreMatchers.is;
+import org.junit.Assert;
 
 import java.io.IOException;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RequirementSteps {
@@ -27,10 +26,11 @@ public class RequirementSteps {
     @When("{word} views the course list {word} for the requirement with id {word}")
     public void viewCourseList(String userName, String courseListName, String requirementIdName) {
         Response response = TestController.getInstance().viewCourseList(TestContext.getSession(userName), TestContext.getId(requirementIdName));
+        response.handle((Object o) -> TestContext.put(courseListName, o), Assert::fail);
     }
 
-    @Then("course list {word} contains {string}")
-    public void lContains(String courseListName, String course) {
-        assertThat(TestContext.getCourseList(courseListName).contains(new Course(course)), is(true));
+    @Then("the list of courses {word} contains {string}")
+    public void theListOfCoursesLContains(String courseListName, String courseName) {
+        assertThat(TestContext.getCourseList(courseListName), hasItem(TestContext.getCourse(courseName)));
     }
 }

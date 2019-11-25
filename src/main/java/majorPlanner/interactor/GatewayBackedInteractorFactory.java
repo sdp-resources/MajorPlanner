@@ -53,5 +53,10 @@ public class GatewayBackedInteractorFactory implements InteractorFactory {
         public Interactor visit(AddTransferCourseToScheduleRequest request) {
             return new AddTransferCourseToScheduleInteractor(request, gateway, gateway);
         }
+
+        @Override
+        public Interactor visit(ViewCourseListRequest request) {
+            return new ViewCourseListInteractor(request);
+        }
     }
 }
