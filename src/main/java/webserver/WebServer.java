@@ -43,6 +43,30 @@ public class WebServer {
         app.get("/schedule/:id", this::showSchedule);
         app.post("/schedule", this::addSchedule);
         app.post("/schedule/:id/course", this::addCourseToSchedule);
+        app.post("/schedule/:id/transfer", this::addTransferCourse);
+        app.get("/schedule/:id/course/:courseid/delete", this::removeCourse);
+    }
+
+    private void addTransferCourse(Context ctx) {
+        Session session = getUserSession(ctx);
+        requestHandler.addTransferCourse(
+                session,
+                ctx.formParam("course"),
+                Integer.parseInt(ctx.pathParam("id")))
+                .handle(o -> {
+                            ctx.redirect(Path.schedule((Schedule) o));
+                        },
+                        error -> ctx.status(404).result(error));
+    }
+
+    private void removeCourse(Context ctx) {
+        Session session = getUserSession(ctx);
+        Integer id = Integer.valueOf(ctx.pathParam("id"));
+        String courseid = ctx.pathParam("courseid");
+        requestHandler.removeCourse(session, courseid, id)
+                .handle(
+                        o -> { ctx.redirect(Path.schedule((Schedule) o));},
+                        error -> ctx.status(404).result(error));
     }
 
     private void showSchedule(Context ctx) {
@@ -113,20 +137,8 @@ public class WebServer {
         return new Session("token", new User(userid, Role.User));
     }
 
-//    private Schedule getSchedule(Integer id) {
-        // TODO: Make proper request when method is available
-
-//        User owner = new User("Joe", Role.User);
-//        Schedule schedule = new Schedule(owner, "schedule name", "schedule description");
-//        schedule.addTransferCourse(new Course("MAT112"));
-//        schedule.addCourse(new Course("MAT121"), Period.Fall.toString(), Year.Freshman.toString());
-//        schedule.addCourse(new Course("MAT122"), Period.Winter.toString(), Year.Sophomore.toString());
-//        schedule.addCourse(new Course("CS220"), Period.Winter.toString(), Year.Sophomore.toString());
-//        return schedule;
-//    }
-
     private List<Course> getAvailableCourses() {
-        String[] courseNames = {"MAT121", "MAT122", "CS220", "CS223", "CS225"};
+        String[] courseNames = {"MAT112", "MAT121", "MAT122", "CS220", "CS223", "CS225"};
         ArrayList<Course> courseList = new ArrayList<>();
         for (String courseName : courseNames) {
             Course course = new Course(courseName);
