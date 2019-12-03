@@ -18,7 +18,7 @@ public class RequirementSteps {
 
     @Given("a requirement with id {word}")
     public void requirementJson(String idName, String requirementJson) throws IOException {
-        StoredRequirement requirement = new StoredRequirement(converter.deserialize(requirementJson), "");
+        StoredRequirement requirement = new StoredRequirement(converter.deserializeRequirement(requirementJson), "");
         TestController.getInstance().defineRequirement(requirement);
         TestContext.put(idName, requirement.getId());
     }

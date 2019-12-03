@@ -9,7 +9,7 @@
     <option name="PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     <patterns>
-      <pattern testClass="^majorPlanner.*$" />
+      <pattern testClass="^(majorPlanner|json).*$" />
     </patterns>
     <method v="2">
       <option name="Make" enabled="true" />
