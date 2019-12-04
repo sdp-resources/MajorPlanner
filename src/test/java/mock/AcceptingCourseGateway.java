@@ -3,6 +3,8 @@ package mock;
 import majorPlanner.entity.Course;
 import majorPlanner.gateway.CourseGateway;
 
+import java.util.Set;
+
 public class AcceptingCourseGateway implements CourseGateway {
 
     private String requestedCourseID;
@@ -18,6 +20,11 @@ public class AcceptingCourseGateway implements CourseGateway {
         requestedCourseID = courseID;
         providedCourse = new Course(requestedCourseID);
         return providedCourse;
+    }
+
+    @Override
+    public Set<Course> getAllCourses() {
+        return null;
     }
 
     public String getRequestedCourseID() { return requestedCourseID; }

@@ -11,4 +11,8 @@ public class ViewCourseListRequest extends Request {
     public <T> T accept(RequestVisitor<T> visitor) {
         return visitor.visit(this);
     }
+
+    public int getRequirementId() {
+        return requirementId;
+    }
 }

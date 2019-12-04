@@ -39,6 +39,11 @@ public class SuccessResponse<T> implements Response {
     }
 
     @Override
+    public String toString() {
+        return "SuccessResponse{" + value + '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(value);
     }

@@ -15,6 +15,7 @@ public interface Response {
     String USER_MISMATCH_MESSAGE = "User cannot create a schedule for another user.";
     String SCHEDULE_DOES_NOT_EXIST_MESSAGE = "Schedule does not exist.";
     String COURSE_DOES_NOT_EXIST_MESSAGE = "Course does not exist.";
+    String REQUIREMENT_ID_DOES_NOT_EXIST_MESSAGE = "Requirement Id does not exist";
 
     @NotNull
     static Response ok() {
@@ -60,6 +61,8 @@ public interface Response {
     static Response nonExistentSchedule() {
         return new ErrorResponse(SCHEDULE_DOES_NOT_EXIST_MESSAGE);
     }
+
+    static Response invalidRequirementId() { return new ErrorResponse(REQUIREMENT_ID_DOES_NOT_EXIST_MESSAGE); }
 
     boolean containsError();
     void handle(Consumer<Object> onSuccess, Consumer<String> onFailure);

@@ -6,10 +6,7 @@ import majorPlanner.entity.StoredRequirement;
 import majorPlanner.entity.User;
 import majorPlanner.gateway.Gateway;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MemoryGateway implements Gateway {
     private int lastId = 0;
@@ -72,6 +69,11 @@ public class MemoryGateway implements Gateway {
     @Override
     public Course getCourse(String courseID) {
         return courseMap.get(courseID);
+    }
+
+    @Override
+    public Set<Course> getAllCourses() {
+        return null;
     }
 
     @Override

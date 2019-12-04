@@ -56,7 +56,7 @@ public class GatewayBackedInteractorFactory implements InteractorFactory {
 
         @Override
         public Interactor visit(ViewCourseListRequest request) {
-            return new ViewCourseListInteractor(request);
+            return new ViewCourseListInteractor(request, gateway, gateway);
         }
     }
 }

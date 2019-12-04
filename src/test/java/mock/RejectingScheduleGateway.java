@@ -6,7 +6,6 @@ import java.util.List;
 
 public class RejectingScheduleGateway extends ScheduleGatewaySpy {
 
-
     @Override
     public Schedule getSchedule(int id) {
         super.getSchedule(id);
