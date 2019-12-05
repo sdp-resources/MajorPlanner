@@ -1,14 +1,12 @@
 package majorPlanner.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Program {
     private String name;
     private String description;
     private List<StoredRequirement> storedReqs;
+    private List<MatchResult> matchResults;
 
     public Program(String name, String description, List<StoredRequirement> storedReqs) {
         this.name = name;
@@ -17,7 +15,21 @@ public class Program {
     }
 
     public List<MatchResult> match(Set<Course> courses) {
-        return new ArrayList<>();
+        matchResults = new ArrayList<>();
+        for (StoredRequirement req : storedReqs) {
+           matchResults.add(matchRequirement(req, courses));
+        }
+        return matchResults;
+    }
+
+    private MatchResult matchRequirement(StoredRequirement req, Set<Course> courses) {
+        Requirement curReq = req.getRequirement();
+        Set<Course> matchedCourses = curReq.matches(courses);
+        for (Course matchedCourse : matchedCourses) {
+            courses.remove(matchedCourse);
+            return new MatchedResult(req, matchedCourse);
+        }
+        return new UnmatchedResult(req);
     }
 
     public String getName() {
