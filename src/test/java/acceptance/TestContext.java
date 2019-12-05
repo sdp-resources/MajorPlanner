@@ -1,9 +1,7 @@
 package acceptance;
 
 import io.cucumber.java.Before;
-import majorPlanner.entity.Course;
-import majorPlanner.entity.Schedule;
-import majorPlanner.entity.User;
+import majorPlanner.entity.*;
 import majorPlanner.session.Session;
 import org.hamcrest.Matcher;
 
@@ -41,6 +39,10 @@ public class TestContext {
 
     public static Course getCourse(String courseName) {
        return (Course) data.get(courseName);
+    }
+
+    public static List<MatchResult> getMatchList(String matchesName) {
+        return (List<MatchResult>) data.get(matchesName);
     }
 
     @Before

@@ -3,7 +3,7 @@ Feature: Compare schedule
     Given u is a logged in User
     When u creates a schedule with name "name" description "desc" owned by u with resulting id s
     Given "ENG160" is a course with id "ENG160"
-    And the schedule with id s has schedule:
+    And the schedule with id s has program:
     """
     {
       "name": "Empty program",
@@ -15,9 +15,10 @@ Feature: Compare schedule
              "course": "ENG160"
           },
           "id": 20,
-          "description": "hello world"
+          "description": "Must take ENG160"
         }
       ]
     }
     """
-    When u compares the schedule with id s
+    When u compares the schedule with id s with resulting matches m
+    Then matches m contains a requirement with description "Must take ENG160" and course "ENG160"

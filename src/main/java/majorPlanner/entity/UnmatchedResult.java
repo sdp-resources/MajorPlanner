@@ -2,6 +2,8 @@ package majorPlanner.entity;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class UnmatchedResult implements MatchResult {
     private StoredRequirement req;
@@ -29,5 +31,10 @@ public class UnmatchedResult implements MatchResult {
     @Override
     public int hashCode() {
         return Objects.hash(req);
+    }
+
+    @Override
+    public void handle(BiConsumer<StoredRequirement, Course> matched, Consumer<StoredRequirement> unmatched) {
+        unmatched.accept(req);
     }
 }
