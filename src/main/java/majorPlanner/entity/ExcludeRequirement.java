@@ -24,8 +24,8 @@ public class ExcludeRequirement implements Requirement {
     }
 
     public ExcludeRequirement(Requirement req, Set<String> courses) {
-        this.courses = courses;
         this.requirement = req;
+        this.courses = courses;
     }
 
     public Set<Course> matches(Set<Course> courses) {

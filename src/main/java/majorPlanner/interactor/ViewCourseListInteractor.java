@@ -7,7 +7,6 @@ import majorPlanner.gateway.RequirementGateway;
 import majorPlanner.request.ViewCourseListRequest;
 import majorPlanner.response.Response;
 
-import java.util.List;
 import java.util.Set;
 
 public class ViewCourseListInteractor implements Interactor {
@@ -33,4 +32,6 @@ public class ViewCourseListInteractor implements Interactor {
         Set matchedCourses = requirement.getRequirement().matches(allCourses);
         return Response.success(matchedCourses);
     }
+
+    public int getRequirementId() { return requirementId;  }
 }
