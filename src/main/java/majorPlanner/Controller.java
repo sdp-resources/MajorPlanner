@@ -59,4 +59,9 @@ public class Controller {
         Request request = Request.viewCourseList(requirementId);
         return executeWithSession(request, interactorFactory.getInteractorFor(request), session);
     }
+
+    public Response compareSchedule(Session session, int scheduleId) {
+        Request request = Request.compareSchedule(scheduleId);
+        return executeWithSession(request, interactorFactory.getInteractorFor(request), session);
+    }
 }

@@ -7,5 +7,6 @@ public interface RequestVisitor<T> {
     T visit(RemoveCourseFromScheduleRequest request);
     T visit(AddTransferCourseToScheduleRequest request);
     T visit(ViewCourseListRequest request);
+    T visit(CompareScheduleRequest request);
     default T visit(Request request) { return request.accept(this); };
 }

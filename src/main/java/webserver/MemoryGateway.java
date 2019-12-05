@@ -78,8 +78,7 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public void addRequirement(StoredRequirement requirement) {
-        if (requirement.getId() == null)
-        {
+        if (requirement.getId() == null) {
             requirement.setId(++lastId);
         }
 

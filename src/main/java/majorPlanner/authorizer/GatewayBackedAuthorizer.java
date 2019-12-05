@@ -47,6 +47,11 @@ public class GatewayBackedAuthorizer implements Authorizer, RequestVisitor<Respo
         return Response.ok();
     }
 
+    @Override
+    public Response visit(CompareScheduleRequest request) {
+        return Response.ok();
+    }
+
     private Response checkAddCourse(Schedule schedule, Course course, Request request) {
         if (schedule == null) return Response.nonExistentSchedule();
         if (course == null) return Response.nonExistentCourse();

@@ -7,8 +7,7 @@ import majorPlanner.session.Session;
 
 public class DefineUserSteps {
     @Given("{word} is a logged in {word}")
-    public void userHasRole(String name, String role)
-    {
+    public void userHasRole(String name, String role) {
         User user = new User(name, Role.valueOf(role));
         Session session = new Session(null, user);
         TestController.getInstance().addUser(user);

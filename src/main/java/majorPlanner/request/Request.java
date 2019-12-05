@@ -35,6 +35,10 @@ public abstract class Request {
         return new ViewCourseListRequest(requirementId);
     }
 
+    public static Request compareSchedule(int scheduleId) {
+        return new CompareScheduleRequest(scheduleId);
+    }
+
     public abstract <T> T accept(RequestVisitor<T> visitor);
 
     public Session getSession(){
