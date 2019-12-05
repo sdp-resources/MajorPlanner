@@ -24,7 +24,6 @@ public class ViewCourseListInteractor implements Interactor {
 
     @Override
     public Response execute() {
-        // TODO: Implement correctly
         requirementId = request.getRequirementId();
         StoredRequirement requirement = requirementGateway.getRequirement(requirementId);
         if (requirement == null){

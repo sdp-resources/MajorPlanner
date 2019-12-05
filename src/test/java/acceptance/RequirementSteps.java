@@ -31,6 +31,7 @@ public class RequirementSteps {
 
     @Then("the list of courses {word} contains {string}")
     public void theListOfCoursesLContains(String courseListName, String courseName) {
+        System.out.println(TestContext.getCourseList(courseListName));
         assertThat(TestContext.getCourseList(courseListName), hasItem(TestContext.getCourse(courseName)));
     }
 }

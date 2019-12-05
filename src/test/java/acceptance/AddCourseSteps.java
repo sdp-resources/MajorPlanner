@@ -9,6 +9,8 @@ import majorPlanner.entity.*;
 import majorPlanner.response.Response;
 import org.junit.Assert;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 
 public class AddCourseSteps {
@@ -23,6 +25,14 @@ public class AddCourseSteps {
     @Given("{string} is a course with id {string}")
     public void defineCourse(String name, String id) {
         Course course = new Course(id);
+        TestController.getInstance().defineCourse(course);
+        TestContext.put(name, course);
+    }
+
+    @Given("{string} is a course with id {string} with tags:")
+    public void defineCourseWithTags(String name, String id, List<String> tags) {
+        Course course = new Course(id);
+        tags.forEach(course::addTag);
         TestController.getInstance().defineCourse(course);
         TestContext.put(name, course);
     }

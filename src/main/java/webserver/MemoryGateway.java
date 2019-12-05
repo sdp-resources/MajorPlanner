@@ -73,7 +73,7 @@ public class MemoryGateway implements Gateway {
 
     @Override
     public Set<Course> getAllCourses() {
-        return null;
+        return Set.copyOf(courseMap.values());
     }
 
     @Override

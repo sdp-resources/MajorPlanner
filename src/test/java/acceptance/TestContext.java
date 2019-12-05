@@ -10,6 +10,7 @@ import org.hamcrest.Matcher;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class TestContext {
     public static Map<String, Object> data;
@@ -34,8 +35,8 @@ public class TestContext {
         return getSession(name).getUser();
     }
 
-    public static List<Course> getCourseList(String name) {
-        return (List<Course>) data.get(name);
+    public static Set<Course> getCourseList(String name) {
+        return (Set<Course>) data.get(name);
     }
 
     public static Course getCourse(String courseName) {
@@ -46,10 +47,5 @@ public class TestContext {
     public void reset()
     {
         data = new HashMap<>();
-    }
-
-    public TestContext()
-    {
-        System.out.println("Basic steps constructor called");
     }
 }

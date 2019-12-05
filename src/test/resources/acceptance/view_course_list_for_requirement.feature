@@ -39,11 +39,21 @@ Feature: View course list for requirement
 
   Scenario: User is trying to fill a tag requirement
     Given u is a logged in User
-    And "ENG100" is a course with id "ENG100"
-    And "ENG300" is a course with id "ENG300"
-    And "ENG243" is a course with id "ENG243"
-    And "ENG244" is a course with id "ENG244"
-    And "PHY243" is a course with id "PHY243"
+    And "ENG100" is a course with id "ENG100" with tags:
+      | ENG |
+      | 1XX |
+    And "ENG300" is a course with id "ENG300" with tags:
+      | ENG |
+      | 3XX |
+    And "ENG243" is a course with id "ENG243" with tags:
+      | ENG |
+      | 2XX |
+    And "ENG244" is a course with id "ENG244" with tags:
+      | ENG |
+      | 2XX |
+    And "PHY243" is a course with id "PHY243" with tags:
+      | PHY |
+      | 2XX |
     And a requirement with id i
       """
       {
@@ -60,11 +70,21 @@ Feature: View course list for requirement
 
   Scenario: User is trying to fill an exclude requirement
     Given u is a logged in User
-    And "ENG100" is a course with id "ENG100"
-    And "ENG300" is a course with id "ENG300"
-    And "ENG243" is a course with id "ENG243"
-    And "ENG244" is a course with id "ENG244"
-    And "PHY243" is a course with id "PHY243"
+    And "ENG100" is a course with id "ENG100" with tags:
+      | ENG |
+      | 1XX |
+    And "ENG300" is a course with id "ENG300" with tags:
+      | ENG |
+      | 3XX |
+    And "ENG243" is a course with id "ENG243" with tags:
+      | ENG |
+      | 2XX |
+    And "ENG244" is a course with id "ENG244" with tags:
+      | ENG |
+      | 2XX |
+    And "PHY243" is a course with id "PHY243" with tags:
+      | PHY |
+      | 2XX |
     And a requirement with id i
       """
       {
