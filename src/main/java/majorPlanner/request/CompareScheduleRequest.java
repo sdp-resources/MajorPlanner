@@ -1,10 +1,9 @@
 package majorPlanner.request;
 
 public class CompareScheduleRequest extends Request {
-    private int scheduleId;
+    public int scheduleId;
 
     public CompareScheduleRequest(int scheduleId) {
-
         this.scheduleId = scheduleId;
     }
 

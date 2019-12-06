@@ -61,7 +61,7 @@ public class GatewayBackedInteractorFactory implements InteractorFactory {
 
         @Override
         public Interactor visit(CompareScheduleRequest request) {
-            return new CompareScheduleInteractor(request);
+            return new CompareScheduleInteractor(request, gateway);
         }
     }
 }

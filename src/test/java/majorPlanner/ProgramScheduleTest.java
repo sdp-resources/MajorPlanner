@@ -1,5 +1,6 @@
 package majorPlanner;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 import majorPlanner.entity.*;
@@ -12,66 +13,71 @@ import static org.junit.Assert.assertThat;
 
 public class ProgramScheduleTest {
 
-    private StoredRequirement storedReq1;
-    private Requirement req1;
-    private Course course1;
-    private StoredRequirement storedReq2;
-    private Requirement req2;
-    private Course course2;
-    private StoredRequirement storedReq3;
-    private Requirement req3;
+    private StoredRequirement reqCS220;
+    private Course cs220;
+    private StoredRequirement reqCS223;
+    private Course cs223;
+    private StoredRequirement reqMAT217;
+    private Course cs321;
+    private StoredRequirement reqCS220_other;
+    private Schedule schedule;
+    private List<StoredRequirement> storedReqs;
 
     @Before
     public void setUp() throws Exception {
-        req1 = new CourseRequirement("CS220");
-        storedReq1 = new StoredRequirement(req1, "stored req 1");
-        course1 = new Course("CS220");
-        req2 = new CourseRequirement("CS223");
-        storedReq2 = new StoredRequirement(req2, "stored req 2");
-        course2 = new Course("CS223");
-        req3 = new CourseRequirement("MAT217");
-        storedReq3 = new StoredRequirement(req3, "stored req 3");
+        User owner = new User("George", Role.User);
+        schedule = new Schedule(owner, "My Schedule", "My description");
+        storedReqs = new ArrayList<>();
+        Program program = new Program("Program name", "Program description", storedReqs);
+        schedule.addProgram(program);
 
+        reqCS220 = makeRequirement("CS220", "stored req 1");
+        reqCS220_other = makeRequirement("CS220", "stored req 4");
+        reqCS223 = makeRequirement("CS223", "stored req 2");
+        reqMAT217 = makeRequirement("MAT217", "stored req 3");
+        cs220 = new Course("CS220");
+        cs223 = new Course("CS223");
+        cs321 =  new Course("CS321");
     }
 
     @Test
     public void addProgramToSchedule(){
-        User owner = new User("George", Role.User);
-        Schedule schedule = new Schedule(owner, "My Schedule", "My description");
-        List<StoredRequirement> storedReqs = new ArrayList<>();
-        Program program = new Program("Program name", "Program description", storedReqs);
-        schedule.addProgram(program);
         assertThat(schedule.compareScheduleToProgram().isEmpty(), is(true));
     }
 
     @Test
     public void compareProgramToSchedule_UnmatchedResult(){
-        User owner = new User("George", Role.User);
-        Schedule schedule = new Schedule(owner, "My Schedule", "My description");
-        List<StoredRequirement> storedReqs = new ArrayList<>();
-        storedReqs.add(storedReq1);
-        Program program = new Program("Program name", "Program description", storedReqs);
-        schedule.addProgram(program);
-        assertThat(schedule.compareScheduleToProgram(), is(List.of(new UnmatchedResult(storedReq1))));
+        storedReqs.add(reqCS220);
+        assertThat(schedule.compareScheduleToProgram(), is(List.of(new UnmatchedResult(reqCS220))));
     }
 
     @Test
     public void compareProgramToSchedule_ResultHasMatch(){
-        User owner = new User("George", Role.User);
-        Schedule schedule = new Schedule(owner, "My Schedule", "My description");
-        schedule.addCourse(course1, "Fall", "Freshman");
-        List<StoredRequirement> storedReqs = new ArrayList<>();
-        storedReqs.add(storedReq1);
-        Program program = new Program("Program name", "Program description", storedReqs);
-        schedule.addProgram(program);
-        assertThat(schedule.compareScheduleToProgram(), is(List.of(new MatchedResult(storedReq1, course1))));
-        assertThat(schedule.containsCourse(course1), is(true));
+        schedule.addCourse(cs220, "Fall", "Freshman");
+        storedReqs.add(reqCS220);
+        assertThat(schedule.compareScheduleToProgram(), is(List.of(new MatchedResult(reqCS220, cs220))));
+        assertThat(schedule.containsCourse(cs220), is(true));
     }
 
     @Test
     public void compareProgramToSchedule_ResultCombinationOfMatchedAndUnmatchedResults(){
-
+        schedule.addCourse(cs220, "Fall", "Freshman");
+        schedule.addCourse(cs223, "Fall", "Freshman");
+        schedule.addCourse(cs321, "Fall", "Freshman");
+        storedReqs.addAll(List.of(reqCS220, reqCS223, reqMAT217));
+        assertThat(schedule.compareScheduleToProgram(), is(List.of(new MatchedResult(reqCS220, cs220), new MatchedResult(reqCS223, cs223), new UnmatchedResult(reqMAT217))));
     }
 
+    @Test
+    public void compareProgramToSchedule_OnlyOneCourseToMatchRequirement(){
+        schedule.addCourse(cs220, "Fall", "Freshman");
+        schedule.addCourse(cs321, "Fall", "Freshman");
+        storedReqs.addAll(List.of(reqCS220, reqMAT217, reqCS220_other));
+        assertThat(schedule.compareScheduleToProgram(), is(List.of(new MatchedResult(reqCS220, cs220), new UnmatchedResult(reqMAT217), new UnmatchedResult(reqCS220_other))));
+    }
 
+    @NotNull
+    private StoredRequirement makeRequirement(String courseID, String description) {
+        return new StoredRequirement(new CourseRequirement(courseID), description);
+    }
 }
