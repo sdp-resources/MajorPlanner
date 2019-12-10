@@ -5,20 +5,20 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class MatchedResult implements MatchResult {
-    private StoredRequirement req;
+    private StoredRequirement requirement;
     private Course matchedCourse;
 
     public MatchedResult(StoredRequirement req, Course matchedCourse) {
-        this.req = req;
+        this.requirement = req;
         this.matchedCourse = matchedCourse;
     }
 
-    public StoredRequirement getReq() {
-        return req;
+    public StoredRequirement getRequirement() {
+        return requirement;
     }
 
-    public void setReq(StoredRequirement req) {
-        this.req = req;
+    public void setRequirement(StoredRequirement requirement) {
+        this.requirement = requirement;
     }
 
     public Course getMatchedCourse() {
@@ -34,17 +34,17 @@ public class MatchedResult implements MatchResult {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MatchedResult that = (MatchedResult) o;
-        return Objects.equals(req, that.req) &&
+        return Objects.equals(requirement, that.requirement) &&
                 Objects.equals(matchedCourse, that.matchedCourse);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(req, matchedCourse);
+        return Objects.hash(requirement, matchedCourse);
     }
 
     @Override
     public void handle(BiConsumer<StoredRequirement, Course> matched, Consumer<StoredRequirement> unmatched) {
-        matched.accept(req, matchedCourse);
+        matched.accept(requirement, matchedCourse);
     }
 }

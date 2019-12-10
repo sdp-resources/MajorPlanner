@@ -1,5 +1,7 @@
 package webserver;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import majorPlanner.Controller;
@@ -11,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static io.javalin.plugin.rendering.template.TemplateUtil.model;
 
@@ -41,10 +44,41 @@ public class WebServer {
     protected void setup() {
         app.get("/", this::getIndex);
         app.get("/schedule/:id", this::showSchedule);
+        app.get("/check/:scheduleid", this::checkSchedule);
         app.post("/schedule", this::addSchedule);
         app.post("/schedule/:id/course", this::addCourseToSchedule);
         app.post("/schedule/:id/transfer", this::addTransferCourse);
         app.get("/schedule/:id/course/:courseid/delete", this::removeCourse);
+        app.get("/requirement/:id/courses", this::getCoursesMeetingRequirement);
+    }
+
+    private void getCoursesMeetingRequirement(Context ctx) {
+        Session session = getUserSession(ctx);
+        requestHandler.viewCourseList(session, Integer.parseInt(ctx.pathParam("id")))
+                .handle(o -> {
+                    ctx.json(o);
+                }, error -> ctx.status(404).result(error));
+    }
+
+    private void checkSchedule(Context ctx) {
+        Session session = getUserSession(ctx);
+        requestHandler.compareSchedule(session,
+                                       Integer.parseInt(ctx.pathParam("scheduleid")))
+                .handle(o -> {
+                    ctx.json(resultsFrom((List<MatchResult>) o));
+                }, error -> ctx.status(404).result(error));
+    }
+
+    private Object resultsFrom(List<MatchResult> o) {
+        ObjectNode root = new ObjectMapper().createObjectNode();
+        for (MatchResult matchResult : o) {
+            matchResult.handle(
+                    (storedReq, course) -> root.put(String.valueOf(storedReq.getId()), course.getId()),
+                    (storedReq -> root.set(String.valueOf(storedReq.getId()), null))
+            );
+        }
+
+        return root;
     }
 
     private void addTransferCourse(Context ctx) {
@@ -65,7 +99,9 @@ public class WebServer {
         String courseid = ctx.pathParam("courseid");
         requestHandler.removeCourse(session, courseid, id)
                 .handle(
-                        o -> { ctx.redirect(Path.schedule((Schedule) o));},
+                        o -> {
+                            ctx.redirect(Path.schedule((Schedule) o));
+                        },
                         error -> ctx.status(404).result(error));
     }
 
@@ -138,14 +174,9 @@ public class WebServer {
     }
 
     private List<Course> getAvailableCourses() {
-        String[] courseNames = {"MAT112", "MAT121", "MAT122", "CS220", "CS223", "CS225"};
-        ArrayList<Course> courseList = new ArrayList<>();
-        for (String courseName : courseNames) {
-            Course course = new Course(courseName);
-            gateway.addCourse(course);
-            courseList.add(course);
-        }
-        return courseList;
+        Set<Course> allCourses = gateway.getAllCourses();
+        // TODO: Sort alphabetically
+        return new ArrayList<>(allCourses);
     }
 
     public void setGateway(Gateway gateway) {

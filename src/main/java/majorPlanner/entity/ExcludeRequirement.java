@@ -30,7 +30,8 @@ public class ExcludeRequirement implements Requirement {
 
     public Set<Course> matches(Set<Course> courses) {
         Set<Course> matchedCourses = new HashSet<>();
-        for (Course course : requirement.matches(courses)) {
+        Set<Course> matches = requirement.matches(courses);
+        for (Course course : matches) {
             if (!this.courses.contains(course.getId())){
                 matchedCourses.add(course);
             }

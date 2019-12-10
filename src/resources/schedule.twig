@@ -1,224 +1,359 @@
 {% extends "base.twig" %}
 {% block content %}
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <h2 class="card-title">{{ schedule.name }}
-                    <small class="text-muted">(by: {{ schedule.owner.userID }})</small>
-                </h2>
-                <div class="card-body">
-                    <p class="card-text">{{ schedule.description }}</p>
-                </div>
-                <h3>Schedule</h3>
-                <table class="table text-center">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Transfer Credits</th>
-                    </tr>
-                    <tr>
-                        <td class="d-flex" id="transferCoursesTarget">
-                            {% for course in schedule.addedCourses %}
-                                {% if course.isTransferCourse %}
-                                    <div class="course border border-primary rounded m-1 p-2"
-                                         draggable="true"
-                                         id="course-{{ course.course.id }}">{{ course.course.id }}</div>
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <table class="table text-center">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Year</th>
-                        {% for period in terms %}
-                            <th scope="col">{{ period }}</th>
-                        {% endfor %}
-                    </tr>
-                    </thead>
-                    <tbody id="coursesTarget">
-                    {% for year in years %}
-                        <tr>
-                            <th scope="row">{{ year }}</th>
-                            {% for period in terms %}
-                                <td data-period="{{ period }}" data-year="{{ year }}">
-                                    {% for course in schedule.addedCourses %}
-                                        {% if course.matchesTerm(period, year) %}
-                                            <div class="course border border-primary rounded m-1 p-2"
-                                                 draggable="true"
-                                                 id="course-{{ course.course.id }}">{{ course.course.id }}</div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <h2 class="card-title">{{ schedule.name }}
+          <small class="text-muted">(by: {{ schedule.owner.userID }})</small>
+        </h2>
+        <div class="card-body">
+          <p class="card-text">{{ schedule.description }}</p>
         </div>
-        <div class="col">
-            <div>
-                <h3>Drag to add a course</h3>
-                <div id="availableCoursesTarget">
-                    {% for course in availableCourses %}
-                        {% if schedule.containsCourse(course) %}
-                        {% else %}
-                            <div class="course border border-primary rounded m-1 p-2"
-                                 draggable="true" id="course-{{ course.id }}">{{ course.id }}</div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+        <h3>Schedule</h3>
+        <table class="table text-center">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Transfer Credits</th>
+          </tr>
+          <tr>
+            <td class="d-flex" id="transferCoursesTarget" data-inschedule="true">
+              {% for course in schedule.addedCourses %}
+                {% if course.isTransferCourse %}
+                  <div class="course border border-primary rounded m-1 p-2"
+                       draggable="true"
+                       id="course-{{ course.course.id }}">{{ course.course.id }}</div>
+                {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <table class="table text-center">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Year</th>
+            {% for period in terms %}
+              <th scope="col">{{ period }}</th>
+            {% endfor %}
+          </tr>
+          </thead>
+          <tbody id="coursesTarget" data-inschedule="true">
+          {% for year in years %}
+            <tr>
+              <th scope="row">{{ year }}</th>
+              {% for period in terms %}
+                <td data-period="{{ period }}" data-year="{{ year }}">
+                  {% for course in schedule.addedCourses %}
+                    {% if course.matchesTerm(period, year) %}
+                      <div class="course border border-primary rounded m-1 p-2"
+                           draggable="true"
+                           id="course-{{ course.course.id }}">{{ course.course.id }}</div>
+                    {% endif %}
+                  {% endfor %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="row m-2">
-        <div class="col">
-            <h3>Add a transfer credit!</h3>
-            <form id="transferAddForm" action="/schedule/{{ schedule.ID }}/transfer/" method="post">
-                <div class="form-group row">
-                    <label for="courseList col-form-label">Course</label>
-                    <select class="form-control" name="course" id="courseListTransfer">
-                        {% for course in availableCourses %}
-                            <option>{{ course.id }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group row">
-                    <button type="submit" class="btn btn-primary">Add Transfer Credit!</button>
-                </div>
-            </form>
+    <div class="col" id="programs">
+      <div>
+        <h3>Programs</h3>
+        <form id="programCompareForm" action="/check/{{ schedule.ID }}/" method="GET"></form>
+        {% for program in schedule.programs %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class=".card-header">{{ program.name }}</h4>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ program.description }}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for req in program.storedReqs %}
+                <li class="list-group-item unmet" id="req{{ req.id }}">{{ req.description }} <span
+                        class="ismet text-success btn btn-lg"><i
+                          class="fas fa-check-circle"></i></span>
+                  <form class="isunmet d-inline" method="GET"
+                        action="/requirement/{{ req.id }}/courses">
+                    <button class="text-danger btn btn-lg"><i class="fas fa-times-circle"></i>
+                    </button>
+                  </form>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="d-none">
+        <h3>Drag to add a course</h3>
+        <div id="availableCoursesTarget" class="isunmet overflow-auto" data-inschedule="false">
+          {% for course in availableCourses %}
+            {% if schedule.containsCourse(course) %}
+            {% else %}
+              <div class="course border border-primary rounded m-1 p-2"
+                   draggable="true" id="course-{{ course.id }}">{{ course.id }}</div>
+            {% endif %}
+          {% endfor %}
         </div>
-        <div class="col">
-            <h3>Add a course!</h3>
-            <form id="courseAddForm" action="/schedule/{{ schedule.ID }}/course/" method="post">
-                <div class="form-group row">
-                    <label for="courseList col-form-label">Course</label>
-                    <select class="form-control" name="course" id="courseList">
-                        {% for course in availableCourses %}
-                            <option>{{ course.id }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group row">
-                    <label for="periodList col-form-label">Period</label>
-                    <select class="form-control" name="period" id="periodList">
-                        {% for period in terms %}
-                            <option>{{ period }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group row">
-                    <label for="yearList col-form-label">Year</label>
-                    <select class="form-control" name="year" id="yearList">
-                        {% for year in years %}
-                            <option>{{ year }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group row">
-                    <button type="submit" class="btn btn-primary">Add Course!</button>
-                </div>
-            </form>
-        </div>
+      </div>
     </div>
+  </div>
+  <div class="d-none row m-2">
+    <div class="col">
+      <h3>Add a transfer credit!</h3>
+      <form id="transferAddForm" action="/schedule/{{ schedule.ID }}/transfer/" method="post">
+        <div class="form-group row">
+          <label for="courseList col-form-label">Course</label>
+          <select class="form-control" name="course" id="courseListTransfer">
+            {% for course in availableCourses %}
+              <option>{{ course.id }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group row">
+          <button type="submit" class="btn btn-primary">Add Transfer Credit!</button>
+        </div>
+      </form>
+    </div>
+    <div class="col">
+      <h3>Add a course!</h3>
+      <form id="courseAddForm" action="/schedule/{{ schedule.ID }}/course/" method="post">
+        <div class="form-group row">
+          <label for="courseList col-form-label">Course</label>
+          <select class="form-control" name="course" id="courseList">
+            {% for course in availableCourses %}
+              <option>{{ course.id }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group row">
+          <label for="periodList col-form-label">Period</label>
+          <select class="form-control" name="period" id="periodList">
+            {% for period in terms %}
+              <option>{{ period }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group row">
+          <label for="yearList col-form-label">Year</label>
+          <select class="form-control" name="year" id="yearList">
+            {% for year in years %}
+              <option>{{ year }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group row">
+          <button type="submit" class="btn btn-primary">Add Course!</button>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}
 {% block javascripts %}
-    <script>
-        function performRequest(link, data, success) {
-            $.ajax(link, {
-                method: "POST",
-                data: data,
-                success: success,
-                error: xhr => alert(xhr.responseText)
-            });
-        }
+  <script>
+      const $programs = $("#programs");
 
-        function removeCourse(schedule, course) {
-            let link = `/schedule/${schedule}/course/${course}/delete`;
-            return $.ajax(link);
-        }
+      function performRequest(link, data, success, method) {
+          method = method || "POST";
+          $.ajax(link, {
+              method: method,
+              data: data,
+              success: success,
+              error: xhr => alert(xhr.responseText)
+          });
+      }
 
-        function moveElement(element, target) {
-            element.hide(200, () => element.appendTo(target).show(200));
-        }
+      function removeCourse(schedule, course) {
+          let link = `/schedule/${schedule}/course/${course}/delete`;
+          return $.ajax(link);
+      }
 
-        function setupTarget(target, onStart, onDrop) {
-            target.addEventListener('dragover', e => e.preventDefault());
-            target.addEventListener('dragenter', e => e.preventDefault());
-            target.addEventListener('dragstart', onStart);
-            target.addEventListener('drop', onDrop);
-        }
+      function moveElement(element, target) {
+          element.hide(200, () => element.appendTo(target).show(200));
+      }
 
-        function rememberDraggedCourse(inSchedule) {
-            return e => {
-                e.dataTransfer.setData('courseId', $(e.target).attr('id'));
-                e.dataTransfer.setData('inSchedule', String(inSchedule));
-            };
-        }
+      function setupTarget(target, onDrop) {
+          target.addEventListener('dragover', e => e.preventDefault());
+          target.addEventListener('dragenter', e => e.preventDefault());
+          target.addEventListener('dragstart', rememberDraggedCourse($(target).data("inschedule")));
+          target.addEventListener('drop', onDrop);
+      }
 
-        $(function () {
-            const transferTarget = document.getElementById("transferCoursesTarget");
-            const courseTarget = document.getElementById("coursesTarget");
-            const availableTarget = document.getElementById("availableCoursesTarget");
+      function rememberDraggedCourse(inSchedule) {
+          return e => {
+              e.dataTransfer.setData('courseId', $(e.target).attr('id'));
+              e.dataTransfer.setData('inSchedule', inSchedule);
+          };
+      }
 
-            setupTarget(transferTarget,
-                rememberDraggedCourse(true),
-                function (e) {
-                    const courseId = e.dataTransfer.getData('courseId').replace(/^.*-/, "");
-                    const inSchedule = e.dataTransfer.getData('inSchedule');
+      function possiblyRemoveThen(shouldRemove, courseId, next) {
+          if (shouldRemove) {
+              removeCourse(0, courseId).done(next);
+          } else {
+              next();
+          }
+      }
 
-                    const addRequest = () => performRequest(
-                        $("#transferAddForm").attr("action"),
-                        {course: courseId},
-                        () => moveElement($('#course-' + courseId), transferTarget));
+      function refresh() {
+          showProgramComparison();
+      }
 
-                    if (inSchedule === 'true') {
-                        removeCourse(0, courseId).done(addRequest);
-                    } else {
-                        addRequest();
-                    }
-                    e.preventDefault();
-                });
+      function moveToTransfer(courseId, target, shouldRemove) {
+          const addRequest = () => performRequest(
+              $("#transferAddForm").attr("action"),
+              {course: courseId},
+              () => {
+                  moveElement($('#course-' + courseId), target);
+                  refresh();
+              });
 
-            setupTarget(courseTarget,
-                rememberDraggedCourse(true),
-                function (e) {
-                    const courseId = e.dataTransfer.getData('courseId').replace(/^.*-/, "");
-                    const inSchedule = e.dataTransfer.getData('inSchedule');
-                    const targetTerm = $(e.target).closest('td');
+          possiblyRemoveThen(shouldRemove, courseId, addRequest);
+      }
 
-                    const addRequest = () => performRequest(
-                        $("#courseAddForm").attr("action"),
-                        {
-                            course: courseId.replace(/^.*-/, ""),
-                            period: $(targetTerm).data('period'),
-                            year: $(targetTerm).data('year')
-                        },
-                        () => moveElement($('#course-' + courseId), targetTerm));
+      function moveToAvailable(courseId, target, shouldRemove) {
+          const request = () => {
+              moveElement($('#course-' + courseId), target);
+              refresh();
+          };
+          if (shouldRemove) {
+              removeCourse(0, courseId).done(request);
+          }
+      }
 
-                    if (inSchedule === 'true') {
-                        removeCourse(0, courseId).done(addRequest);
-                    } else {
-                        addRequest();
-                    }
-                    e.preventDefault();
-                });
+      $(function () {
+          const transferTarget = document.getElementById("transferCoursesTarget");
+          const courseTarget = document.getElementById("coursesTarget");
+          const availableTarget = document.getElementById("availableCoursesTarget");
 
-            setupTarget(availableTarget,
-                rememberDraggedCourse(false),
-                function (e) {
-                    const courseId = e.dataTransfer.getData('courseId').replace(/^.*-/, "");
-                    const inSchedule = e.dataTransfer.getData('inSchedule');
-                    if (inSchedule === 'true') {
-                        removeCourse(0, courseId)
-                            .done(() => moveElement($('#course-' + courseId), availableTarget));
-                    }
-                    e.preventDefault();
-                });
-        });
-    </script>
+          setupTarget(transferTarget, function (e) {
+              e.preventDefault();
+              const courseId = e.dataTransfer.getData('courseId').replace(/^.*-/, "");
+              const inSchedule = e.dataTransfer.getData('inSchedule');
+              moveToTransfer(courseId, transferTarget, inSchedule === 'true');
+          });
+
+          setupTarget(courseTarget, function (e) {
+              const courseId = e.dataTransfer.getData('courseId').replace(/^.*-/, "");
+              const inSchedule = e.dataTransfer.getData('inSchedule');
+              const targetTerm = $(e.target).closest('td');
+
+              const addRequest = () => performRequest(
+                  $("#courseAddForm").attr("action"),
+                  {
+                      course: courseId.replace(/^.*-/, ""),
+                      period: $(targetTerm).data('period'),
+                      year: $(targetTerm).data('year')
+                  },
+                  () => {
+                      moveElement($('#course-' + courseId), targetTerm);
+                      refresh();
+                  });
+
+              possiblyRemoveThen(inSchedule === 'true', courseId, addRequest);
+              e.preventDefault();
+          });
+
+          setupTarget(availableTarget, function (e) {
+              e.preventDefault();
+              const courseId = e.dataTransfer.getData('courseId').replace(/^.*-/, "");
+              const inSchedule = e.dataTransfer.getData('inSchedule');
+              moveToAvailable(courseId, availableTarget, inSchedule === 'true');
+          });
+      });
+
+      function showProgramComparison() {
+          performRequest($("#programCompareForm").attr("action"), {},
+              (json) => {
+                  for (const id of Object.keys(json)) {
+                      const el = $("#req" + id);
+                      el.data("course", json[id]);
+                      if (json[id] == null) {
+                          el.addClass("unmet").removeClass("met");
+                      } else {
+                          el.addClass("met").removeClass("unmet");
+                      }
+                  }
+              },
+              "GET"
+          );
+          return false;
+      }
+
+      $programs.on("submit", "form", (e) => {
+          e.preventDefault();
+          performRequest($(e.currentTarget).attr('action'), {},
+              (satisfyingCourses) => {
+                  satisfyingIds = satisfyingCourses.map(c => 'course-' + c.id);
+                  const coursesDiv = $("#availableCoursesTarget");
+                  const toHide = $('div', coursesDiv).filter((i, el) => {
+                      return !satisfyingIds.includes(el.id);
+                  });
+                  const toShow = $('div', coursesDiv).filter((i, el) => {
+                      return satisfyingIds.includes(el.id);
+                  });
+                  toHide.hide();
+                  toShow.show();
+                  $(coursesDiv).insertAfter(e.currentTarget).show();
+              }
+              , "GET");
+      });
+
+      function highlightCourseOnGreenRequirementHover() {
+          $programs.on("mouseenter mouseleave", ".met", (e) => {
+              const courseElementId = "#course-" + $(e.currentTarget).data("course");
+              $(courseElementId).toggleClass("bg-primary text-light", e.type === 'mouseenter');
+
+          });
+      }
+
+      function showOptionsOnRedRequirementHover() {
+          $programs.on("mouseenter", ".unmet", (e) => {
+              $("form", e.currentTarget).submit();
+          });
+          $programs.on("mouseleave", ".unmet", (e) => {
+              $("#availableCoursesTarget").hide();
+          });
+      }
+
+      function addAvailableCourseToTransferOnClick() {
+          $programs.on("click", ".course", (e) => {
+              const courseId = e.currentTarget.id.replace(/^.*-/, "");
+              moveToTransfer(courseId, $("#transferCoursesTarget"), false);
+          });
+      }
+
+      function removeScheduledCourseOnDoubleClick() {
+          $("#coursesTarget, #transferCoursesTarget").on("dblclick", ".course", (e) => {
+              const courseId = e.currentTarget.id.replace(/^.*-/, "");
+              moveToAvailable(courseId, $("#availableCoursesTarget"), true);
+          });
+      }
+
+      $(function () {
+          refresh();
+          highlightCourseOnGreenRequirementHover();
+          showOptionsOnRedRequirementHover();
+          addAvailableCourseToTransferOnClick();
+          removeScheduledCourseOnDoubleClick();
+      })
+  </script>
+{% endblock %}
+{% block styles %}
+  <style>
+    .met .isunmet {
+      display: none !important;
+    }
+
+    .unmet .ismet {
+      display: none !important;
+    }
+
+    #availableCoursesTarget {
+      max-height: 11em;
+    }
+  </style>
 {% endblock %}

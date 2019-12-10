@@ -52,4 +52,12 @@ public class StoredRequirement {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "stored{" +
+                "descr='" + description + '\'' +
+                ", req=" + requirement +
+                '}';
+    }
 }

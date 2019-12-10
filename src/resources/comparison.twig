@@ -1,0 +1,11 @@
+<ul>
+    {% for result in results %}
+        <li>{{ result.requirement.description }}:
+            {% if result.matchedCourse %}
+                    Met by {{ result.matchedCourse.id }}
+            {% else %}
+                    Unmet
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

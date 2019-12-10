@@ -8,10 +8,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import majorPlanner.entity.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class JsonConverter {
     private ObjectMapper objectMapper;
@@ -23,15 +23,20 @@ public class JsonConverter {
         module.addSerializer(CourseRequirement.class, new CourseRequirementSerializer(CourseRequirement.class));
         module.addSerializer(EitherRequirement.class, new EitherRequirementSerializer(EitherRequirement.class));
         module.addSerializer(ExcludeRequirement.class, new ExcludeRequirementSerializer(ExcludeRequirement.class));
+        module.addSerializer(StoredRequirement.class, new StoredRequirementSerializer(StoredRequirement.class));
+        module.addSerializer(Course.class, new CourseSerializer(Course.class));
+        module.addDeserializer(Course.class, new CourseDeserializer());
+        module.addDeserializer(Program.class, new ProgramDeserializer(Program.class, objectMapper));
+        module.addDeserializer(Requirement.class, new RequirementStdDeserializer(Requirement.class));
         objectMapper.registerModule(module);
     }
 
-    public String serialize(Program program) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(program);
+    public String serialize(Object o) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(o);
     }
 
-    public String serialize(Requirement requirement) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(requirement);
+    public Course deserializeCourse(String value) throws IOException {
+        return objectMapper.readValue(value, Course.class);
     }
 
     public Program deserializeProgram(String json) throws IOException {
@@ -49,9 +54,31 @@ public class JsonConverter {
         return deserializeRequirement(deserializeJsonNode(json));
     }
 
+    public List<Course> deserializeCourseList(String json) throws IOException {
+        return deserializeList(deserializeArrayNodeField(json, "courses"), Course.class);
+    }
+
+    public List<Program> deserializeProgramList(String json) throws IOException {
+        return deserializeList(deserializeArrayNodeField(json, "programs"), Program.class);
+    }
+
+    private JsonNode deserializeArrayNodeField(String json, String field) throws IOException {
+        return deserializeJsonNode(json).withArray(field);
+    }
+
     private JsonNode deserializeJsonNode(String json) throws IOException {
         return objectMapper.readValue(json, JsonNode.class);
     }
+
+    @NotNull
+    private <T> List<T> deserializeList(JsonNode array, Class<T> tClass) throws JsonProcessingException {
+        List<T> items = new ArrayList<>();
+        for (JsonNode node : array) {
+            items.add(objectMapper.treeToValue(node, tClass));
+        }
+        return items;
+    }
+
 
     private Requirement deserializeRequirement(JsonNode json) {
         String type = json.get("type").asText();
@@ -70,7 +97,7 @@ public class JsonConverter {
     }
 
     private Requirement[] asRequirementArray(JsonNode json) {
-        List<Requirement> reqs = new ArrayList<Requirement>();
+        List<Requirement> reqs = new ArrayList<>();
         for (JsonNode jsonNode : json) {
             reqs.add(deserializeRequirement(jsonNode));
         }
@@ -78,9 +105,9 @@ public class JsonConverter {
     }
 
     private Set<String> asStringSet(JsonNode tags) {
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         for (JsonNode tag : tags) {
-            set.add(tag.asText());
+            set.add(tag.textValue());
         }
         return set;
     }
@@ -95,5 +122,17 @@ public class JsonConverter {
 
     private StoredRequirement deserializeStoredRequirement(JsonNode json) {
         return new StoredRequirement(deserializeRequirement(json.get("requirement")), json.get("description").asText());
+    }
+
+    private class RequirementStdDeserializer extends StdDeserializer<Requirement> {
+        public RequirementStdDeserializer(Class<Requirement> t) {
+            super(t);
+        }
+
+        @Override
+        public Requirement deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+            JsonNode node = jsonParser.readValueAsTree();
+            return deserializeRequirement(node);
+        }
     }
 }

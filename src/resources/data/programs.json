@@ -1,352 +1,215 @@
 {
-  "programs" : [
+  "programs": [
     {
-      "name":"Physics Major",
+      "name": "Physics Major",
+      "description": "Bachelor of Arts in Physics",
       "requirements": [
         {
-          "type":"Single",
-          "course":"PHY162"
+          "id": 1,
+          "description": "Physics 1",
+          "requirement": { "type": "course", "course": "PHY162" }
         },
         {
-          "type":"Single",
-          "course":"PHY186"
+          "id": 2,
+          "description": "Physics 1",
+          "requirement": { "type": "course", "course": "PHY186" }
         },
         {
-          "type":"Single",
-          "course":"PHY225"
+          "id": 3,
+          "description": "Modern",
+          "requirement": { "type": "course", "course": "PHY225" }
         },
         {
-          "type":"Single",
-          "course":"PHY245"
+          "id": 4,
+          "description": "Math Methods",
+          "requirement": { "type": "course", "course": "PHY245" }
         },
         {
-          "type":"Single",
-          "course":"PHY320"
+          "id": 5,
+          "description": "Fluids&Thermal",
+          "requirement": { "type": "course", "course": "PHY320" }
         },
         {
-          "type":"Single",
-          "course":"PHY331"
+          "id": 6,
+          "description": "Classical Mechanics",
+          "requirement": { "type": "course", "course": "PHY331" }
         },
         {
-          "type":"Single",
-          "course":"PHY332"
+          "id": 7,
+          "description": "Electromagnetic",
+          "requirement": { "type": "course", "course": "PHY332" }
         },
         {
-          "type":"Single",
-          "course":"PHY340"
+          "id": 8,
+          "description": "Optics",
+          "requirement": { "type": "course", "course": "PHY340" }
         },
         {
-          "type":"Single",
-          "course":"PHY301"
+          "id": 9,
+          "description": "Seminar",
+          "requirement": { "type": "course", "course": "PHY301" }
         },
         {
-          "type":"Single",
-          "course":"PHY301"
+          "id": 10,
+          "description": "Seminar",
+          "requirement": { "type": "course", "course": "PHY301" }
         },
         {
-          "type":"Single",
-          "course":"MAT121"
+          "id": 11,
+          "description": "Calc 1",
+          "requirement": { "type": "course", "course": "MAT121" }
         },
         {
-          "type":"Single",
-          "course":"MAT122"
+          "id": 12,
+          "description": "Calc 2",
+          "requirement": { "type": "course", "course": "MAT122" }
         },
         {
-          "type":"Any",
-          "requirements": [
-            {
-              "type":"All",
-              "requirements": [
-                {
-                  "type":"Single",
-                  "course":"PHY408"
-                },
-                {
-                  "type":"Single",
-                  "course":"PHY409"
-                }
-              ]
-            },
-            {
-              "type":"Single",
-              "course":"PHY471"
-            }
-          ]
+          "id": 13,
+          "description": "Physics culminating",
+          "requirement": { "type": "course", "course": "PHY471" }
         }
       ]
     },
     {
-      "name":"English",
+      "name": "English",
+      "description": "Bachelor of Arts in English",
       "requirements": [
         {
-          "type":"Single",
-          "course":"ENG240"
+          "id": 14,
+          "description": "literary analysis",
+          "requirement": { "type": "course", "course": "ENG240" }
         },
         {
-          "type":"Any",
-          "requirements": [
-            {
-              "type":"Single",
-              "course":"243"
-            },
-            {
-              "type":"Single",
-              "course":"244"
-            },
-            {
-              "type":"Single",
-              "course":"245"
-            },
-            {
-              "type":"Single",
-              "course":"246"
-            },
-            {
-              "type":"Single",
-              "course":"247"
-            }
-          ]
+          "id": 15,
+          "description": "a survey course",
+          "requirement": {
+            "type": "either",
+            "requirements": [
+              { "type": "course", "course": "ENG243" },
+              { "type": "course", "course": "ENG244" },
+              { "type": "course", "course": "ENG245" },
+              { "type": "course", "course": "ENG246" },
+              { "type": "course", "course": "ENG247" }
+            ]
+          }
         },
         {
-          "type":"Any",
-          "requirements": [
-            {
-              "type":"Single",
-              "course":"243"
-            },
-            {
-              "type":"Single",
-              "course":"244"
-            },
-            {
-              "type":"Single",
-              "course":"245"
-            },
-            {
-              "type":"Single",
-              "course":"246"
-            },
-            {
-              "type":"Single",
-              "course":"247"
-            }
-          ]
+          "id": 16,
+          "description": "a survey course",
+          "requirement": {
+            "type": "either",
+            "requirements": [
+              { "type": "course", "course": "ENG243" },
+              { "type": "course", "course": "ENG244" },
+              { "type": "course", "course": "ENG245" },
+              { "type": "course", "course": "ENG246" },
+              { "type": "course", "course": "ENG247" }
+            ]
+          }
         },
         {
-          "type":"Any",
-          "requirements": [
-            {
-              "type":"Single",
-              "course":"243"
-            },
-            {
-              "type":"Single",
-              "course":"244"
-            },
-            {
-              "type":"Single",
-              "course":"245"
-            },
-            {
-              "type":"Single",
-              "course":"246"
-            },
-            {
-              "type":"Single",
-              "course":"247"
-            }
-          ]
+          "id": 17,
+          "description": "a survey course",
+          "requirement": {
+            "type": "either",
+            "requirements": [
+              { "type": "course", "course": "ENG243" },
+              { "type": "course", "course": "ENG244" },
+              { "type": "course", "course": "ENG245" },
+              { "type": "course", "course": "ENG246" },
+              { "type": "course", "course": "ENG247" }
+            ]
+          }
         },
         {
-          "type":"Any",
-          "requirements": [
-            {
-              "type":"Single",
-              "course":"353"
-            },
-            {
-              "type":"Single",
-              "course":"354"
-            },
-            {
-              "type":"Single",
-              "course":"356"
-            }
-          ]
+          "id": 18,
+          "description": "studies/seminar",
+          "requirement": {
+            "type": "either",
+            "requirements": [
+              { "type": "course", "course": "ENG353" },
+              { "type": "course", "course": "ENG354" },
+              { "type": "course", "course": "ENG356" }
+            ]
+          }
         },
         {
-          "type":"Any",
-          "requirements": [
-            {
-              "type":"Single",
-              "course":"461"
-            },
-            {
-              "type":"Single",
-              "course":"471"
-            }
-          ]
+          "id": 19,
+          "description": "English culminating",
+          "requirement": {
+            "type": "either",
+            "requirements": [
+              { "type": "course", "course": "ENG461" },
+              { "type": "course", "course": "ENG471" }
+            ]
+          }
         },
         {
-          "type":"Any",
-          "requirements": [
-            {
-              "type":"Single",
-              "course":"243"
-            },
-            {
-              "type":"Single",
-              "course":"244"
-            },
-            {
-              "type":"Single",
-              "course":"245"
-            },
-            {
-              "type":"Single",
-              "course":"246"
-            },
-            {
-              "type":"Single",
-              "course":"247"
-            },
-            {
-              "type":"Tag",
-              "tag": [
-                "ENG",
-                "2XX"
+          "id": 20,
+          "description": "english elective 2xx or above",
+          "requirement": {
+            "type": "either",
+            "requirements": [
+              { "type": "course", "course": "ENG243" },
+              { "type": "course", "course": "ENG244" },
+              { "type": "course", "course": "ENG245" },
+              { "type": "course", "course": "ENG246" },
+              { "type": "course", "course": "ENG247" },
+              { "type": "tag", "tags": [ "ENG", "2XX" ] },
+              { "type": "tag", "tags": [ "ENG", "3XX" ] },
+              { "type": "tag", "tags": [ "ENG", "4XX" ] }
+            ]
+          }
+        },
+        {
+          "id": 21,
+          "description": "english elective 2xx or above excluding 24x",
+          "requirement": {
+            "type": "exclude",
+            "requirement": {
+              "type": "either",
+              "requirements": [
+                { "type": "tag", "tags": [ "ENG", "2XX" ] },
+                { "type": "tag", "tags": [ "ENG", "3XX" ] },
+                { "type": "tag", "tags": [ "ENG", "4XX" ] }
               ]
             },
-            {
-              "type":"Tag",
-              "tag": [
-                "ENG",
-                "3XX"
+            "courses": [ "ENG243", "ENG244", "ENG245", "ENG246", "ENG247" ]
+          }
+        },
+        {
+          "id": 22,
+          "description": "English elective 2xx or above excluding 24x",
+          "requirement": {
+            "type": "exclude",
+            "requirement": {
+              "type": "either",
+              "requirements": [
+                { "type": "tag", "tags": [ "ENG", "2XX" ] },
+                { "type": "tag", "tags": [ "ENG", "3XX" ] },
+                { "type": "tag", "tags": [ "ENG", "4XX" ] }
               ]
             },
-            {
-              "type":"Tag",
-              "tag": [
-                "ENG",
-                "4XX"
+            "courses": [ "ENG243", "ENG244", "ENG245", "ENG246", "ENG247" ]
+          }
+        },
+        {
+          "id": 23,
+          "description": "English elective excluding 24x",
+          "requirement": {
+            "type": "exclude",
+            "requirement": {
+              "type": "either",
+              "requirements": [
+                { "type": "tag", "tags": [ "ENG", "1XX" ] },
+                { "type": "tag", "tags": [ "ENG", "2XX" ] },
+                { "type": "tag", "tags": [ "ENG", "3XX" ] },
+                { "type": "tag", "tags": [ "ENG", "4XX" ] }
               ]
-            }
-          ]
-        },
-        {
-          "type":"Exclude",
-          "requirement": {
-            "type":"Any",
-            "requirements": [
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "1XX"
-                ]
-              },
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "2XX"
-                ]
-              },
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "3XX"
-                ]
-              },
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "4XX"
-                ]
-              }
-            ]
-          },
-          "except": [
-            "ENG243",
-            "ENG244",
-            "ENG245",
-            "ENG246",
-            "ENG247"
-          ]
-        },
-        {
-          "type":"Exclude",
-          "requirement": {
-            "type":"Any",
-            "requirements": [
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "2XX"
-                ]
-              },
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "3XX"
-                ]
-              },
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "4XX"
-                ]
-              }
-            ]
-          },
-          "except": [
-            "ENG243",
-            "ENG244",
-            "ENG245",
-            "ENG246",
-            "ENG247"
-          ]
-        },
-        {
-          "type":"Exclude",
-          "requirement": {
-            "type":"Any",
-            "requirements": [
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "2XX"
-                ]
-              },
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "3XX"
-                ]
-              },
-              {
-                "type":"Tag",
-                "tag": [
-                  "ENG",
-                  "4XX"
-                ]
-              }
-            ]
-          },
-          "except": [
-            "ENG243",
-            "ENG244",
-            "ENG245",
-            "ENG246",
-            "ENG247"
-          ]
+            },
+            "courses": [ "ENG243", "ENG244", "ENG245", "ENG246", "ENG247" ]
+          }
         }
       ]
     }

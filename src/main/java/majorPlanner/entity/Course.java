@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Course {
-    private final String id;
+    private String id;
     private Set<String> tags = new HashSet<>();
     private Prerequisite prerequisite = new NoPrerequisite();
 
@@ -14,8 +14,18 @@ public class Course {
         this.id = id;
     }
 
+    public static Course withTags(String id, String... tags) {
+        Course course = new Course(id);
+        course.addTags(tags);
+        return course;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void addTag(String tag) {

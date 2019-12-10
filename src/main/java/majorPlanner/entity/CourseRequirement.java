@@ -37,4 +37,9 @@ public class CourseRequirement implements Requirement {
     public int hashCode() {
         return Objects.hash(courseId);
     }
+
+    @Override
+    public String toString() {
+        return "course=" + courseId + '}';
+    }
 }

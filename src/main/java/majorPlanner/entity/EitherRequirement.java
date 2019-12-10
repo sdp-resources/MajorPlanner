@@ -35,4 +35,9 @@ public class EitherRequirement implements Requirement {
     public int hashCode() {
         return Arrays.hashCode(requirements);
     }
+
+    @Override
+    public String toString() {
+        return "oneOf{" + Arrays.toString(requirements) + '}';
+    }
 }

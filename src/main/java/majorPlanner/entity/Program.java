@@ -6,7 +6,6 @@ public class Program {
     private String name;
     private String description;
     private List<StoredRequirement> storedReqs;
-    private List<MatchResult> matchResults;
 
     public Program(String name, String description, List<StoredRequirement> storedReqs) {
         this.name = name;
@@ -15,7 +14,7 @@ public class Program {
     }
 
     public List<MatchResult> match(Set<Course> courses) {
-        matchResults = new ArrayList<>();
+        List<MatchResult> matchResults = new ArrayList<>();
         for (StoredRequirement req : storedReqs) {
            matchResults.add(matchRequirement(req, courses));
         }
